@@ -1,0 +1,6 @@
+Code-Review+2: Andrew Gerrand <adg@golang.org>
+Submitted-by: Andrew Gerrand <adg@golang.org>
+Submitted-at: Mon, 15 Dec 2014 21:22:22 +0000
+Reviewed-on: https://go-review.googlesource.com/1341
+Project: benchmarks
+Branch: refs/heads/master
