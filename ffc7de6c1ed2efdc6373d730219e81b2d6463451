@@ -1,0 +1,6 @@
+Code-Review+2: Andrew Gerrand <adg@golang.org>
+Submitted-by: Dmitry Vyukov <dvyukov@google.com>
+Submitted-at: Wed, 17 Dec 2014 06:30:04 +0000
+Reviewed-on: https://go-review.googlesource.com/1383
+Project: benchmarks
+Branch: refs/heads/master
