@@ -1,0 +1,6 @@
+Code-Review+2: Brad Fitzpatrick <bradfitz@golang.org>
+Submitted-by: Andrew Gerrand <adg@golang.org>
+Submitted-at: Wed, 18 Feb 2015 23:41:35 +0000
+Reviewed-on: https://go-review.googlesource.com/5211
+Project: benchmarks
+Branch: refs/heads/master
