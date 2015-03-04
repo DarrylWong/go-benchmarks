@@ -38,6 +38,7 @@ var (
 	affinity  = flag.Int("affinity", 0, "process affinity (passed to an OS-specific function like sched_setaffinity/SetProcessAffinityMask)")
 	tmpDir    = flag.String("tmpdir", os.TempDir(), "dir for temporary files")
 	genSvg    = flag.Bool("svg", false, "generate svg profiles")
+	trace     = flag.String("trace", "", "write an execution trace to the named file after execution")
 
 	BenchNum  int
 	BenchMem  int
@@ -80,7 +81,24 @@ func Main() {
 		return
 	}
 
+	if *trace != "" {
+		f, err := os.Create(*trace)
+		if err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			return
+		}
+		if err := pprof.StartTrace(f); err != nil {
+			fmt.Fprintf(os.Stderr, "can't start tracing: %s\n", err)
+			f.Close()
+			return
+		}
+	}
+
 	res := f()
+
+	if *trace != "" {
+		pprof.StopTrace() // flushes trace to disk
+	}
 
 	var metrics []string
 	for k := range res.Metrics {
