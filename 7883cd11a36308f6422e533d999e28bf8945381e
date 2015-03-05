@@ -1,0 +1,106 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "52a68e28_d1e4e428",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "os.Exit(1)",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a68e28_51dab467",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "defer f.Close()",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a68e28_b1e5d827",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a68e28_31fa88c6",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "os.Exit(1)",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a68e28_91ea5cf5",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "defer pprof.StopTrace()",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52a68e28_f1df6051",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2015-03-05T08:02:09Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "7883cd11a36308f6422e533d999e28bf8945381e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
