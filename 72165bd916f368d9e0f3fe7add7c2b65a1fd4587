@@ -1,0 +1,6 @@
+Code-Review+2: Dmitry Vyukov <dvyukov@google.com>
+Submitted-by: Austin Clements <austin@google.com>
+Submitted-at: Wed, 11 Mar 2015 21:22:14 +0000
+Reviewed-on: https://go-review.googlesource.com/6830
+Project: benchmarks
+Branch: refs/heads/master
