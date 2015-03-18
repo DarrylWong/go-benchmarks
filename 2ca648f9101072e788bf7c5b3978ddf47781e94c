@@ -1,0 +1,6 @@
+Code-Review+2: David Crawshaw <crawshaw@golang.org>
+Submitted-by: Josh Bleecher Snyder <josharian@gmail.com>
+Submitted-at: Wed, 18 Mar 2015 17:04:32 +0000
+Reviewed-on: https://go-review.googlesource.com/7752
+Project: benchmarks
+Branch: refs/heads/master
