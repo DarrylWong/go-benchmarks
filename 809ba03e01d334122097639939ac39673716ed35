@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d1200d7_38fbd5d9",
+        "filename": "README",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2016-02-11T20:04:06Z",
+      "side": 1,
+      "message": "Not sure why we\u0027re removing the \"./\", but I also don\u0027t mind.\n\nMaybe these lines should be prefixed with \"$ \" to more clearly separate commands from output?",
+      "revId": "809ba03e01d334122097639939ac39673716ed35",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
