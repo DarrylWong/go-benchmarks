@@ -300,6 +300,7 @@ func runBenchmarkOnce(f func(uint64), N uint64) Result {
 	res.Metrics["gc-pause-total"] = (mstats1.PauseTotalNs - mstats0.PauseTotalNs) / N
 	collectGo12MemStats(&res, mstats0, mstats1)
 	numGC := uint64(mstats1.NumGC - mstats0.NumGC)
+	res.Metrics["gc-num"] = numGC
 	if numGC == 0 {
 		res.Metrics["gc-pause-one"] = 0
 	} else {
