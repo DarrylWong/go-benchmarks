@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d041ec2c_b4fbe69f",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5400
+      },
+      "writtenOn": "2016-11-28T17:11:23Z",
+      "side": 1,
+      "message": "This is meant to be machine parsable, right? Perf dashboard correlated the name across different machines.",
+      "revId": "31edf9f402ac05a8361079a9e6793c4b8df1fc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
+    }
+  ]
+}
