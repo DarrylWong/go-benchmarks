@@ -16,6 +16,24 @@
       "revId": "31edf9f402ac05a8361079a9e6793c4b8df1fc09",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "702a0062_3c58c973",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-01-31T18:58:43Z",
+      "side": 1,
+      "message": "That\u0027s correct. This is in the format specified by https://go-review.googlesource.com/c/33570/1/design/14313-benchmark-format.md. Are you concerned about the parsability of this?",
+      "parentUuid": "d041ec2c_b4fbe69f",
+      "revId": "31edf9f402ac05a8361079a9e6793c4b8df1fc09",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": false
     }
   ]
 }
