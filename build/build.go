@@ -10,6 +10,8 @@ import (
 	"log"
 	"os"
 	"os/exec"
+	"path/filepath"
+	"runtime"
 
 	"golang.org/x/benchmarks/driver"
 )
@@ -23,7 +25,7 @@ func benchmark() driver.Result {
 		os.Setenv("GOMAXPROCS", "1")
 	}
 	res := benchmarkOnce()
-	perf1, perf2 := driver.RunUnderProfiler("go", "build", "-o", "goperf", "-a", "-p", os.Getenv("GOMAXPROCS"), "cmd/go")
+	perf1, perf2 := driver.RunUnderProfiler(filepath.Join(runtime.GOROOT(), "bin", "go"), "build", "-o", "goperf", "-a", "-p", os.Getenv("GOMAXPROCS"), "cmd/go")
 	if perf1 != "" {
 		res.Files["processes"] = perf1
 	}
@@ -37,7 +39,7 @@ func benchmarkOnce() driver.Result {
 	// run 'go build -a'
 	res := driver.MakeResult()
 	res.N = 1
-	cmd := exec.Command("go", "build", "-o", "gobuild", "-a", "-p", os.Getenv("GOMAXPROCS"), "cmd/go")
+	cmd := exec.Command(filepath.Join(runtime.GOROOT(), "bin", "go"), "build", "-o", "gobuild", "-a", "-p", os.Getenv("GOMAXPROCS"), "cmd/go")
 	out, err := driver.RunAndCollectSysStats(cmd, &res, 1, "build-")
 	if err != nil {
 		log.Fatalf("Failed to run 'go build -a cmd/go': %v\n%v", err, out)
