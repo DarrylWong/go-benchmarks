@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4aee99f_f6b5dc6e",
+        "filename": "build/build.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2017-03-29T15:52:21Z",
+      "side": 1,
+      "message": "If GOROOT is not set, but the go tool and the build benchmark were built with different GOROOTs, this will still invoke the compiler from the go tool\u0027s GOROOT.",
+      "revId": "63de0c4db43548ba6249acf97baec9417fd8c72a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
