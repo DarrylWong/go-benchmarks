@@ -34,6 +34,24 @@
       "revId": "c9f7f63c70b0544b8bddb002d1077e5ccdbcb3ca",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02a279e5_7df3f6f7",
+        "filename": "driver/driver.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 13020
+      },
+      "writtenOn": "2017-04-05T20:42:09Z",
+      "side": 1,
+      "message": "There is already other output, so the blank line looks out of place. Currently it\u0027s:\n\npkg: golang.org/x/benchmarks\ngoos: linux\ngoarch: amd64\n\n2017/04/04 15:32:26 Benchmarking 1 iterations\n2017/04/04 15:32:26 Benchmarking 100 iterations\n2017/04/04 15:32:26 Benchmarking 10000 iterations\n2017/04/04 15:32:27 Benchmarking 500000 iterations\n# memprof\u003d/tmp/14.prof.txt\n# cpuprof\u003d/tmp/13.prof.txt\nBenchmarkHTTP-48   500000            17567 ns/op \u003csnip\u003e\n\nThe log lines go to stderr, so if you redirect that, you get\n\npkg: golang.org/x/benchmarks\ngoos: linux\ngoarch: amd64\n\n# memprof\u003d/tmp/14.prof.txt\n# cpuprof\u003d/tmp/13.prof.txt\nBenchmarkHTTP-48   500000            17567 ns/op \u003csnip\u003e\n\nI\u0027m inclined to leave it without the extra newline for now. If you still think it looks better with the newline, I can put it back again, but I think it\u0027s easy enough to visually separate the result lines  since they\u0027re the only super-long ones.",
+      "parentUuid": "306f11bd_bae4c4ed",
+      "revId": "c9f7f63c70b0544b8bddb002d1077e5ccdbcb3ca",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
     }
   ]
 }
