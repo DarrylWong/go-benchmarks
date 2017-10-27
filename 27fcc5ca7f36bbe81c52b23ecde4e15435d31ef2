@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e275a13_c10d7dc7",
+        "filename": "README",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-27T14:05:33Z",
+      "side": 1,
+      "message": "This command and list of names are Debian specific.  It would be more helpful to list the tools that are required, rather than packages, especially general packages like linux-cloud-tools-generic.  Thanks.",
+      "revId": "27fcc5ca7f36bbe81c52b23ecde4e15435d31ef2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
