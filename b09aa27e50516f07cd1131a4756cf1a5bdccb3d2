@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb65207c_1b6a943d",
+        "filename": "README",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T00:20:36Z",
+      "side": 1,
+      "message": "Remove trailing space, thanks.",
+      "revId": "b09aa27e50516f07cd1131a4756cf1a5bdccb3d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80e16013_3e337f86",
+        "filename": "README",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2017-10-31T00:20:36Z",
+      "side": 1,
+      "message": "Are you sure?  On my Ubuntu Trusty system perf seems to be part of linux-tools-common.",
+      "revId": "b09aa27e50516f07cd1131a4756cf1a5bdccb3d2",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705",
+      "unresolved": true
+    }
+  ]
+}
