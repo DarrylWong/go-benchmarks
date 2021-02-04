@@ -7,20 +7,23 @@ package main
 import (
 	"bufio"
 	"bytes"
+	"embed"
 	"flag"
 	"fmt"
-	"github.com/BurntSushi/toml"
 	"io"
 	"io/ioutil"
 	"math/rand"
 	"os"
 	"os/exec"
+	"path"
 	"path/filepath"
 	"runtime"
 	"strconv"
 	"strings"
 	"sync"
 	"time"
+
+	"github.com/BurntSushi/toml"
 )
 
 type BenchStat struct {
@@ -94,6 +97,12 @@ var runContainer = "" // if nonempty, skip builds and use existing named contain
 var wikiTable = false // emit the tests in a form usable in a wiki table
 var explicitAll = 0   // Include "-a" on "go test -c" test build ; repeating flag causes multiple rebuilds, useful for build benchmarking.
 var shuffle = 2       // Dimensionality of (build) shuffling; 0 = none, 1 = per-benchmark, configuration ordering, 2 = bench, config pairs, 3 = across repetitions.
+
+//go:embed scripts/*
+var scripts embed.FS
+
+//go:embed configs/*
+var configs embed.FS
 
 var copyExes = []string{
 	"foo", "memprofile", "cpuprofile", "tmpclr", "benchtime", "benchsize", "benchdwarf", "cronjob.sh", "cmpjob.sh", "cmpcl.sh", "cmpcl-phase.sh", "tweet-results",
@@ -264,11 +273,11 @@ results will also appear in 'bench'.
 			os.Exit(1)
 		}
 		for _, s := range copyExes {
-			copyAsset(s)
+			copyAsset(scripts, "scripts", s)
 			os.Chmod(s, 0755)
 		}
 		for _, s := range copyConfigs {
-			copyAsset(s)
+			copyAsset(configs, "configs", s)
 		}
 
 		err := ioutil.WriteFile("Dockerfile",
@@ -1298,9 +1307,19 @@ func asCommandLine(cwd string, cmd *exec.Cmd) string {
 	return s
 }
 
-func copyAsset(file string) {
-	bytes, err := Asset(file)
+func copyAsset(fs embed.FS, dir, file string) {
+	f, err := fs.Open(path.Join(dir, file))
 	if err != nil {
+		fmt.Printf("Error opening asset %s\n", file)
+		os.Exit(1)
+	}
+	stat, err := f.Stat()
+	if err != nil {
+		fmt.Printf("Error reading stats %s\n", file)
+		os.Exit(1)
+	}
+	bytes := make([]byte, stat.Size())
+	if l, err := f.Read(bytes); err != nil || l != int(stat.Size()) {
 		fmt.Printf("Error reading asset %s\n", file)
 		os.Exit(1)
 	}
