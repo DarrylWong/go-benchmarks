@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5091491b_81645194",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 32560
+      },
+      "writtenOn": "2021-02-08T16:58:21Z",
+      "side": 1,
+      "message": "This is a recreation of https://go-review.googlesource.com/c/benchmarks/+/290431, only moved to the benchmarks repo at Austin\u0027s suggestion.\n\nI applied most of David\u0027s comments from the above CL, but not all of the README changes. I think the repo\u0027s going to go through some changes so I want to get it stable before churning on the README.",
+      "revId": "cdda1a3d322c4010f54feeabed675a897d2e7273",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
