@@ -93,7 +93,8 @@ func initJob() {
 	}
 	// Read Job notifications about new "child" processes and collect them in childProcesses.
 	go func() {
-		var code, key uint32
+		var code uint32
+		var key uintptr
 		// o is declared as uintptr because GetQueuedCompletionStatus
 		// stores process id into it.  If we declare it as *overlapped,
 		// runtime stack copier will crash due to bogus pointer value.
@@ -104,7 +105,7 @@ func initJob() {
 				log.Printf("GetQueuedCompletionStatus failed: %v", err)
 				return
 			}
-			if key != uint32(jobObject) {
+			if key != uintptr(jobObject) {
 				panic("Invalid GetQueuedCompletionStatus key parameter")
 			}
 			if code == JOB_OBJECT_MSG_NEW_PROCESS {
