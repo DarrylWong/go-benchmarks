@@ -1,0 +1,159 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "509380dd_be91c75e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "Sorry for the slow review, but the code looks relatively clean.\n\nI would take my proposed algorithmic improvement with a grain of salt, unless that\u0027s an actual bottleneck.\n\nThe numerical improvement, I think that\u0027s worth considering; it seems to me that the paper is just sort of wrong in certain cases.",
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6717a9a5_bc26889c",
+        "filename": "internal/stats/edm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "2019?",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a508cd9_c4691c15",
+        "filename": "internal/stats/edm.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "s/an/a",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 21,
+        "endChar": 26
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74b494e9_3395fdc7",
+        "filename": "internal/stats/edm_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "another stale date, probably check them all.",
+      "range": {
+        "startLine": 1,
+        "startChar": 13,
+        "endLine": 1,
+        "endChar": 17
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6838a7d8_3a42a6cc",
+        "filename": "internal/stats/itree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "typo (caluclating) and awkward (-ing -ing).  Maybe \"calculation of running medians\"?",
+      "range": {
+        "startLine": 7,
+        "startChar": 43,
+        "endLine": 7,
+        "endChar": 64
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bb0ec3e_36754c69",
+        "filename": "internal/stats/itree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "I\u0027m not sure, but I think I see a faster (condition-free) way to do this.\nI assume v is in [0,1).\nIf you index your array starting at 1 instead of zero, then for concreteness, a depth 3 tree looks like (in hex, for single digits).\n0: 1\n1: 2 3\n2: 4 5 6 7\n3: 8 9 a b c d e f\nThen for a given v, the elements to adjust ( + or - ) are:\n\nI3 \u003d (1 \u003c\u003c 3) + v * (1 \u003c\u003c 3)\nI2 \u003d I3 \u003e\u003e 1\nI1 \u003d I2 \u003e\u003e 1\nI0 \u003d I1 \u003e\u003e 1\n\nand you can recover the original indexing with a I-1 just before indexing.",
+      "range": {
+        "startLine": 25,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 74
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b619d214_54cae512",
+        "filename": "internal/stats/itree.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-03-19T18:05:59Z",
+      "side": 1,
+      "message": "I think there is a bug in the paper, sort of.  As long as one of the children is 0 (which is perhaps a special case) then it should continue down the tree, for improved accuracy.  I don\u0027t know if this actually matters in practice (for trees that are filled with samples and thus unlikely to have lots of zero children).\n\nAnd also, weighting it across the children just seems wrong -- depending on how we feel about fenceposts (whether numElements is even or odd, controls whether median is kth, or between k and k+1), if the right (larger) child has at least two elements in it, then the median is at least as large as the boundary between the two children, no matter how many children are in the lower interval.\n\nI think if there is just 1 in the upper interval, and numElements is odd, then the weighting potentially applies, but if numElements is even, then, again, at least as large as the boundary.  Whether we just go with upper mid-point, or pull it lower if there\u0027s many in the lower interval, hard to say.  And if the quantity in the upper interval is X, do we assume uniformity and go for X-1/X?\n\nI don\u0027t know if this is worth fiddling with, but the paper\u0027s explanation of the code makes me numerically itchy.  But the fixes I imagine are all possible w/o changing the algorithm\u0027s complexity.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 3
+      },
+      "revId": "3b771440846955be8f89c121ff7b83d393a8250c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
