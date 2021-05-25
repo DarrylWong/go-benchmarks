@@ -27,7 +27,8 @@ func NewIntervalTree(d int) *IntervalTree {
 }
 
 // walk is a generic function on interval trees to add or remove elements.
-func (it *IntervalTree) walk(v float64, update int) {
+// This is the version from the paper.
+func (it *IntervalTree) walkOld(v float64, update int) {
 	v = math.Abs(v)
 	mid, inc := 0.5, 0.25
 	idx := 0
@@ -42,6 +43,19 @@ func (it *IntervalTree) walk(v float64, update int) {
 			mid -= inc
 		}
 		inc /= 2.
+	}
+}
+
+// walk is a generic function on interval trees to add or remove elements.
+// This version is branchless, perhaps faster.
+// TODO benchmark once we find a usefully large input.
+func (it *IntervalTree) walk(v float64, update int) {
+	v = math.Abs(v)
+	id := 1 << it.d
+	id += int(float64(id) * v)
+	for i := it.d; i >= 0; i-- {
+		it.vals[id-1] += update
+		id >>= 1
 	}
 }
 
