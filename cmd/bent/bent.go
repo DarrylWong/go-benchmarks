@@ -216,6 +216,28 @@ results will also appear in 'bench'.
 		os.Exit(1)
 	}
 
+	// Fail early if either of these commands is missing.
+	_, errTime := exec.LookPath("/usr/bin/time")
+	_, errRsync := exec.LookPath("rsync")
+	if errTime != nil && errRsync != nil {
+		println("This program needs /usr/bin/time and rsync commands to run")
+		os.Exit(1)
+	}
+	if errRsync != nil {
+		println("This program needs the rsync command to run")
+		os.Exit(1)
+	}
+	if errTime != nil {
+		println("This program needs the /usr/bin/time command to run")
+		os.Exit(1)
+	}
+
+	_, errDocker := exec.LookPath("docker")
+	if !noSandbox && errDocker != nil {
+		println("Sandboxing benchmarks requires the docker command; flag -U turns off sandboxing IF YOU TRUST THE BENCHMARKS YOU ARE ABOUT TO RUN")
+		os.Exit(1)
+	}
+
 	todo := &Todo{}
 	blobB, err := ioutil.ReadFile(benchFile)
 	if err != nil {
