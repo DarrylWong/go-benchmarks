@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7f5d2d8_3eb80fc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 19560
+      },
+      "writtenOn": "2021-09-13T15:37:06Z",
+      "side": 1,
+      "message": "Maybe say:\n\n  go.mod: update x/sys for riscv64\n\nor similar.\n\nOther golang.org/x repositories also seem to use the \"go.mod: \" prefix for the subject line for CLs updating go.mod.",
+      "revId": "5f2064c940dae447f536b39e8cf2bb5cd065c010",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "fb029ba0_61d35d0f",
