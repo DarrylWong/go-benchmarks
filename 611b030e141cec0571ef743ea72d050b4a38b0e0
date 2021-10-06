@@ -3,6 +3,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "efddf67b_6820d1f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2021-10-06T22:57:43Z",
+      "side": 1,
+      "message": "The commit message seems reversed.  Seems like it would be better as something like\n\ncmd/bent: add early check for missing commands\n\nThis further addresses cherrymui\u0027s friction log.",
+      "revId": "611b030e141cec0571ef743ea72d050b4a38b0e0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "fcfc7896_a811ef8b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
