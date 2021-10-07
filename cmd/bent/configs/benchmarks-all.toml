@@ -75,6 +75,7 @@
   Name = "ethereum_sha3"
   Repo = "github.com/ethereum/go-ethereum/crypto/sha3"
   Benchmarks = "Benchmark"
+  Disabloed = true # won't even get
 
 [[Benchmarks]]
   Name = "ethereum_ecies"
@@ -99,11 +100,13 @@
   Repo = "github.com/ethereum/go-ethereum/whisper/whisperv5"
   Benchmarks = "Benchmark"
   NotSandboxed = true # Won't cross-compile to Linux on MacOS
+  Disabloed = true # won't even get
 
 [[Benchmarks]]
   Name = "eolian_dsp"
-  Repo = "buddin.us/eolian/dsp"
+  Repo = "github.com/semrekkers/eolian/dsp"
   Benchmarks = "Benchmark"
+  Disabled = true # buddin.us is dead, imports need updating
 
 [[Benchmarks]]
   Name = "spexs2"
@@ -114,22 +117,26 @@
   Name = "minio"
   Repo = "github.com/minio/minio/cmd"
   Tests = "none" # Don't run these tests; they hang, etc.
-  Benchmarks = "BenchmarkGetObject[^V125]" # not Get|Put|List
+  Benchmarks = "Benchmark"
 
 [[Benchmarks]]
   Name = "gonum_blas_native"
   Repo = "gonum.org/v1/gonum/blas/gonum"
   Benchmarks = "Benchmark.*Med" # not all benchmarks
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "gonum_lapack_native"
   Repo = "gonum.org/v1/gonum/lapack/gonum"
-  Benchmarks = "BenchmarkDgeev/.*[mt][1234]"
+  # Benchmarks = "BenchmarkDgeev/.*[mt][1234]"
+  Benchmarks = "Benchmark"
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "gonum_mat"
   Repo = "gonum.org/v1/gonum/mat"
   Benchmarks = "Benchmark(.*Vec.*10000($|[^0])|.*Mul.*Dense.*1000H)"
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "semver"
@@ -144,22 +151,17 @@
 [[Benchmarks]]
   Name = "hugo_hugolib"
   Repo = "github.com/gohugoio/hugo/hugolib"
-  Benchmarks = "Benchmark(S[och]|Get|Replace)"
-
-[[Benchmarks]]
-  Name = "hugo_hugolib_sitebuilding"
-  Repo = "github.com/gohugoio/hugo/hugolib"
-  Benchmarks = "BenchmarkSiteBuilding/YAML,num_pages=10,num_tags=10,tags_per_page=20"
-
-[[Benchmarks]]
-  Name = "k8s_api"
-  Repo = "k8s.io/kubernetes/pkg/api/testing/"
   Benchmarks = "Benchmark"
 
 [[Benchmarks]]
-  Name = "k8s_schedulercache"
-  Repo = "k8s.io/kubernetes/pkg/scheduler/cache"
-  Benchmarks = "Benchmark"
+  Name = "k8s_cache"
+  Repo = "k8s.io/client-go/tools/cache"
+  Benchmarks = "B"
+
+[[Benchmarks]]
+  Name = "k8s_workqueue"
+  Repo = "k8s.io/client-go/util/workqueue"
+  Benchmarks = "B"
 
 [[Benchmarks]]
   Name = "uuid"
@@ -170,21 +172,24 @@
   Name = "gonum_topo"
   Repo = "gonum.org/v1/gonum/graph/topo/"
   Benchmarks = "Benchmark"
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "gonum_path"
   Repo = "gonum.org/v1/gonum/graph/path/"
   Benchmarks = "Benchmark"
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "gonum_community"
   Repo = "gonum.org/v1/gonum/graph/community/"
-  Benchmarks = "BenchmarkLouvainDirectedMultiplex"
+  Benchmarks = "Benchmark"
 
 [[Benchmarks]]
   Name = "gonum_traverse"
   Repo = "gonum.org/v1/gonum/graph/traverse/"
   Benchmarks = "Benchmark"
+  BuildFlags = ["-tags", "safe"]
 
 [[Benchmarks]]
   Name = "capnproto2"
@@ -194,14 +199,15 @@
 
 [[Benchmarks]]
   Name = "uber_zap"
-  # Repo = "github.com/uber-go/zap/benchmarks"
-  Repo = "go.uber.org/zap/benchmarks"
-  Benchmarks = "Benchmark"
+  Repo = "go.uber.org/zap/zapcore"
+  Benchmarks = "B"
+  Version = "@v1.16.1-0.20210329175301-c23abee72d19"
 
 [[Benchmarks]]
   Name = "bindata"
   Repo = "github.com/kevinburke/go-bindata"
   Benchmarks = "Benchmark"
+  Version = "@v3.22.1-0.20211006210656-12dca65da1b8+incompatible"
 
 [[Benchmarks]]
   Name = "cespare_mph"
@@ -224,10 +230,11 @@
   Name = "gtank_ed25519"
   Repo = "github.com/gtank/ed25519"
   Benchmarks = "Benchmark"
+  Disabled = true # Won't go get properly
 
 [[Benchmarks]]
   Name = "nelsam_gxui_interval"
-  Repo = "github.com/nelsam/gxui/interval"
+  Repo = "git.sr.ht/~nelsam/gxui/interval"
   Benchmarks = "Benchmark"
 
 [[Benchmarks]]
