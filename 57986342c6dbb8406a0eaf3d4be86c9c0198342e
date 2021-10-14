@@ -76,6 +76,30 @@
       },
       "revId": "57986342c6dbb8406a0eaf3d4be86c9c0198342e",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d7bff2e4_815925f9",
+        "filename": "cmd/bent/bent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-10-14T21:18:29Z",
+      "side": 1,
+      "message": "It\u0027s apparently safer on Mac (apparently it runs nested in some other VM?  So I recall hearing from Russ), but to me this makes Docker look like a pretty bad idea.  Are there better options, or do we think we should only run benchmarks on untrusted throwaway machines anyhow?",
+      "parentUuid": "d5490272_4cec66d4",
+      "range": {
+        "startLine": 237,
+        "startChar": 91,
+        "endLine": 237,
+        "endChar": 139
+      },
+      "revId": "57986342c6dbb8406a0eaf3d4be86c9c0198342e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
