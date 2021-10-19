@@ -146,11 +146,22 @@
 [[Benchmarks]]
   Name = "capnproto2"
   Benchmarks = "Benchmark"
-  GcEnv = ["GO111MODULE=on"]
 
 [[Benchmarks]]
   Name = "uber_zap"
   Benchmarks = "B"
+
+[[Benchmarks]]
+  Name = "uber_tally"
+  Benchmarks = "B"
+
+[[Benchmarks]]
+  Name = "bloom_bits"
+  Benchmarks = "Benchmark"
+
+[[Benchmarks]]
+  Name = "bloom_bloom"
+  Benchmarks = "Benchmark"
 
 [[Benchmarks]]
   Name = "bindata"
