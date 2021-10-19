@@ -23,7 +23,7 @@
 
 [[Benchmarks]]
   Name = "shopify_sarama"
-  Benchmarks = "Benchmark"
+  Benchmarks = "BenchmarkBroker" # BenchmarkStick.* are noisy
 
 [[Benchmarks]]
   Name = "aws_restjson"
@@ -105,7 +105,7 @@
 
 [[Benchmarks]]
   Name = "k8s_workqueue"
-  Benchmarks = "B"
+  Benchmarks = "BenchmarkParallelizeUntil" # DelayingQueue is noisy
 
 [[Benchmarks]]
   Name = "uuid"
