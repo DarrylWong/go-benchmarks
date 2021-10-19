@@ -294,7 +294,7 @@ results will also appear in 'bench'.
 		b := &todo.Benchmarks[i]
 		s := suites[b.Name]
 		if s == nil {
-			fmt.Printf("Benchmark %sw appearing in %s is not listed in %s\n", b.Name, benchFile, suiteFile)
+			fmt.Printf("Benchmark %s appearing in %s is not listed in %s\n", b.Name, benchFile, suiteFile)
 			os.Exit(1)
 		}
 		update(&b.Repo, s.Repo)
