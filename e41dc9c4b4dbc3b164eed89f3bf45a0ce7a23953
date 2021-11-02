@@ -59,6 +59,30 @@
       },
       "revId": "e41dc9c4b4dbc3b164eed89f3bf45a0ce7a23953",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a70b1d5_77110f80",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T17:00:59Z",
+      "side": 1,
+      "message": "Only _within_ an array, slice, or map literal: \"Within a composite literal of array, slice, or map type T, elements or map keys that are themselves composite literals may elide the respective literal type if it is identical to the element or key type of T. Similarly, elements or keys that are addresses of composite literals may elide the \u0026T when the element or key type is *T.\"",
+      "parentUuid": "123aa540_c94e5e9f",
+      "range": {
+        "startLine": 16,
+        "startChar": 26,
+        "endLine": 16,
+        "endChar": 35
+      },
+      "revId": "e41dc9c4b4dbc3b164eed89f3bf45a0ce7a23953",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
