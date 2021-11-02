@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "edaf80fb_975ec858",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T16:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "56e0edf0_66aa4d2c",
+      "range": {
+        "startLine": 14,
+        "startChar": 43,
+        "endLine": 14,
+        "endChar": 49
+      },
+      "revId": "a89767a27ed7de97d6e2c9dfe95f7e72b67ea587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "045a47d8_7d93ce24",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -103,6 +127,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b59d64c0_dcad5b36",
+        "filename": "cmd/bench/bent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T16:07:41Z",
+      "side": 1,
+      "message": "I did this initially in gotest.go so I could set GOROOT. Bent handles that on its own via the config file, so I\u0027ve dropped it here.\n\ngotest.go I\u0027ve made uglier, making it pass through all environment variables but modifying GOROOT.",
+      "parentUuid": "d4ff581a_6b7c612d",
+      "range": {
+        "startLine": 108,
+        "startChar": 11,
+        "endLine": 111,
+        "endChar": 2
+      },
+      "revId": "a89767a27ed7de97d6e2c9dfe95f7e72b67ea587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "975708b5_b67b4926",
@@ -116,6 +164,30 @@
       "writtenOn": "2021-11-02T13:52:53Z",
       "side": 1,
       "message": "very minor nit: I like to inline the arguments into the exec.Command, since it reads a little bit more like an actual command",
+      "range": {
+        "startLine": 16,
+        "startChar": 9,
+        "endLine": 23,
+        "endChar": 2
+      },
+      "revId": "a89767a27ed7de97d6e2c9dfe95f7e72b67ea587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da4d6abe_8f47c27f",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T16:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "975708b5_b67b4926",
       "range": {
         "startLine": 16,
         "startChar": 9,
@@ -151,6 +223,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "40acbeec_11290daf",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T16:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84932b5f_94993136",
+      "range": {
+        "startLine": 31,
+        "startChar": 5,
+        "endLine": 31,
+        "endChar": 13
+      },
+      "revId": "a89767a27ed7de97d6e2c9dfe95f7e72b67ea587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "91d2c7d9_3102941f",
         "filename": "cmd/bench/main.go",
         "patchSetId": 2
@@ -162,6 +258,30 @@
       "writtenOn": "2021-11-02T13:52:53Z",
       "side": 1,
       "message": "the usual testing output says \"FAIL\" if you were trying to match that.",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 20
+      },
+      "revId": "a89767a27ed7de97d6e2c9dfe95f7e72b67ea587",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d033bc38_b01ea143",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-02T16:07:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91d2c7d9_3102941f",
       "range": {
         "startLine": 56,
         "startChar": 18,
