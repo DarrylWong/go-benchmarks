@@ -55,6 +55,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2498abec_e15252a8",
+        "filename": "cmd/bent/bent.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-03T18:29:11Z",
+      "side": 1,
+      "message": "No, and I removed it.",
+      "parentUuid": "20a4b539_be95cd64",
+      "revId": "ce33833dd0129adcea1a5b7d5a672e202b90b450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0088cd55_1b16093c",
@@ -78,6 +96,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "475c5ff2_b165c74a",
+        "filename": "cmd/bent/bent.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-03T18:29:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0088cd55_1b16093c",
+      "range": {
+        "startLine": 180,
+        "startChar": 10,
+        "endLine": 180,
+        "endChar": 12
+      },
+      "revId": "ce33833dd0129adcea1a5b7d5a672e202b90b450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d136e8b5_304703ba",
@@ -91,6 +133,24 @@
       "writtenOn": "2021-10-19T21:23:53Z",
       "side": 1,
       "message": "Maybe check the docker command only when requireSandbox is true.",
+      "revId": "ce33833dd0129adcea1a5b7d5a672e202b90b450",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dd7ee592_d374e34e",
+        "filename": "cmd/bent/bent.go",
+        "patchSetId": 4
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-03T18:29:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d136e8b5_304703ba",
       "revId": "ce33833dd0129adcea1a5b7d5a672e202b90b450",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
