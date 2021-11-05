@@ -53,6 +53,74 @@
       "message": "PTAL (and the next two in the stack, \"refactor common benchmark info\" and \"tweak cronjob.sh\")",
       "revId": "6690df9a7d0d85214556bcc6691db36370ec565c",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14655bb1_8f9888ea",
+        "filename": "cmd/bent/configs/benchmarks-50.toml",
+        "patchSetId": 6
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:30:36Z",
+      "side": 1,
+      "message": "delete?",
+      "revId": "6690df9a7d0d85214556bcc6691db36370ec565c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b2eac9f9_5226a0c7",
+        "filename": "cmd/bent/configs/benchmarks-50.toml",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:30:36Z",
+      "side": 1,
+      "message": "I wrote a \"not these benchmarks\" tool once, which would list all benchmarks, remove the bad ones, and then pass the remainder as a comma-separated list to -test.run. I should dig that up so we could add a DisableBenchmarks here instead of writing these monstrosities.",
+      "revId": "6690df9a7d0d85214556bcc6691db36370ec565c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2439719_a807584a",
+        "filename": "cmd/bent/configs/benchmarks-50.toml",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:30:36Z",
+      "side": 1,
+      "message": "Isn\u0027t this the same as omitting the filter, since they are start with Benchmark?",
+      "revId": "6690df9a7d0d85214556bcc6691db36370ec565c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4212ed63_3b02c491",
+        "filename": "cmd/bent/configs/benchmarks-all.toml",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:30:36Z",
+      "side": 1,
+      "message": "done?",
+      "revId": "6690df9a7d0d85214556bcc6691db36370ec565c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
