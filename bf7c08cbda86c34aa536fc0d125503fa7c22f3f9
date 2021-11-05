@@ -95,6 +95,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "c8186af8_b1b778d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 13315
+      },
+      "writtenOn": "2021-11-05T20:22:52Z",
+      "side": 1,
+      "message": "I don\u0027t really remember. It was probably that Linux and Darwin behave differently when copying a directory (either with or without the trailing /). David may remember.",
+      "parentUuid": "3737f9c9_e8264064",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "bf7c08cbda86c34aa536fc0d125503fa7c22f3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "837b993d_e0ba3ef8",
