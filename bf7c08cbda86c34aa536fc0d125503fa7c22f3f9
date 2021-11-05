@@ -49,6 +49,54 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "68d34b93_2aa8b196",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:09:07Z",
+      "side": 1,
+      "message": "Oops, I missed that. Fixed.",
+      "parentUuid": "d93f8d97_2bcb3148",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 13
+      },
+      "revId": "bf7c08cbda86c34aa536fc0d125503fa7c22f3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3737f9c9_e8264064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2021-11-05T20:09:07Z",
+      "side": 1,
+      "message": "Interesting, I\u0027d assumed the use of rsync was because it can sometimes be faster at copying.\n\nThe motivation for this is that the Go builders don\u0027t have rsync. While it is possible to add to the OS image, it would be simpler if bent simply didn\u0027t need it.\n\nDo we know which systems cp is problematic on? rsync is still the default, and I could force its use on bad systems. Or we could just do the copy in Go if rsync is unavailable (or always?).",
+      "parentUuid": "d8daf6d7_ea82dfa6",
+      "range": {
+        "startLine": 9,
+        "startChar": 48,
+        "endLine": 9,
+        "endChar": 53
+      },
+      "revId": "bf7c08cbda86c34aa536fc0d125503fa7c22f3f9",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "837b993d_e0ba3ef8",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
