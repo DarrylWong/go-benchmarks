@@ -7,12 +7,15 @@
 package main
 
 import (
+	"flag"
 	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
 	"strings"
 )
+
+var wait = flag.Bool("wait", true, "wait for system idle before starting benchmarking")
 
 func determineGOROOT() (string, error) {
 	g, ok := os.LookupEnv("GOROOT")
@@ -35,9 +38,19 @@ func goCommand(goroot string, args ...string) *exec.Cmd {
 }
 
 func main() {
+	flag.Parse()
+
 	goroot, err := determineGOROOT()
 	if err != nil {
 		log.Fatalf("Unable to determine GOROOT: %v", err)
+	}
+
+	if *wait {
+		// We may be on a freshly booted VM. Wait for boot tasks to
+		// complete before continuing.
+		if err := waitForIdle(); err != nil {
+			log.Fatalf("Failed to wait for idle: %v", err)
+		}
 	}
 
 	log.Printf("GOROOT under test: %s", goroot)
