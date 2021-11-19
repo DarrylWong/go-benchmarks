@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "696968c5_3fc73489",
+        "filename": "cmd/bent/configs/benchmarks-all.toml",
+        "patchSetId": 10
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-11-19T19:54:45Z",
+      "side": 1,
+      "message": "I noticed in the diff in my email that this remnant from a merge conflict got left in.",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 101,
+        "endChar": 16
+      },
+      "revId": "ac2376dd82a909b8be36d296e60a574e1a00805f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
