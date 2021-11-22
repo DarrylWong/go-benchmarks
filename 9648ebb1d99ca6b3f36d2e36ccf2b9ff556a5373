@@ -72,6 +72,23 @@
       "message": "I rearranged the commit stack to put the repair of benchmarks-all.toml here.\nI also modified the \"simple test\" to do a comprehensive test of all the benchmark and configuration files to be sure that they parse cleanly, so this won\u0027t happen again (I verified that it caught the error, fixed the error, verified that it passed).",
       "revId": "9648ebb1d99ca6b3f36d2e36ccf2b9ff556a5373",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd1807cc_8af00b51",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-11-22T21:39:58Z",
+      "side": 1,
+      "message": "PTAL.  I\u0027d like to move this and the next two CLS into bent, so that everything is sensible.  This enhanced test prevents the screwup in the previous CL in the stack.",
+      "revId": "9648ebb1d99ca6b3f36d2e36ccf2b9ff556a5373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
