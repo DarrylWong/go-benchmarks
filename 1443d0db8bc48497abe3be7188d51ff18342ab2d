@@ -71,6 +71,24 @@
       "message": "It\u0027s blocked on getting a plan9-386-0intro bot (plan9-386 passed) but everything else passed.",
       "revId": "1443d0db8bc48497abe3be7188d51ff18342ab2d",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1dfdb8f_c81e519f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-02T18:24:46Z",
+      "side": 1,
+      "message": "If `GOOS\u003dplan9 go build ./...` succeeds locally I\u0027d go ahead and submit without it.\n\n(FWIW, I\u0027ve found the `plan9-arm` builder to be the more reliable plan9 builder in recent practice.)",
+      "parentUuid": "83ff9ea0_bb72a4fb",
+      "revId": "1443d0db8bc48497abe3be7188d51ff18342ab2d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
