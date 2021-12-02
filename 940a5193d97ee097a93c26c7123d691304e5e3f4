@@ -16,6 +16,24 @@
       "message": "This dependency doesn\u0027t build on the aix or plan9 builders.\n(Filed as #49919 and #49920 respectively.)",
       "revId": "940a5193d97ee097a93c26c7123d691304e5e3f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "984c42d2_9279751e",
+        "filename": "sweet/benchmarks/bleve-query/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-02T14:53:25Z",
+      "side": 1,
+      "message": "ah shoot. is this bad enough to warrant a rollback (I don\u0027t mind doing it if you think so)? generally we\u0027re not running benchmarks there, so I don\u0027t think it\u0027ll affect us much in the short term, but still not great to have builders broken.\n\nis there a way to work around this?",
+      "parentUuid": "3d2179dd_064758f1",
+      "revId": "940a5193d97ee097a93c26c7123d691304e5e3f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
