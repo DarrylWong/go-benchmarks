@@ -34,6 +34,24 @@
       "parentUuid": "3d2179dd_064758f1",
       "revId": "940a5193d97ee097a93c26c7123d691304e5e3f4",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f492c625_3db89b45",
+        "filename": "sweet/benchmarks/bleve-query/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2021-12-02T14:54:13Z",
+      "side": 1,
+      "message": "\u003e ah shoot. is this bad enough to warrant a rollback (I don\u0027t mind doing it if you think so)? generally we\u0027re not running benchmarks there, so I don\u0027t think it\u0027ll affect us much in the short term, but still not great to have builders broken.\n\u003e \n\u003e is there a way to work around this?\n\noh I see you mentioned a few ways forward on the issue. I\u0027ll build tag it.",
+      "parentUuid": "984c42d2_9279751e",
+      "revId": "940a5193d97ee097a93c26c7123d691304e5e3f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
