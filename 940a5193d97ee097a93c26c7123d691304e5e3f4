@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3d2179dd_064758f1",
+        "filename": "sweet/benchmarks/bleve-query/main.go",
+        "patchSetId": 5
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-02T14:22:33Z",
+      "side": 1,
+      "message": "This dependency doesn\u0027t build on the aix or plan9 builders.\n(Filed as #49919 and #49920 respectively.)",
+      "revId": "940a5193d97ee097a93c26c7123d691304e5e3f4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
