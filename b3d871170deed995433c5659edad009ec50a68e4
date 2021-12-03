@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e318d99_0d5df8a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T19:41:00Z",
+      "side": 1,
+      "message": "This test is currently broken on the Android builders; filed as #49964.",
+      "revId": "b3d871170deed995433c5659edad009ec50a68e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b40b2ed5_b90b6e19",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T19:41:00Z",
+      "side": 1,
+      "message": "If the build step remains, this test probably ought to be guarded based on whether exec.LookPath can even find a \"go\" binary. (On the Android, iOS, and JS builders that check will fail, so it\u0027s a handy way to skip the test on platforms that can\u0027t exec.)",
+      "range": {
+        "startLine": 48,
+        "startChar": 22,
+        "endLine": 48,
+        "endChar": 26
+      },
+      "revId": "b3d871170deed995433c5659edad009ec50a68e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "605194a7_a4713a8a",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T19:41:00Z",
+      "side": 1,
+      "message": "This looks like it is rebuilding cmd/bent, but isn\u0027t all of cmd/bent already linked into the test binary? (Is it important to rebuild it for some other reason?)\n\nOtherwise, you can save this step by having the test binary itself act as cmd/bent in TestMain:\n\n\tpackage main\n\n\t…\n\t\n\tfunc TestMain(m *testing.M) {\n\t\tif os.Getenv(\"BENT_TEST_IS_CMD_BENT\") !\u003d \"\" {\n\t\t\tmain()\n\t\t\tos.Exit(0)\n\t\t}\n\t\tos.Exit(m.Run())\n\t}\n\n\tfunc bentCmd(t *testing.T, dir string, args ...string) *exec.Command {\n\t\texe, err :\u003d os.Executable()\n\t\tif err !\u003d nil {\n\t\t\tt.Fatal(err)\n\t\t}\n\t\tcmd :\u003d exec.Command(exe, args...)\n\t\tcmd.Dir \u003d dir\n\t\tcmd.Env \u003d append(os.Environ(), \"BENT_TEST_IS_CMD_BENT\u003d1\", \"PWD\u003d\"+dir)\n\t\treturn cmd\n\t}\n\nThat may be especially important for platforms like Android where it\u0027s difficult / impossible to rebuild the binary from within the test process.",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 56,
+        "endChar": 3
+      },
+      "revId": "b3d871170deed995433c5659edad009ec50a68e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1d8360cf_f698df54",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2021-12-03T19:41:00Z",
+      "side": 1,
+      "message": "In a surprising number of cases, it is important to set PWD in a command\u0027s environment when you set its Dir field.\n\n(Otherwise the CWD lookup gets really screwy on platforms like macOS where /tmp is actually a symlink to some other path, which can lead to very confusing error messages.)",
+      "revId": "b3d871170deed995433c5659edad009ec50a68e4",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
