@@ -114,6 +114,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "24b982db_f90fa2f0",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-12-03T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "698406f4_e3ce1d99",
+      "range": {
+        "startLine": 30,
+        "startChar": 30,
+        "endLine": 30,
+        "endChar": 38
+      },
+      "revId": "9648ebb1d99ca6b3f36d2e36ccf2b9ff556a5373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5f15326e_0a786da0",
@@ -127,6 +151,30 @@
       "writtenOn": "2021-12-02T20:56:27Z",
       "side": 1,
       "message": "Use a sync.Once?",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 11
+      },
+      "revId": "9648ebb1d99ca6b3f36d2e36ccf2b9ff556a5373",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41f29948_ddb2b51e",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 9
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-12-03T14:35:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f15326e_0a786da0",
       "range": {
         "startLine": 47,
         "startChar": 0,
