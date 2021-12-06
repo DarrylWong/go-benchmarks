@@ -70,6 +70,24 @@
       "message": "Hmm, it occurs to me that the os.RemoveAll needs to be after the os.Exit.\n\nIt looks like CL 219639 (for #34129) was included in Go 1.15, so I suppose we can just drop the call to os.Exit entirely:\n\n\tdefer os.RemoveAll(dir)\n\tm.Run()  // Avoid calling os.Exit so that the RemoveAll will always execute.",
       "revId": "9c707a3d6e2875a01dfa4fb1dc666cd2f54ba708",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f74559e0_5e108fcd",
+        "filename": "cmd/bent/bent_test.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2021-12-06T20:52:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0a420b5c_f8a45011",
+      "revId": "9c707a3d6e2875a01dfa4fb1dc666cd2f54ba708",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
