@@ -10,6 +10,7 @@ import (
 	"io/fs"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
@@ -285,6 +286,17 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		// Execute the benchmark for each configuration.
 		for i, setup := range setups {
 			if hasAssets {
+				out, err := exec.Command("/bin/df", "-h").CombinedOutput()
+				if err != nil {
+					return err
+				}
+				log.Printf("space left:\n%s", string(out))
+
+				out, err = exec.Command("/usr/bin/du", "-h", r.workDir).CombinedOutput()
+				if err != nil {
+					return err
+				}
+				log.Printf("breakdown:\n%s", string(out))
 				// Set up assets directory for test run.
 				r.logCopyDirCommand(b.name, setup.AssetsDir)
 				if err := fileutil.CopyDir(setup.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
