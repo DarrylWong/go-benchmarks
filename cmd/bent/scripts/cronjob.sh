@@ -103,8 +103,8 @@ append () {
 
 echo "suite: ${SUITE}" >> ${STAMP}
 append bentstamp
-append tip
-append base
+# append tip
+# append base
 # new stuff for better benchmarking
 append numerator_branch
 append numerator_hash
@@ -119,6 +119,9 @@ SFX="${RUN}"
 
 cp ${STAMP} ${BASE}-opt.${SFX}
 cp ${STAMP} ${tip}-opt.${SFX}
+
+echo "role: base" >> ${BASE}-opt.${SFX}
+echo "role: tip" >> ${tip}-opt.${SFX}
 
 cat ${RUN}.Base.build >> ${BASE}-opt.${SFX}
 cat ${RUN}.Tip.build >> ${tip}-opt.${SFX}
@@ -152,8 +155,8 @@ export STAMP
 echo "suite: ${SUITE}-Nl" >> ${STAMP}
 
 append bentstamp
-append tip
-append base
+# append tip
+# append base
 # new stuff for better benchmarking
 append numerator_branch
 append numerator_hash
@@ -168,6 +171,9 @@ SFX="${RUN}"
 
 cp ${STAMP} ${BASE}-Nl.${SFX}
 cp ${STAMP} ${tip}-Nl.${SFX}
+
+echo "role: base" >> ${BASE}-Nl.${SFX}
+echo "role: tip" >> ${tip}-Nl.${SFX}
 
 cat ${RUN}.BaseNl.build >> ${BASE}-Nl.${SFX}
 cat ${RUN}.TipNl.build >> ${tip}-Nl.${SFX}
@@ -191,8 +197,8 @@ STAMP="stamp-$$"
 export STAMP
 echo "suite: ${SUITE}-l" >> ${STAMP}
 append bentstamp
-append tip
-append base
+# append tip
+# append base
 # new stuff for better benchmarking
 append numerator_branch
 append numerator_hash
@@ -207,6 +213,9 @@ SFX="${RUN}"
 
 cp ${STAMP} ${BASE}-l.${SFX}
 cp ${STAMP} ${tip}-l.${SFX}
+
+echo "role: base" >> ${BASE}-l.${SFX}
+echo "role: tip" >> ${tip}-l.${SFX}
 
 cat ${RUN}.Basel.build >> ${BASE}-l.${SFX}
 cat ${RUN}.Tipl.build >> ${tip}-l.${SFX}
