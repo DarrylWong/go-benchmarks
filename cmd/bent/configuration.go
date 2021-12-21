@@ -149,7 +149,7 @@ func (config *Configuration) runOtherBenchmarks(b *Benchmark, cwd string) {
 	}
 }
 
-func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int) string {
+func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int, fuzz bool) string {
 	root := config.rootCopy
 	gocmd := config.goCommandCopy()
 	gopath := path.Join(cwd, "gopath")
@@ -166,13 +166,16 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 		cmd.Env = replaceEnvs(cmd.Env, bench.GcEnv)
 		cmd.Env = replaceEnvs(cmd.Env, config.GcEnv)
 		cmd.Dir = gopath // Only want the cache-cleaning effect, not the binary-deleting effect. It's okay to clean gopath.
-		s, _ := config.runBinary("", cmd, true)
+		s, _, _, _ := config.runBinary("", cmd, true)
 		if s != "" {
 			fmt.Println("Error running go clean -cache, ", s)
 		}
 	}
 
 	cmd := exec.Command(gocmd, "test", "-vet=off", "-c")
+	if fuzz {
+		cmd.Args = append(cmd.Args, "-fuzz=.")
+	}
 	compileTo := path.Join(dirs.wd, dirs.testBinDir, config.benchName(bench))
 	cmd.Args = append(cmd.Args, "-o", compileTo)
 	cmd.Args = append(cmd.Args, bench.BuildFlags...)
@@ -185,7 +188,11 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 	if config.GcFlags != "" {
 		cmd.Args = append(cmd.Args, "-gcflags="+config.GcFlags)
 	}
-	cmd.Args = append(cmd.Args, bench.Repo)
+	if fuzz {
+		cmd.Args = append(cmd.Args, ".")
+	} else {
+		cmd.Args = append(cmd.Args, bench.Repo)
+	}
 	cmd.Dir = bench.BuildDir // use module-mode
 	cmd.Env = defaultEnv
 	if !bench.NotSandboxed {
@@ -285,8 +292,8 @@ func (c *Configuration) say(s string) {
 }
 
 // runBinary runs cmd and displays the output.
-// If the command returns an error, returns an error string.
-func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot bool) (string, int) {
+// If the command returns an error, returns an error string, also raw stdout, stderr, and return code
+func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot bool) (string, string, string, int) {
 	line := asCommandLine(cwd, cmd)
 	if verbose > 0 {
 		fmt.Println(line)
@@ -300,20 +307,23 @@ func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot boo
 
 	stdout, err := cmd.StdoutPipe()
 	if err != nil {
-		return fmt.Sprintf("Error [stdoutpipe] running '%s', %v", line, err), rc
+		return fmt.Sprintf("Error [stdoutpipe] running '%s', %v", line, err), "", "", rc
 	}
 	stderr, err := cmd.StderrPipe()
 	if err != nil {
-		return fmt.Sprintf("Error [stderrpipe] running '%s', %v", line, err), rc
+		return fmt.Sprintf("Error [stderrpipe] running '%s', %v", line, err), "", "", rc
 	}
 	err = cmd.Start()
 	if err != nil {
-		return fmt.Sprintf("Error [command start] running '%s', %v", line, err), rc
+		return fmt.Sprintf("Error [command start] running '%s', %v", line, err), "", "", rc
 	}
 
 	var mu = &sync.Mutex{}
 
-	f := func(r *bufio.Reader, done chan error) {
+	var sbytes []byte
+	var ebytes []byte
+
+	f := func(r *bufio.Reader, allbytes *[]byte, done chan error) {
 		for {
 			bytes, err := r.ReadBytes('\n')
 			n := len(bytes)
@@ -325,6 +335,7 @@ func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot boo
 				}
 				c.benchWriter.Sync()
 				fmt.Print(string(bytes[0:n]))
+				*allbytes = append(*allbytes, bytes[0:n]...)
 				mu.Unlock()
 			}
 			if err == io.EOF || n == 0 {
@@ -341,8 +352,8 @@ func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot boo
 	doneS := make(chan error)
 	doneE := make(chan error)
 
-	go f(bufio.NewReader(stdout), doneS)
-	go f(bufio.NewReader(stderr), doneE)
+	go f(bufio.NewReader(stdout), &sbytes, doneS)
+	go f(bufio.NewReader(stderr), &ebytes, doneE)
 
 	errS := <-doneS
 	errE := <-doneE
@@ -353,17 +364,17 @@ func (c *Configuration) runBinary(cwd string, cmd *exec.Cmd, printWorkingDot boo
 	if err != nil {
 		switch e := err.(type) {
 		case *exec.ExitError:
-			return fmt.Sprintf("Error running '%s', stderr = %s, rc = %d", line, e.Stderr, rc), rc
+			return fmt.Sprintf("Error running '%s', stderr = %s, rc = %d", line, e.Stderr, rc), string(sbytes), string(ebytes), rc
 		default:
-			return fmt.Sprintf("Error running '%s', %v, rc = %d", line, e, rc), rc
+			return fmt.Sprintf("Error running '%s', %v, rc = %d", line, e, rc), string(sbytes), string(ebytes), rc
 
 		}
 	}
 	if errS != nil {
-		return fmt.Sprintf("Error [read stdout] running '%s', %v, rc = %d", line, errS, rc), rc
+		return fmt.Sprintf("Error [read stdout] running '%s', %v, rc = %d", line, errS, rc), string(sbytes), string(ebytes), rc
 	}
 	if errE != nil {
-		return fmt.Sprintf("Error [read stderr] running '%s', %v, rc = %d", line, errE, rc), rc
+		return fmt.Sprintf("Error [read stderr] running '%s', %v, rc = %d", line, errE, rc), string(sbytes), string(ebytes), rc
 	}
-	return "", rc
+	return "", "", "", rc
 }
