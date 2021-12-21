@@ -77,11 +77,13 @@ var verbose counterFlag
 var benchFile = "benchmarks-50.toml" // default list of benchmarks
 var confFile = "configurations.toml" // default list of configurations
 var suiteFile = "suites.toml"        // default list of suites
+const selectNone = "^$"              // when no test/benchmark/etc is selected.
 var container = ""
 var N = 1
 var list = false
 var initialize = false
 var test = false
+var fuzz = false
 var force = false
 var requireSandbox = false
 var getOnly = false
@@ -153,6 +155,7 @@ func main() {
 	flag.BoolVar(&force, "f", force, "force run past some of the consistency checks (gopath/{pkg,bin} in particular)")
 	flag.BoolVar(&initialize, "I", initialize, "initialize a directory for running tests ((re)creates Dockerfile, (re)copies in benchmark and configuration files)")
 	flag.BoolVar(&test, "T", test, "run tests instead of benchmarks")
+	flag.BoolVar(&fuzz, "F", fuzz, "run fzgen and then fuzz")
 
 	flag.BoolVar(&wikiTable, "W", wikiTable, "print benchmark info for a wiki table")
 
@@ -209,6 +212,12 @@ results will also appear in 'bench'.
 			fmt.Println("Sandboxing benchmarks requires the docker command")
 			os.Exit(1)
 		}
+	}
+
+	if requireSandbox && fuzz {
+		// TODO fix this.
+		fmt.Println("Sandboxing and fuzzing don't work together yet")
+		os.Exit(1)
 	}
 
 	// Make sure our filesystem is in good shape.
@@ -390,18 +399,23 @@ results will also appear in 'bench'.
 		if "" == bench.Version {
 			todo.Benchmarks[i].Version = "@latest"
 		}
-		if "" == bench.Tests || !test {
-			if !test {
-				todo.Benchmarks[i].Tests = "none"
-			} else {
-				todo.Benchmarks[i].Tests = "Test"
+		if fuzz {
+			todo.Benchmarks[i].Tests = selectNone
+			todo.Benchmarks[i].Benchmarks = selectNone
+		} else {
+			if "" == bench.Tests || !test {
+				if !test {
+					todo.Benchmarks[i].Tests = selectNone
+				} else {
+					todo.Benchmarks[i].Tests = "Test"
+				}
 			}
-		}
-		if "" == bench.Benchmarks || test {
-			if !test {
-				todo.Benchmarks[i].Benchmarks = "Benchmark"
-			} else {
-				todo.Benchmarks[i].Benchmarks = "none"
+			if "" == bench.Benchmarks || test {
+				if !test {
+					todo.Benchmarks[i].Benchmarks = "Benchmark"
+				} else {
+					todo.Benchmarks[i].Benchmarks = selectNone
+				}
 			}
 		}
 		if !requireSandbox {
@@ -514,6 +528,9 @@ results will also appear in 'bench'.
 	if buildCount == 0 {
 		buildCount = 1
 	}
+	if buildCount == 1 {
+		shuffle = 0
+	}
 
 	for i := range todo.Benchmarks {
 		bench := &todo.Benchmarks[i]
@@ -525,6 +542,9 @@ results will also appear in 'bench'.
 		// Use a separate build directory and go.mod for each benchmark, otherwise there can be conflicts.
 		// Initialize before building because this information tells where to run the test, also.
 		bench.BuildDir = path.Join(dirs.build, bench.Name)
+		if fuzz {
+			bench.BuildDir += "_fuzz"
+		}
 	}
 
 	if runContainer == "" { // If not reusing binaries/container...
@@ -564,26 +584,43 @@ results will also appear in 'bench'.
 				}
 			}
 
-			cmd := exec.Command("go", "get", "-d", "-t", "-v", bench.Repo+bench.Version)
-			cmd.Env = replaceEnvs(defaultEnv, bench.GcEnv)
-			cmd.Dir = bench.BuildDir
+			var cmd *exec.Cmd
 
-			if !bench.NotSandboxed { // Do this so that OS-dependent dependencies are done correctly.
-				cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
+			runcmd := func() bool {
+				cmd.Env = replaceEnvs(defaultEnv, bench.GcEnv)
+				cmd.Dir = bench.BuildDir
+
+				if !bench.NotSandboxed { // Do this so that OS-dependent dependencies are done correctly.
+					cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
+				}
+				if verbose > 0 {
+					fmt.Println(asCommandLine(dirs.wd, cmd))
+				} else {
+					fmt.Print(".")
+				}
+				_, err := cmd.Output()
+				if err != nil {
+					ee := err.(*exec.ExitError)
+					s := fmt.Sprintf("There was an error running '%s', stderr = %s", asCommandLine(dirs.wd, cmd), ee.Stderr)
+					fmt.Println(s + "DISABLING benchmark " + bench.Name)
+					getAndBuildFailures = append(getAndBuildFailures, s+"("+bench.Name+")\n")
+					todo.Benchmarks[i].Disabled = true
+					return true
+				}
+				return false
 			}
-			if verbose > 0 {
-				fmt.Println(asCommandLine(dirs.wd, cmd))
+
+			if fuzz { // 1.18 only
+				cmd = exec.Command("go", "get", "-v", "github.com/thepudds/fzgen/fuzzer") // Works better if this happens first?
+				runcmd()
+				cmd = exec.Command("go", "get", "-d", "-t", "-v", bench.Repo+bench.Version)
+				runcmd()
+				// TODO add per-benchmark fuzz generation options
+				cmd = exec.Command("fzgen", bench.Repo)
+				runcmd()
 			} else {
-				fmt.Print(".")
-			}
-			_, err := cmd.Output()
-			if err != nil {
-				ee := err.(*exec.ExitError)
-				s := fmt.Sprintf("There was an error running 'go get', stderr = %s", ee.Stderr)
-				fmt.Println(s + "DISABLING benchmark " + bench.Name)
-				getAndBuildFailures = append(getAndBuildFailures, s+"("+bench.Name+")\n")
-				todo.Benchmarks[i].Disabled = true
-				continue
+				cmd = exec.Command("go", "get", "-d", "-t", "-v", bench.Repo+bench.Version)
+				runcmd()
 			}
 
 			needSandbox = !bench.NotSandboxed || needSandbox
@@ -628,19 +665,12 @@ results will also appear in 'bench'.
 
 			docopy := func(from, to string) {
 				mkdir := exec.Command("mkdir", "-p", to)
-				s, _ := config.runBinary("", mkdir, false)
+				s, _, _, _ := config.runBinary("", mkdir, false)
 				if s != "" {
 					fmt.Println("Error creating directory, ", to)
 					config.Disabled = true
 				}
-
-				var cp *exec.Cmd
-				if haveRsync {
-					cp = exec.Command("rsync", "-a", from+"/", to)
-				} else {
-					cp = exec.Command("cp", "-a", from+"/.", to)
-				}
-				s, _ = config.runBinary("", cp, false)
+				s, _, _, _ = config.runBinary("", copyCommand(from, to), false)
 				if s != "" {
 					fmt.Println("Error copying directory tree, ", from, to)
 					// Not disabling because gollvm uses a different directory structure
@@ -672,7 +702,7 @@ results will also appear in 'bench'.
 				}
 				cmd.Env = replaceEnvs(cmd.Env, config.GcEnv)
 
-				s, _ := config.runBinary("", cmd, true)
+				s, _, _, _ := config.runBinary("", cmd, true)
 				if s != "" {
 					fmt.Println("Error running go install std, ", s)
 					config.Disabled = true
@@ -709,7 +739,7 @@ results will also appear in 'bench'.
 						if config.Disabled {
 							continue
 						}
-						s := todo.Configurations[ci].compileOne(&todo.Benchmarks[bi], dirs.wd, yyy)
+						s := todo.Configurations[ci].compileOne(&todo.Benchmarks[bi], dirs.wd, yyy, fuzz)
 						if s != "" {
 							getAndBuildFailures = append(getAndBuildFailures, s)
 						}
@@ -735,7 +765,7 @@ results will also appear in 'bench'.
 						if config.Disabled {
 							continue
 						}
-						s := config.compileOne(&todo.Benchmarks[bi], dirs.wd, yyy)
+						s := config.compileOne(&todo.Benchmarks[bi], dirs.wd, yyy, fuzz)
 						if s != "" {
 							getAndBuildFailures = append(getAndBuildFailures, s)
 						}
@@ -760,7 +790,7 @@ results will also appear in 'bench'.
 					if bench.Disabled || config.Disabled {
 						continue
 					}
-					s := config.compileOne(bench, dirs.wd, yyy)
+					s := config.compileOne(bench, dirs.wd, yyy, fuzz)
 					if s != "" {
 						getAndBuildFailures = append(getAndBuildFailures, s)
 					}
@@ -786,7 +816,7 @@ results will also appear in 'bench'.
 				if bench.Disabled || config.Disabled {
 					continue
 				}
-				s := config.compileOne(bench, dirs.wd, p.k)
+				s := config.compileOne(bench, dirs.wd, p.k, fuzz)
 				if s != "" {
 					getAndBuildFailures = append(getAndBuildFailures, s)
 				}
@@ -929,7 +959,7 @@ results will also appear in 'bench'.
 	// N repetitions for each configurationm, run all the benchmarks.
 	// TODO randomize the benchmarks and configurations, like for builds.
 	for i := 0; i < N; i++ {
-		// For each configuration, run all the benchmarks.
+		// For each configuration, run all the benchmarks / tests / fuzz runs
 		for j, config := range todo.Configurations {
 			if config.Disabled {
 				continue
@@ -979,29 +1009,72 @@ results will also appear in 'bench'.
 				if b.NotSandboxed {
 					bin := path.Join(dirs.wd, dirs.testBinDir, testBinaryName)
 					wrappersAndBin = append(wrappersAndBin, bin)
-
-					cmd := exec.Command(wrappersAndBin[0], wrappersAndBin[1:]...)
-					cmd.Args = append(cmd.Args, "-test.run="+b.Tests)
-					cmd.Args = append(cmd.Args, "-test.bench="+b.Benchmarks)
-
-					cmd.Dir = b.RunDir
-					cmd.Env = defaultEnv
-					if root != "" {
-						cmd.Env = replaceEnv(cmd.Env, "GOROOT", root)
-					}
-					cmd.Env = replaceEnvs(cmd.Env, config.RunEnv)
-					cmd.Env = append(cmd.Env, "BENT_DIR="+dirs.wd)
-					cmd.Env = append(cmd.Env, "BENT_PROFILES="+path.Join(dirs.wd, config.thingBenchName("profiles")))
-					cmd.Env = append(cmd.Env, "BENT_BINARY="+testBinaryName)
-					cmd.Env = append(cmd.Env, "BENT_I="+strconv.FormatInt(int64(i), 10))
-					cmd.Args = append(cmd.Args, config.RunFlags...)
-					cmd.Args = append(cmd.Args, moreArgs...)
-
 					config.say("shortname: " + b.Name + "\n")
-					s, rc = todo.Configurations[j].runBinary(dirs.wd, cmd, false)
+
+					// Returns logged message, standard out, standard error, return code
+					runTestBinary := func(fuzztarget string) (s string, so string, er string, rc int, cmd *exec.Cmd) {
+						cmd = exec.Command(wrappersAndBin[0], wrappersAndBin[1:]...)
+						cmd.Args = append(cmd.Args, "-test.run="+b.Tests)
+						cmd.Args = append(cmd.Args, "-test.bench="+b.Benchmarks)
+
+						cmd.Dir = b.RunDir
+						cmd.Env = defaultEnv
+						if root != "" {
+							cmd.Env = replaceEnv(cmd.Env, "GOROOT", root)
+						}
+						cmd.Env = replaceEnvs(cmd.Env, config.RunEnv)
+						cmd.Env = append(cmd.Env, "BENT_DIR="+dirs.wd)
+						cmd.Env = append(cmd.Env, "BENT_PROFILES="+path.Join(dirs.wd, config.thingBenchName("profiles")))
+						cmd.Env = append(cmd.Env, "BENT_BINARY="+testBinaryName)
+						cmd.Env = append(cmd.Env, "BENT_I="+strconv.FormatInt(int64(i), 10))
+						if fuzz {
+							cmd.Args = append(cmd.Args, "-test.fuzzcachedir="+path.Join(b.BuildDir, "fuzzcache"))
+							cmd.Args = append(cmd.Args, "-test.fuzz="+fuzztarget)
+							cmd.Args = append(cmd.Args, "-test.fuzztime=30s") // TODO need to expose this knob
+						}
+						cmd.Args = append(cmd.Args, config.RunFlags...)
+						cmd.Args = append(cmd.Args, moreArgs...)
+
+						s, so, er, rc = todo.Configurations[j].runBinary(dirs.wd, cmd, false)
+						return
+					}
+					var er string
+					s, _, er, rc, _ = runTestBinary(".")
+					if fuzz && s != "" {
+						// expected failure
+						// testing: will not fuzz, -fuzz matches more than one fuzz test: [Fuzz_BigBytes Fuzz_BigComma Fuzz_BigCommaf Fuzz_BigIBytes Fuzz_Bytes Fuzz_Comma Fuzz_Commaf Fuzz_CommafWithDigits Fuzz_ComputeSI Fuzz_CustomRelTime Fuzz_FormatFloat Fuzz_FormatInteger Fuzz_Ftoa Fuzz_FtoaWithDigits Fuzz_IBytes Fuzz_Ordinal Fuzz_ParseBigBytes Fuzz_ParseBytes Fuzz_ParseSI Fuzz_RelTime Fuzz_SI Fuzz_SIWithDigits Fuzz_Time]
+						prefix := "testing: will not fuzz, -fuzz matches more than one fuzz test: ["
+						if strings.HasPrefix(er, prefix) {
+							x := strings.TrimSpace(er[len(prefix):])
+							l := len(x)
+							if x[l-1] == ']' {
+								x = x[:l-1] // trailing "]"
+								ss := strings.SplitN(x, " ", -1)
+								for _, fs := range ss {
+									var cmd *exec.Cmd
+									s, _, _, rc, cmd = runTestBinary(fs)
+									if s != "" {
+										fmt.Println(s)
+										failures = append(failures, s)
+										// Write rerun script into working directory
+										line := asCommandLine(cmd.Dir, cmd)
+										line += "\n"
+										os.WriteFile(path.Join(cmd.Dir, "refail_"+fs+".sh"), []byte(line), 0755)
+										s = "" // avoid double print
+									}
+									if rc > maxrc {
+										maxrc = rc
+									}
+								}
+							}
+						}
+						// Otherwise fail in the usual way
+					}
 				} else {
 					// docker run --net=none -e GOROOT=... -w /src/github.com/minio/minio/cmd $D /testbin/cmd_Config.test -test.short -test.run=Nope -test.v -test.bench=Benchmark'(Get|Put|List)'
 					// TODO(jfaller): I don't think we need either of these "/" below, investigate...
+					// TODO(drchase): Use the docker API?
+					// TODO(drchase): Figure out how to capture fuzz results; share the "build" directories.
 					bin := "/" + path.Join(dirs.testBinDir, testBinaryName)
 					wrappersAndBin = append(wrappersAndBin, bin)
 
@@ -1020,7 +1093,7 @@ results will also appear in 'bench'.
 					cmd.Args = append(cmd.Args, config.RunFlags...)
 					cmd.Args = append(cmd.Args, moreArgs...)
 					config.say("shortname: " + b.Name + "\n")
-					s, rc = todo.Configurations[j].runBinary(dirs.wd, cmd, false)
+					s, _, _, rc = todo.Configurations[j].runBinary(dirs.wd, cmd, false)
 				}
 				if s != "" {
 					fmt.Println(s)
