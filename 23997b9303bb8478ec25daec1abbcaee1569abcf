@@ -59,6 +59,30 @@
       },
       "revId": "23997b9303bb8478ec25daec1abbcaee1569abcf",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ccb0e22c_adc74175",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-07T22:24:05Z",
+      "side": 1,
+      "message": "This is specific to this tool, so I like the idea of using a tool-specific.\n\nDone.",
+      "parentUuid": "1daba173_709ad7dd",
+      "range": {
+        "startLine": 9,
+        "startChar": 36,
+        "endLine": 9,
+        "endChar": 51
+      },
+      "revId": "23997b9303bb8478ec25daec1abbcaee1569abcf",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
