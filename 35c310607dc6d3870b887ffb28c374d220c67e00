@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6ea442_7fbb6c02",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-10T16:55:01Z",
+      "side": 1,
+      "message": "was this file just not gofmt\u0027d?",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c0310ec_ca290dc0",
+        "filename": "cmd/bench/idle_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-10T16:55:01Z",
+      "side": 1,
+      "message": "you may want to consider printing the current load, and maybe doing it on each iteration of the loop below. just in case it gets stuck in a strange way.",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 74
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb656ce2_404df28a",
+        "filename": "cmd/bench/idle_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-10T16:55:01Z",
+      "side": 1,
+      "message": "nit: you can break here and put the happy path outside the loop instead of the panic(\"unreachable\")",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
