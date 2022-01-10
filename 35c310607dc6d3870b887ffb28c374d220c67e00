@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab96fabe_fae72656",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-10T17:06:00Z",
+      "side": 1,
+      "message": "Correct. Split to CL 377274.",
+      "parentUuid": "6a6ea442_7fbb6c02",
+      "range": {
+        "startLine": 29,
+        "startChar": 13,
+        "endLine": 29,
+        "endChar": 37
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c0310ec_ca290dc0",
@@ -49,6 +73,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e330a8e9_08e32b88",
+        "filename": "cmd/bench/idle_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-10T17:06:00Z",
+      "side": 1,
+      "message": "This is done in loadAvg() on L26. e.g.,\n\ngo run golang.org/x/benchmarks/cmd/bench                                            \n2022/01/10 11:47:10 Load average: 0.35 0.33 0.27 2/2397 1683142\n2022/01/10 11:47:10 Waiting for load average to drop below 0.20...\n2022/01/10 11:47:40 Load average: 0.33 0.33 0.27 1/2398 1683235                                                                              \n2022/01/10 11:47:40 Waiting for load average to drop below 0.20...                                                                           \n2022/01/10 11:48:10 Load average: 0.20 0.30 0.26 3/2399 1683274       \n2022/01/10 11:48:10 Waiting for load average to drop below 0.20...\n2022/01/10 11:48:40 Load average: 0.12 0.27 0.25 2/2399 1683277       \ntoolchain: experiment                                   \n2022/01/10 11:48:40 GOROOT under test: /usr/lib/google-golang         \n2022/01/10 11:48:40 Running Go test benchmarks for GOROOT /usr/lib/google-golang     \n...\n\nDo you think I should limit this to just logging the 1-min load average?",
+      "parentUuid": "1c0310ec_ca290dc0",
+      "range": {
+        "startLine": 46,
+        "startChar": 1,
+        "endLine": 46,
+        "endChar": 74
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "eb656ce2_404df28a",
         "filename": "cmd/bench/idle_linux.go",
         "patchSetId": 2
@@ -60,6 +108,30 @@
       "writtenOn": "2022-01-10T16:55:01Z",
       "side": 1,
       "message": "nit: you can break here and put the happy path outside the loop instead of the panic(\"unreachable\")",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 13
+      },
+      "revId": "35c310607dc6d3870b887ffb28c374d220c67e00",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9b241579_a4629b69",
+        "filename": "cmd/bench/idle_linux.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-10T17:06:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb656ce2_404df28a",
       "range": {
         "startLine": 57,
         "startChar": 3,
