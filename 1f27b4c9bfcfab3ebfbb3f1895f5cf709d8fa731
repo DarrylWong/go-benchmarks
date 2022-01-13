@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6f889c42_cefe0797",
+        "filename": "cmd/bench/sweet.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-13T17:01:59Z",
+      "side": 1,
+      "message": "Bent uses toml as well, right? Eventually we should refactor it so the types are available to do this too.",
+      "revId": "1f27b4c9bfcfab3ebfbb3f1895f5cf709d8fa731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "abd77db5_7d626e91",
+        "filename": "cmd/bench/sweet.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-13T17:01:59Z",
+      "side": 1,
+      "message": "This is unused. What is it needed for?\n\nEdit: looks like you intended to use this on L69 and L92.\n\nOptional alternative: rather than a flag, we could use `go list -f \"{{.Dir}}\" golang.org/x/benchmarks/cmd/sweet`.",
+      "range": {
+        "startLine": 37,
+        "startChar": 29,
+        "endLine": 37,
+        "endChar": 38
+      },
+      "revId": "1f27b4c9bfcfab3ebfbb3f1895f5cf709d8fa731",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
