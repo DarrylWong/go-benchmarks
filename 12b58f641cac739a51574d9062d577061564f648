@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ef9651bb_a09f0f25",
+        "filename": "sweet/cmd/sweet/integration_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-13T17:09:56Z",
+      "side": 1,
+      "message": "Maybe cmd/bench.determineGOROOT should more to sweet/common?\n\nThough in this case, perhaps use runtime.GOROOT()?",
+      "range": {
+        "startLine": 27,
+        "startChar": 1,
+        "endLine": 34,
+        "endChar": 2
+      },
+      "revId": "12b58f641cac739a51574d9062d577061564f648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d668de7b_55365fe2",
+        "filename": "sweet/cmd/sweet/integration_test.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-13T17:09:56Z",
+      "side": 1,
+      "message": "huh, IIUC \"RunAll\" depends on \"Get\", right? That seems a bit odd. If you run go test -run\u003dTestSweetEndToEnd/RunAll then it will fail.",
+      "revId": "12b58f641cac739a51574d9062d577061564f648",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
