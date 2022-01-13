@@ -107,7 +107,11 @@ func bent(tcs []*toolchain) (err error) {
 	// Finally we can actually run the benchmarks.
 	// N.B. bent prints the "toolchain" tag to indicate which toolchain is being used.
 	// It's passed to bent via the TOML configuration.
-	cmd = exec.Command(bentPath, "-C", confFile, "-B", filepath.Join(dir, "benchmarks-50.toml"))
+	cmd = exec.Command(bentPath,
+		"-N", "10",
+		"-C", confFile,
+		"-B", filepath.Join(dir, "benchmarks-50.toml"),
+	)
 	cmd.Dir = dir
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
