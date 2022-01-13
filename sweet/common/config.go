@@ -7,6 +7,7 @@ package common
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 const ConfigHelp = `
@@ -57,7 +58,18 @@ type ConfigEnv struct {
 	*Env
 }
 
-func (c *ConfigEnv) UnmarshalTOML(data interface{}) error {
+func (c *ConfigEnv) MarshalText() ([]byte, error) {
+	if c.Env == nil {
+		return []byte("[]"), nil
+	}
+	envs := c.Collapse()
+	for i, env := range envs {
+		envs[i] = "\"" + env + "\""
+	}
+	return []byte("[" + strings.Join(envs, ", ") + "]"), nil
+}
+
+func (c *ConfigEnv) UnmarshalText(data interface{}) error {
 	ldata, ok := data.([]interface{})
 	if !ok {
 		return fmt.Errorf("expected data for env to be a list")
