@@ -24,6 +24,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a51d7e4_8a9a9589",
+        "filename": "cmd/bench/bent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-13T22:14:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2069368_ac79e32a",
+      "range": {
+        "startLine": 81,
+        "startChar": 0,
+        "endLine": 84,
+        "endChar": 26
+      },
+      "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d986c381_595c901a",
@@ -37,6 +61,24 @@
       "writtenOn": "2022-01-13T15:35:45Z",
       "side": 1,
       "message": "The placement of this is getting less obvious. Perhaps we should explain in a comment (in run perhaps?) that we print a \"toolchain\" benchfmt tag prior to benchmarking each toolchain?",
+      "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "041d9ca9_fa088a3f",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-13T22:14:13Z",
+      "side": 1,
+      "message": "agreed, it\u0027s getting a bit buried. I dream of merging bent, sweet, and bench into one tool.\n\nanyway, I added comments for now as you suggested.",
+      "parentUuid": "d986c381_595c901a",
       "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
@@ -60,6 +102,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "c04bc0eb_7d3d380e",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-13T22:14:13Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "620be1ee_438588b8",
+      "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "e95250a9_c797da8c",
         "filename": "cmd/bench/main.go",
         "patchSetId": 2
@@ -71,6 +131,30 @@
       "writtenOn": "2022-01-13T15:35:45Z",
       "side": 1,
       "message": "nit: gorootExperiment since we call it experiment below?",
+      "range": {
+        "startLine": 86,
+        "startChar": 1,
+        "endLine": 86,
+        "endChar": 16
+      },
+      "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "41586fcc_226e2208",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-01-13T22:14:13Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "e95250a9_c797da8c",
       "range": {
         "startLine": 86,
         "startChar": 1,
