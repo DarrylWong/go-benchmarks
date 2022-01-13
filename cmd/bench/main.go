@@ -21,7 +21,10 @@ import (
 	"golang.org/x/benchmarks/sweet/common"
 )
 
-var wait = flag.Bool("wait", true, "wait for system idle before starting benchmarking")
+var (
+	wait      = flag.Bool("wait", true, "wait for system idle before starting benchmarking")
+	sweetRoot = flag.String("sweet", "./sweet", "location of the sweet root directory")
+)
 
 func determineGOROOT() (string, error) {
 	g, ok := os.LookupEnv("GOROOT")
@@ -67,6 +70,10 @@ func run(tcs []*toolchain) error {
 	if err := bent(tcs); err != nil {
 		pass = false
 		log.Printf("Error running bent: %v", err)
+	}
+	if err := sweet(tcs, *sweetRoot); err != nil {
+		pass = false
+		log.Printf("Error running sweet: %v", err)
 	}
 	if !pass {
 		return fmt.Errorf("benchmarks failed")
