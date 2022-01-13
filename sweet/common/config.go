@@ -7,6 +7,7 @@ package common
 import (
 	"fmt"
 	"path/filepath"
+	"strings"
 )
 
 const ConfigHelp = `
@@ -55,6 +56,17 @@ func (c *Config) GoTool() *Go {
 
 type ConfigEnv struct {
 	*Env
+}
+
+func (c *ConfigEnv) MarshalText() ([]byte, error) {
+	if c.Env == nil {
+		return []byte("[]"), nil
+	}
+	envs := c.Collapse()
+	for i, env := range envs {
+		envs[i] = "\"" + env + "\""
+	}
+	return []byte("[" + strings.Join(envs, ", ") + "]"), nil
 }
 
 func (c *ConfigEnv) UnmarshalTOML(data interface{}) error {
