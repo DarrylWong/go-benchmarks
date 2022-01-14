@@ -50,6 +50,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "94869ea2_45350fdf",
+        "filename": "cmd/bench/bent.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-01-14T17:33:06Z",
+      "side": 1,
+      "message": "Do we want verbose output here?  It is, of course, verbose, but it also allows us to see what\u0027s going on.",
+      "range": {
+        "startLine": 109,
+        "startChar": 20,
+        "endLine": 109,
+        "endChar": 93
+      },
+      "revId": "0c1948b97297bf7f98e91a538d5e1d31c4a3f3ee",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d986c381_595c901a",
         "filename": "cmd/bench/gotest.go",
         "patchSetId": 2
