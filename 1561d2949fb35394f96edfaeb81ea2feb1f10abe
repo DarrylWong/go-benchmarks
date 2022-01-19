@@ -53,6 +53,23 @@
       "message": "This should clear the spexs2 problem.\n\nI do however see weird problems with ethereum_storage, which I\u0027d hope to clear in a while, and I\u0027m surprised have not turned up elsewhere.",
       "revId": "1561d2949fb35394f96edfaeb81ea2feb1f10abe",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "378c2681_2e9ad2c0",
+        "filename": "cmd/bent/bent.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-01-19T21:05:07Z",
+      "side": 1,
+      "message": "Not for this CL, but we are 600 lines into an 800 line function at this point 😎.\n\nIMO, this would be much easier to follow if split up.\n\n(On the other hand, this perhaps makes a good register allocator stress test? :P)",
+      "revId": "1561d2949fb35394f96edfaeb81ea2feb1f10abe",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
