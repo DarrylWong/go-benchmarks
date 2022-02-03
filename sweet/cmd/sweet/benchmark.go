@@ -13,6 +13,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
+	"strings"
+	"time"
 
 	"golang.org/x/benchmarks/sweet/common"
 	"golang.org/x/benchmarks/sweet/common/fileutil"
@@ -164,6 +166,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 	// Compute top-level directories for this benchmark to work in.
 	benchDir := filepath.Join(r.benchDir, b.name)
 	topDir := filepath.Join(r.workDir, b.name)
+	assetsDir := filepath.Join(topDir, "assets")
 	srcDir := filepath.Join(topDir, "src")
 
 	// Check if assets for this benchmark exist. Not all benchmarks have assets!
@@ -203,7 +206,6 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		workDir := filepath.Join(topDir, cfg.Name)
 		binDir := filepath.Join(workDir, "bin")
 		tmpDir := filepath.Join(workDir, "tmp")
-		assetsDir := filepath.Join(workDir, "assets")
 		if err := mkdirAll(binDir); err != nil {
 			return fmt.Errorf("create %s bin for %s: %v", b.name, cfg.Name, err)
 		}
@@ -212,11 +214,6 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		}
 		if err := mkdirAll(tmpDir); err != nil {
 			return fmt.Errorf("create %s tmp for %s: %v", b.name, cfg.Name, err)
-		}
-		if hasAssets {
-			if err := mkdirAll(assetsDir); err != nil {
-				return fmt.Errorf("create %s assets dir for %s: %v", b.name, cfg.Name, err)
-			}
 		}
 
 		// Build the benchmark (application and any other necessary components).
@@ -281,17 +278,33 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		})
 	}
 
+	var assetModTimes map[string]time.Time
+	if hasAssets {
+		// Create assets directory.
+		if err := mkdirAll(assetsDir); err != nil {
+			return fmt.Errorf("create %s assets dir: %v", b.name, err)
+		}
+		// Set up assets directory for test run.
+		r.logCopyDirCommand(b.name, assetsDir)
+		if err := fileutil.CopyDir(assetsDir, assetsFSDir, r.assetsFS); err != nil {
+			return err
+		}
+		defer func() {
+			// Clean up assets directory just in case any of the files were written to.
+			if err := rmDirContents(assetsDir); err != nil {
+				log.Printf("warning: %v", err)
+			}
+		}()
+		var err error
+		assetModTimes, err = recordModTimes(assetsDir)
+		if err != nil {
+			return err
+		}
+	}
+
 	for j := 0; j < r.count; j++ {
 		// Execute the benchmark for each configuration.
 		for i, setup := range setups {
-			if hasAssets {
-				// Set up assets directory for test run.
-				r.logCopyDirCommand(b.name, setup.AssetsDir)
-				if err := fileutil.CopyDir(setup.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
-					return err
-				}
-			}
-
 			log.Printf("Running benchmark %s for %s: run %d", b.name, cfgs[i].Name, j+1)
 			// Force a GC now because we're about to turn it off.
 			runtime.GC()
@@ -310,13 +323,53 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			if err := rmDirContents(setup.TmpDir); err != nil {
 				return err
 			}
-			if hasAssets {
-				// Clean up assets directory just in case any of the files were written to.
-				if err := rmDirContents(setup.AssetsDir); err != nil {
-					return err
-				}
+
+			if err := validateModTimes(assetsDir, assetModTimes); err != nil {
+				return fmt.Errorf("running benchmark %s: %v", b.name, err)
 			}
 		}
+	}
+	return nil
+}
+
+func recordModTimes(dir string) (map[string]time.Time, error) {
+	index := make(map[string]time.Time)
+	return index, filepath.Walk(dir, func(fpath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		index[fpath] = info.ModTime()
+		return nil
+	})
+}
+
+func validateModTimes(dir string, index map[string]time.Time) error {
+	var modified []string
+	found := make(map[string]struct{})
+	err := filepath.Walk(dir, func(fpath string, info os.FileInfo, err error) error {
+		if err != nil {
+			return err
+		}
+		expect, ok := index[fpath]
+		if !ok {
+			return fmt.Errorf("unexpected new file %s", fpath)
+		}
+		if expect != info.ModTime() {
+			modified = append(modified, fpath)
+		}
+		found[fpath] = struct{}{}
+		return nil
+	})
+	if err != nil {
+		return err
+	}
+	for fpath := range index {
+		if _, ok := found[fpath]; !ok {
+			modified = append(modified, fpath)
+		}
+	}
+	if len(modified) > 0 {
+		return fmt.Errorf("files unexpectedly updated or removed: %s", strings.Join(modified, ", "))
 	}
 	return nil
 }
