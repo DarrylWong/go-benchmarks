@@ -92,6 +92,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "7bbc9b59_eb8907a3",
+        "filename": "sweet/assets.hash",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-02-03T17:41:29Z",
+      "side": 1,
+      "message": "we\u0027re not actually changing the assets here, just the archive format, so I figured it would be fine to keep it. we don\u0027t have any users right now anyway. once we actually have this running regularly I would agree.",
+      "parentUuid": "d1ddaad3_cd6b6bc9",
+      "revId": "6cb3143cede936be49009d2e62ac499cf9b40e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "f3b0aec7_2d563425",
         "filename": "sweet/common/fileutil/copy.go",
         "patchSetId": 1
@@ -103,6 +121,24 @@
       "writtenOn": "2022-02-03T16:39:25Z",
       "side": 1,
       "message": "micronit: IMO, this would be cleaner with fs as the first argument, and if callers passed os.FS() as necessary.",
+      "revId": "6cb3143cede936be49009d2e62ac499cf9b40e24",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1474baf9_a57c0cd8",
+        "filename": "sweet/common/fileutil/copy.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-02-03T17:41:29Z",
+      "side": 1,
+      "message": "I considered that but the fact that srcFS is read-only means that it can\u0027t be used for dst, and so I\u0027d have to change the order of all the arguments to make this work. :(\n\nI\u0027ll consider this for the future but I\u0027m inclined to keep this as-is for now to keep going.",
+      "parentUuid": "f3b0aec7_2d563425",
       "revId": "6cb3143cede936be49009d2e62ac499cf9b40e24",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
