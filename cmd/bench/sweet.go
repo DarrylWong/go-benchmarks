@@ -82,10 +82,11 @@ func sweet(tcs []*toolchain) (err error) {
 		sweetBin, "get",
 		"-cache", assetsCacheDir,
 		"-auth", "none",
-		"-assets-hash-file", fmt.Sprintf("%s/assets.hash", sweetRoot),
+		"-assets-hash-file", filepath.Join(sweetRoot, "assets.hash"),
 	)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	log.Printf(sweetRoot, cmd.String())
 	if err := cmd.Run(); err != nil {
 		return fmt.Errorf("error running sweet get: %w", err)
 	}
@@ -104,17 +105,19 @@ func sweet(tcs []*toolchain) (err error) {
 		sweetBin, "run",
 		"-run", "all",
 		"-count", "10",
-		"-bench-dir", fmt.Sprintf("%s/benchmarks", sweetRoot),
+		"-bench-dir", filepath.Join(sweetRoot, "benchmarks"),
 		"-cache", assetsCacheDir,
 		"-work-dir", workDir,
 		"-results", resultsDir,
+		"-shell",
 		confFile,
 	)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
 	if err := cmd.Run(); err != nil {
-		return fmt.Errorf("error running sweet run: %w", err)
+		log.Fatalf("error running sweet run: %v", err)
 	}
+	log.Fatalf("Printing results...")
 
 	// Dump results to stdout.
 	for _, tc := range tcs {

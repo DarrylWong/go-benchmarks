@@ -187,7 +187,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 
 	// Retrieve the benchmark's source.
 	if err := b.harness.Get(srcDir); err != nil {
-		return fmt.Errorf("retrieving source for %s: %v", b.name, err)
+		return fmt.Errorf("retrieving source for %s: %w", b.name, err)
 	}
 
 	// Create the results directory for the benchmark.
@@ -227,7 +227,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			Short:    r.short,
 		}
 		if err := b.harness.Build(cfg, &bcfg); err != nil {
-			return fmt.Errorf("build %s for %s: %v", b.name, cfg.Name, err)
+			return fmt.Errorf("build %s for %s: %w", b.name, cfg.Name, err)
 		}
 
 		// Generate any args to funnel through to benchmarks.
@@ -302,7 +302,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			if err := b.harness.Run(cfgs[i], &setup); err != nil {
 				debug.SetGCPercent(gogc)
 				setup.Results.Close()
-				return fmt.Errorf("run benchmark %s for config %s: %v", b.name, cfgs[i].Name, err)
+				return fmt.Errorf("run benchmark %s for config %s: %w", b.name, cfgs[i].Name, err)
 			}
 			debug.SetGCPercent(gogc)
 
