@@ -6,12 +6,14 @@ package main
 
 import (
 	"archive/zip"
+	"errors"
 	"flag"
 	"fmt"
 	"io"
 	"io/fs"
 	"io/ioutil"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"sort"
 	"strings"
@@ -313,7 +315,11 @@ func (c *runCmd) Run(args []string) error {
 				return err
 			}
 			errEncountered = true
-			log.Printf("error: %v\n", err)
+			var details string
+			if e := new(exec.ExitError); errors.As(err, e) {
+				details = string(e.Stderr)
+			}
+			log.Printf("error: %v\n%s", err, details)
 		}
 	}
 	if errEncountered {
