@@ -28,7 +28,9 @@ func (h *localBenchHarness) Get(_ string) error {
 }
 
 func (h *localBenchHarness) Build(cfg *common.Config, bcfg *common.BuildConfig) error {
-	return cfg.GoTool().BuildPath(bcfg.BenchDir, filepath.Join(bcfg.BinDir, h.binName))
+	g := cfg.GoTool()
+	g.PassOutput = true
+	return g.BuildPath(bcfg.BenchDir, filepath.Join(bcfg.BinDir, h.binName))
 }
 
 func (h *localBenchHarness) Run(cfg *common.Config, rcfg *common.RunConfig) error {
