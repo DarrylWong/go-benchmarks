@@ -82,7 +82,7 @@ func sweet(tcs []*toolchain) (err error) {
 		sweetBin, "get",
 		"-cache", assetsCacheDir,
 		"-auth", "none",
-		"-assets-hash-file", fmt.Sprintf("%s/assets.hash", sweetRoot),
+		"-assets-hash-file", filepath.Join(sweetRoot, "assets.hash"),
 	)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
@@ -104,10 +104,11 @@ func sweet(tcs []*toolchain) (err error) {
 		sweetBin, "run",
 		"-run", "all",
 		"-count", "10",
-		"-bench-dir", fmt.Sprintf("%s/benchmarks", sweetRoot),
+		"-bench-dir", filepath.Join(sweetRoot, "benchmarks"),
 		"-cache", assetsCacheDir,
 		"-work-dir", workDir,
 		"-results", resultsDir,
+		"-shell",
 		confFile,
 	)
 	cmd.Stdout = os.Stdout
