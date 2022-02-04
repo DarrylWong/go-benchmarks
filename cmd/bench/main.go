@@ -60,14 +60,16 @@ func run(tcs []*toolchain) error {
 	// benchmarks under each toolchain itself, it is also responsible
 	// for ensuring that the benchmark tag "toolchain" is printed.
 	pass := true
-	if err := goTest(tcs); err != nil {
-		pass = false
-		log.Printf("Error running Go tests: %v", err)
-	}
-	if err := bent(tcs); err != nil {
-		pass = false
-		log.Printf("Error running bent: %v", err)
-	}
+	/*
+		if err := goTest(tcs); err != nil {
+			pass = false
+			log.Printf("Error running Go tests: %v", err)
+		}
+		if err := bent(tcs); err != nil {
+			pass = false
+			log.Printf("Error running bent: %v", err)
+		}
+	*/
 	if err := sweet(tcs); err != nil {
 		pass = false
 		log.Printf("Error running sweet: %v", err)
