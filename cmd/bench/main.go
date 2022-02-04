@@ -64,10 +64,12 @@ func run(tcs []*toolchain) error {
 		pass = false
 		log.Printf("Error running Go tests: %v", err)
 	}
-	if err := bent(tcs); err != nil {
-		pass = false
-		log.Printf("Error running bent: %v", err)
-	}
+	/*
+		if err := bent(tcs); err != nil {
+			pass = false
+			log.Printf("Error running bent: %v", err)
+		}
+	*/
 	if err := sweet(tcs); err != nil {
 		pass = false
 		log.Printf("Error running sweet: %v", err)
