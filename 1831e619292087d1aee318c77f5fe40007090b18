@@ -16,6 +16,24 @@
       "message": "You said this makes some benchmarks fail?",
       "revId": "1831e619292087d1aee318c77f5fe40007090b18",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "70c917a6_c334c83f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-02-05T05:51:54Z",
+      "side": 1,
+      "message": "yeah unfortunately. maybe I should just treat this as an optimization and do the copy on just those files that changed instead of completely failing.",
+      "parentUuid": "ff2363da_c34ca3df",
+      "revId": "1831e619292087d1aee318c77f5fe40007090b18",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
