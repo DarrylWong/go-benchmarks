@@ -64,7 +64,7 @@ func TestSweetEndToEnd(t *testing.T) {
 		assetsCacheDir = filepath.Join("/", "tmp", "go-sweet-assets")
 		defer func() {
 			if err := os.RemoveAll(assetsCacheDir); err != nil {
-				t.Errorf("clearing assets cache directory: %v", err)
+				t.Errorf("clearing assets cache directory: %w", err)
 			}
 		}()
 	} else {
@@ -76,7 +76,7 @@ func TestSweetEndToEnd(t *testing.T) {
 	}
 	defer func() {
 		if err := os.RemoveAll(tmpDir); err != nil {
-			t.Errorf("clearing tmp directory: %v", err)
+			t.Errorf("clearing tmp directory: %w", err)
 		}
 	}()
 
@@ -122,7 +122,7 @@ func TestSweetEndToEnd(t *testing.T) {
 		// Poke at the results directory.
 		matches, err := filepath.Glob(filepath.Join(resultsDir, "*", "go.results"))
 		if err != nil {
-			t.Errorf("failed to search results directory for results: %v", err)
+			t.Errorf("failed to search results directory for results: %w", err)
 		}
 		if len(matches) == 0 {
 			t.Log("no results produced.")
