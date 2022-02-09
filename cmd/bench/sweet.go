@@ -105,7 +105,8 @@ func sweet(tcs []*toolchain) (err error) {
 	cmd = exec.Command(
 		sweetBin, "run",
 		"-run", "all",
-		"-count", "10",
+		"-count", "1",
+		"-shell",
 		"-bench-dir", filepath.Join(sweetRoot, "benchmarks"),
 		"-cache", assetsCacheDir,
 		"-work-dir", workDir,
