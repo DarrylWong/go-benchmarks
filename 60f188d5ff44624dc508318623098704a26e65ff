@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb6976c_dc9473fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 6365
+      },
+      "writtenOn": "2022-03-09T17:36:48Z",
+      "side": 1,
+      "message": "Unfortunately, it looks like the gvisor benchmark is still broken (https://build.golang.org/log/65cac28815309e7fe290362018f8929ca2204c58):\n```\n    integration_test.go:150: command output:\n        [sweet] Work directory: /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5\n        [sweet] Benchmarks: gvisor\n        [sweet] Setting up benchmark: gvisor\n        [shell] git clone -b go https://github.com/google/gvisor /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/src\n        [shell] git -C /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/src checkout adc7bb5e1baf4a7489e428e1fad756e5e2aa3410\n        [shell] mkdir -p /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/results-5/gvisor\n        [shell] mkdir -p /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin\n        [shell] mkdir -p /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/src\n        [shell] mkdir -p /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/tmp\n        [shell] mkdir -p /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/assets\n        [shell] cd /workdir/gopath/src/golang.org/x/benchmarks/sweet/benchmarks/gvisor\n        [shell] /workdir/go/bin/go build -o /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin/gvisor-bench\n        [shell] cd /workdir/gopath/src/golang.org/x/benchmarks/sweet/cmd/sweet\n        [shell] cd /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/src/runsc\n        [shell] CGO_ENABLED\u003d0 /workdir/go/bin/go build -o /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin/runsc\n        [shell] cd /workdir/gopath/src/golang.org/x/benchmarks/sweet/cmd/sweet\n        [shell] chmod 755 /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin/runsc\n        [shell] unzip /tmp/go-sweet-assets/assets-v0.3.0.zip \u0027gvisor/*\u0027 -d /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/assets\n        [sweet] Running benchmark gvisor for go: run 1\n        [shell] /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin/gvisor-bench -runsc /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/bin/runsc -assets-dir /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/assets -tmp /workdir/gopath/src/golang.org/x/benchmarks/sweet/tmp/tmp-5/gvisor/go/tmp -short\n        [sweet] error: run benchmark gvisor for config go: exit status 1\n        [sweet] error: failed to execute benchmarks, see log for details\n    integration_test.go:151: exit status 1\n```",
+      "revId": "60f188d5ff44624dc508318623098704a26e65ff",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
