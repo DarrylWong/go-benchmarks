@@ -1096,9 +1096,9 @@ func asCommandLine(cwd string, cmd *exec.Cmd) string {
 //
 //   - Makes sure we're not going to accidentally overwrite previous results
 //   - if shouldInit is true, we:
-//     - Create a Dockerfile.
-//     - Create all the configuration files.
-//     - Exit
+//   - Create a Dockerfile.
+//   - Create all the configuration files.
+//   - Exit
 func checkAndSetUpFileSystem(shouldInit bool) error {
 	// To avoid bad surprises, look for pkg and bin, if they exist, refuse to run
 	_, derr := os.Stat("Dockerfile")
