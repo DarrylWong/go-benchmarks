@@ -26,7 +26,8 @@ var (
 	wait             = flag.Bool("wait", true, "wait for system idle before starting benchmarking")
 	gorootExperiment = flag.String("goroot", "", "GOROOT to test (default $GOROOT or 'go env GOROOT')")
 	gorootBaseline   = flag.String("goroot-baseline", "", "baseline GOROOT to test against (optional) (default $BENCH_BASELINE_GOROOT)")
-	goBranch         = flag.String("go-branch", "", "git branch of the commits we're testing against (default $BENCH_BRANCH or unknown)")
+	branch           = flag.String("branch", "", "branch of the commits we're testing against (default $BENCH_BRANCH or unknown)")
+	repo             = flag.String("repo", "", "repository name of the commits we're testing against (default $BENCH_REPO or 'go')")
 )
 
 func determineGOROOT() (string, error) {
@@ -117,15 +118,28 @@ func main() {
 		toolchains = append(toolchains, toolchainFromGOROOT("baseline", gorootBaseline))
 	}
 
-	// Try to identify the Go branch. If we can't, just make sure we say so explicitly.
-	goBranch := *goBranch
-	if goBranch == "" {
-		goBranch = os.Getenv("BENCH_BRANCH")
+	// Determine the repo we are testing. Defaults to 'go' because old
+	// versions of the coordinator don't specify the repo, but also only
+	// test go.
+	repo := *repo
+	if repo == "" {
+		repo = os.Getenv("BENCH_REPO")
 	}
-	if goBranch == "" {
-		goBranch = "unknown"
+	if repo == "" {
+		repo = "go"
 	}
-	fmt.Printf("branch: %s\n", goBranch)
+	fmt.Printf("repo: %s\n", branch)
+
+	// Try to identify the branch. If we can't, just make sure we say so
+	// explicitly.
+	branch := *branch
+	if branch == "" {
+		branch = os.Getenv("BENCH_BRANCH")
+	}
+	if branch == "" {
+		branch = "unknown"
+	}
+	fmt.Printf("branch: %s\n", branch)
 
 	// Run benchmarks against the toolchains.
 	if err := run(toolchains); err != nil {
