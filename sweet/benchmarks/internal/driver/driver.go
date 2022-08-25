@@ -12,6 +12,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"runtime/metrics"
 	"runtime/pprof"
 	"sort"
 	"strconv"
@@ -20,6 +21,7 @@ import (
 	"time"
 
 	"github.com/google/pprof/profile"
+	"github.com/prattmic/histogram"
 )
 
 var (
@@ -28,6 +30,7 @@ var (
 	memProfileDir string
 	perfDir       string
 	perfFlags     string
+	metricsDir    string
 	short         bool
 )
 
@@ -37,6 +40,7 @@ func SetFlags(f *flag.FlagSet) {
 	f.StringVar(&memProfileDir, "memprofile", "", "write a memory profile to the given directory after every benchmark run")
 	f.StringVar(&perfDir, "perf", "", "write a Linux perf data file to the given directory after every benchmark run")
 	f.StringVar(&perfFlags, "perf-flags", "", "pass the following additional flags to Linux perf")
+	f.StringVar(&metricsDir, "metrics", "", "write a runtime/metrics dump to the given directory after every benchmark run")
 }
 
 const (
@@ -104,6 +108,12 @@ func DoPerf(v bool) RunOption {
 	}
 }
 
+func DoMetrics(v bool) RunOption {
+	return func(b *B) {
+		b.doProfile[ProfileMetrics] = v
+	}
+}
+
 func BenchmarkPID(pid int) RunOption {
 	return func(b *B) {
 		b.pid = pid
@@ -111,6 +121,7 @@ func BenchmarkPID(pid int) RunOption {
 			b.doProfile[ProfileCPU] = false
 			b.doProfile[ProfileMem] = false
 			b.doProfile[ProfilePerf] = false
+			b.doProfile[ProfileMetrics] = false
 		}
 	}
 }
@@ -136,6 +147,7 @@ var InProcessMeasurementOptions = []RunOption{
 	DoCPUProfile(true),
 	DoMemProfile(true),
 	DoPerf(true),
+	DoMetrics(true),
 }
 
 type B struct {
@@ -508,8 +520,13 @@ func RunBenchmark(name string, f func(*B) error, opts ...RunOption) error {
 
 	// Finalize all the profile files we're handling ourselves.
 	for typ, f := range b.profiles {
-		if typ == ProfileMem {
+		switch typ {
+		case ProfileMem:
 			if err := pprof.Lookup("heap").WriteTo(f, 0); err != nil {
+				return err
+			}
+		case ProfileMetrics:
+			if err := writeMetrics(f); err != nil {
 				return err
 			}
 		}
@@ -524,15 +541,17 @@ func RunBenchmark(name string, f func(*B) error, opts ...RunOption) error {
 type ProfileType string
 
 const (
-	ProfileCPU  ProfileType = "cpu"
-	ProfileMem  ProfileType = "mem"
-	ProfilePerf ProfileType = "perf"
+	ProfileCPU     ProfileType = "cpu"
+	ProfileMem     ProfileType = "mem"
+	ProfilePerf    ProfileType = "perf"
+	ProfileMetrics ProfileType = "metrics"
 )
 
 var ProfileTypes = []ProfileType{
 	ProfileCPU,
 	ProfileMem,
 	ProfilePerf,
+	ProfileMetrics,
 }
 
 func ProfilingEnabled(typ ProfileType) bool {
@@ -543,6 +562,8 @@ func ProfilingEnabled(typ ProfileType) bool {
 		return memProfileDir != ""
 	case ProfilePerf:
 		return perfDir != ""
+	case ProfileMetrics:
+		return metricsDir != ""
 	}
 	panic("bad profile type")
 }
@@ -598,6 +619,49 @@ func newProfileFile(typ ProfileType, pattern string) (*os.File, error) {
 	case ProfilePerf:
 		outDir = perfDir
 		patternSuffix = ".perf"
+	case ProfileMetrics:
+		outDir = metricsDir
+		patternSuffix = ".metrics"
 	}
 	return os.CreateTemp(outDir, pattern+patternSuffix)
+}
+
+// writeMetrics dumps all runtime/metrics to f.
+func writeMetrics(f *os.File) error {
+	descs := metrics.All()
+
+	samples := make([]metrics.Sample, len(descs))
+	for i := range samples {
+		samples[i].Name = descs[i].Name
+	}
+
+	metrics.Read(samples)
+
+	for _, sample := range samples {
+		// Pull out the name and value.
+		name, value := sample.Name, sample.Value
+
+		// Handle each sample.
+		switch value.Kind() {
+		case metrics.KindUint64:
+			if _, err := fmt.Fprintf(f, "%s: %d\n\n", name, value.Uint64()); err != nil {
+				return err
+			}
+		case metrics.KindFloat64:
+			if _, err := fmt.Fprintf(f, "%s: %f\n\n", name, value.Float64()); err != nil {
+				return err
+			}
+		case metrics.KindFloat64Histogram:
+			h := value.Float64Histogram()
+			if _, err := fmt.Fprintf(f, "%s: %d samples\n%s\n\n", name, histogram.Samples(h), histogram.Visualize(h, false)); err != nil {
+				return err
+			}
+		case metrics.KindBad:
+			panic("bug in runtime/metrics package!")
+		default:
+			fmt.Fprintf(f, "%s: unexpected metric Kind: %v\n\n", name, value.Kind())
+		}
+	}
+
+	return nil
 }

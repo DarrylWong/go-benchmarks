@@ -251,7 +251,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			mkdirAll(resultsBinDir)
 			copyDirContents(resultsBinDir, binDir)
 		}
-		if r.cpuProfile || r.memProfile || r.perf {
+		if r.cpuProfile || r.memProfile || r.perf || r.metrics {
 			// Create a directory for any profile files to live in.
 			resultsProfilesDir := filepath.Join(resultsDir, fmt.Sprintf("%s.debug", cfg.Name))
 			mkdirAll(resultsProfilesDir)
@@ -269,6 +269,9 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 				if r.perfFlags != "" {
 					args = append(args, "-perf-flags", r.perfFlags)
 				}
+			}
+			if r.metrics {
+				args = append(args, "-metrics", resultsProfilesDir)
 			}
 		}
 
