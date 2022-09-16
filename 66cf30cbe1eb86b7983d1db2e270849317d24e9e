@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35c857ab_00cebf9e",
+        "filename": "json/json.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 5206
+      },
+      "writtenOn": "2022-09-16T19:51:56Z",
+      "side": 1,
+      "message": "Keep the golang.org import in a separate group separated by a blank line, as before.",
+      "revId": "66cf30cbe1eb86b7983d1db2e270849317d24e9e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
