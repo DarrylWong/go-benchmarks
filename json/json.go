@@ -11,10 +11,8 @@ import (
 	"compress/bzip2"
 	"encoding/base64"
 	"encoding/json"
-	"io"
-	"io/ioutil"
-
 	"golang.org/x/benchmarks/driver"
+	"io"
 )
 
 func main() {
@@ -47,7 +45,7 @@ func makeBytes() []byte {
 	r = bytes.NewReader(bytes.Replace(jsonbz2_base64, []byte{'\n'}, nil, -1))
 	r = base64.NewDecoder(base64.StdEncoding, r)
 	r = bzip2.NewReader(r)
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	if err != nil {
 		panic(err)
 	}
