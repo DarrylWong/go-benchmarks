@@ -122,7 +122,7 @@ func (config *Configuration) runOtherBenchmarks(b *Benchmark, cwd string) {
 		testBinaryName := config.benchName(b)
 		c := exec.Command(cmd, path.Join(cwd, dirs.testBinDir, testBinaryName), b.Name)
 
-		c.Env = defaultEnv
+		c.Env = DefaultEnv()
 		if !b.NotSandboxed {
 			c.Env = replaceEnv(c.Env, "GOOS", "linux")
 		}
@@ -156,7 +156,7 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 
 	if explicitAll != 1 { // clear cache unless "-a[=1]" which requests -a on compilation.
 		cmd := exec.Command(gocmd, "clean", "-cache")
-		cmd.Env = defaultEnv
+		cmd.Env = DefaultEnv()
 		if !bench.NotSandboxed {
 			cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
 		}
@@ -187,7 +187,7 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 	}
 	cmd.Args = append(cmd.Args, bench.Repo)
 	cmd.Dir = bench.BuildDir // use module-mode
-	cmd.Env = defaultEnv
+	cmd.Env = DefaultEnv()
 	if !bench.NotSandboxed {
 		cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
 	}
