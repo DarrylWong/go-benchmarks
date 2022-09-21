@@ -99,19 +99,25 @@ export STAMP
 append () {
     c=`eval echo $\`echo $1\``
 	echo "$1: $c" >> ${STAMP}
+	if [ x$2 != x ] ; then
+		echo "$2: $c" >> ${STAMP}
+	fi
+}
+
+append_tags () {
+	append bentstamp
+	append numerator_branch
+	append numerator_hash experiment-commit
+	append numerator_stamp
+	append denominator_branch
+	append denominator_hash baseline-commit
+	append builder_id
+	append builder_type
+	append runstamp
 }
 
 echo "suite: ${SUITE}" >> ${STAMP}
-append bentstamp
-# new stuff for better benchmarking
-append numerator_branch
-append numerator_hash
-append numerator_stamp
-append denominator_branch
-append denominator_hash
-append builder_id
-append builder_type
-append runstamp
+append_tags()
 
 SFX="${RUN}"
 
@@ -148,17 +154,7 @@ STAMP="stamp-$$"
 export STAMP
 
 echo "suite: ${SUITE}-Nl" >> ${STAMP}
-
-append bentstamp
-# new stuff for better benchmarking
-append numerator_branch
-append numerator_hash
-append numerator_stamp
-append denominator_branch
-append denominator_hash
-append builder_id
-append builder_type
-append runstamp
+append_tags()
 
 SFX="${RUN}"
 
@@ -186,16 +182,7 @@ cd bench
 STAMP="stamp-$$"
 export STAMP
 echo "suite: ${SUITE}-l" >> ${STAMP}
-append bentstamp
-# new stuff for better benchmarking
-append numerator_branch
-append numerator_hash
-append numerator_stamp
-append denominator_branch
-append denominator_hash
-append builder_id
-append builder_type
-append runstamp
+append_tags()
 
 SFX="${RUN}"
 
