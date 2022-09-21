@@ -285,6 +285,11 @@
   ExtraFiles = ["spec"]
 
 [[Suites]]
+ Name = "gopls"
+ Repo = "golang.org/x/tools/gopls"
+ Version= "@v0.9.5"
+
+[[Suites]]
   Name = "workiva_augmentedtree"
   Repo = "github.com/Workiva/go-datastructures/augmentedtree"
   Version = "@v1.0.53"
