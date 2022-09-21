@@ -174,19 +174,7 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 
 	cmd := exec.Command(gocmd, "test", "-vet=off", "-c")
 	compileTo := path.Join(dirs.wd, dirs.testBinDir, config.benchName(bench))
-	cmd.Args = append(cmd.Args, "-o", compileTo)
-	cmd.Args = append(cmd.Args, bench.BuildFlags...)
-	// Do not normally need -a because cache was emptied first and std was -a installed with these flags.
-	// But for -a=1, do it anyway
-	if explicitAll == 1 {
-		cmd.Args = append(cmd.Args, "-a")
-	}
-	cmd.Args = append(cmd.Args, config.BuildFlags...)
-	if config.GcFlags != "" {
-		cmd.Args = append(cmd.Args, "-gcflags="+config.GcFlags)
-	}
-	cmd.Args = append(cmd.Args, bench.Repo)
-	cmd.Dir = bench.BuildDir // use module-mode
+
 	cmd.Env = defaultEnv
 	if !bench.NotSandboxed {
 		cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
@@ -194,8 +182,25 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 	if root != "" {
 		cmd.Env = replaceEnv(cmd.Env, "GOROOT", root)
 	}
-	cmd.Env = replaceEnvs(cmd.Env, bench.GcEnv)
-	cmd.Env = replaceEnvs(cmd.Env, config.GcEnv)
+	cmd.Env = append(cmd.Env, "BENT_BENCH="+bench.Name)
+	cmd.Env = append(cmd.Env, "BENT_CONFIG="+config.Name)
+	cmd.Env = append(cmd.Env, "BENT_I="+fmt.Sprintf("%d", count))
+	cmd.Env = replaceEnvs(cmd.Env, sliceExpandEnv(bench.GcEnv, cmd.Env))
+	cmd.Env = replaceEnvs(cmd.Env, sliceExpandEnv(config.GcEnv, cmd.Env))
+
+	cmd.Args = append(cmd.Args, "-o", compileTo)
+	cmd.Args = append(cmd.Args, sliceExpandEnv(bench.BuildFlags, cmd.Env)...)
+	// Do not normally need -a because cache was emptied first and std was -a installed with these flags.
+	// But for -a=1, do it anyway
+	if explicitAll == 1 {
+		cmd.Args = append(cmd.Args, "-a")
+	}
+	cmd.Args = append(cmd.Args, sliceExpandEnv(config.BuildFlags, cmd.Env)...)
+	if config.GcFlags != "" {
+		cmd.Args = append(cmd.Args, "-gcflags="+expandEnv(config.GcFlags, cmd.Env))
+	}
+	cmd.Args = append(cmd.Args, bench.Repo)
+	cmd.Dir = bench.BuildDir // use module-mode
 
 	if verbose > 0 {
 		fmt.Println(asCommandLine(cwd, cmd))
