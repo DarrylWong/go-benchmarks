@@ -190,3 +190,7 @@
   Name = "commonmark_markdown"
   Benchmarks = "Benchmark(RenderSpec|RenderSpecBlackFriday2)"
 
+[[Benchmarks]]
+  Name = "gopls"
+  Benchmarks = "Benchmark"
+
