@@ -1,11 +1,11 @@
 [[Configurations]]
-  Name = "Base"
+  Name = "baseline"
   Root = "$ROOT/${BASE}"
   AfterBuild = [ "benchsize", "benchdwarf" ]
   GcEnv = ["GOARCH=${BENTARCH}"]
 
 [[Configurations]]
-  Name = "Tip"
+  Name = "experiment"
   Root = "$ROOT/go-tip/"
   AfterBuild = [ "benchsize", "benchdwarf" ]
   GcEnv = ["GOARCH=${BENTARCH}"]
