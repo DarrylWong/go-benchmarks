@@ -108,6 +108,11 @@ var copyConfigs = []string{
 
 var defaultEnv []string
 
+// DefaultEnv returns a fresh copy of defaultEnv
+func DefaultEnv() []string {
+	return append([]string{}, defaultEnv...)
+}
+
 type pair struct {
 	b, c int
 }
@@ -116,7 +121,7 @@ type triple struct {
 }
 
 // To disambiguate repeated test runs in the same directory.
-var runstamp = strings.Replace(strings.Replace(time.Now().Format("2006-01-02T15:04:05"), "-", "", -1), ":", "", -1)
+var runstamp = strings.Replace(strings.Replace(time.Now().UTC().Format("2006-01-02T15:04:05"), "-", "", -1), ":", "", -1)
 
 func cleanup(gopath string) {
 	bin := path.Join(gopath, "bin")
@@ -545,7 +550,7 @@ results will also appear in 'bench'.
 				os.Remove(goDotMod) // always want a fresh go.mod
 			}
 			cmd := exec.Command("go", "mod", "init", "build")
-			cmd.Env = defaultEnv
+			cmd.Env = DefaultEnv()
 			cmd.Dir = bench.BuildDir
 
 			if verbose > 0 {
@@ -561,7 +566,7 @@ results will also appear in 'bench'.
 			}
 
 			cmd = exec.Command("go", "get", "-d", "-t", "-v", bench.Repo+bench.Version)
-			cmd.Env = replaceEnvs(defaultEnv, bench.GcEnv)
+			cmd.Env = replaceEnvs(DefaultEnv(), bench.GcEnv)
 			cmd.Dir = bench.BuildDir
 
 			if !bench.NotSandboxed { // Do this so that OS-dependent dependencies are done correctly.
@@ -659,7 +664,7 @@ results will also appear in 'bench'.
 					cmd.Args = append(cmd.Args, "-gcflags="+config.GcFlags)
 				}
 				cmd.Args = append(cmd.Args, "std")
-				cmd.Env = defaultEnv
+				cmd.Env = DefaultEnv()
 				if withAltOS {
 					cmd.Env = replaceEnv(cmd.Env, "GOOS", "linux")
 				}
@@ -841,7 +846,7 @@ benchmarks_loop:
 		// Capture output of "go list -f {{.Dir}} $PKG"
 
 		cmd := exec.Command("go", "list", "-f", "{{.Dir}}", bench.Repo)
-		cmd.Env = defaultEnv
+		cmd.Env = DefaultEnv()
 		cmd.Dir = bench.BuildDir
 
 		if verbose > 0 {
@@ -1007,7 +1012,7 @@ benchmarks_loop:
 					cmd.Args = append(cmd.Args, "-test.bench="+b.Benchmarks)
 
 					cmd.Dir = b.RunDir
-					cmd.Env = defaultEnv
+					cmd.Env = DefaultEnv()
 					if root != "" {
 						cmd.Env = replaceEnv(cmd.Env, "GOROOT", root)
 					}
@@ -1307,6 +1312,17 @@ func replaceEnvs(env, newevs []string) []string {
 		env = append(newenv, e)
 	}
 	return env
+}
+
+func removeEmptyEnvs(env []string) []string {
+	var newenv []string
+	for _, e := range env {
+		if i := strings.Index(e, "="); i == -1 || i == len(e)-1 {
+			continue
+		}
+		newenv = append(newenv, e)
+	}
+	return newenv
 }
 
 // ifMissingAddEnv returns a new environment derived from env
