@@ -348,6 +348,9 @@ results will also appear in 'bench'.
 		for j, s := range trial.RunFlags {
 			trial.RunFlags[j] = os.ExpandEnv(s)
 		}
+		for j, s := range trial.BuildFlags {
+			trial.BuildFlags[j] = os.ExpandEnv(s)
+		}
 		for j, s := range trial.RunWrapper {
 			trial.RunWrapper[j] = os.ExpandEnv(s)
 		}
