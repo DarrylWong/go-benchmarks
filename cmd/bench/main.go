@@ -146,9 +146,25 @@ func main() {
 		log.Fatalf("Unknown repository %q", repository)
 	}
 
+	log.Print("FS space")
+	cmd := exec.Command("df", "-h")
+	cmd.Stdout = os.Stdout
+	cmd.Stderr = os.Stderr
+	cmd.Run()
+
 	// Run benchmarks against the toolchains.
 	if err := run(toolchains); err != nil {
 		log.Print("FAIL")
+		log.Print("FS space")
+		cmd := exec.Command("df", "-h")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Run()
+		log.Print("Contents of /")
+		cmd = exec.Command("du", "-h", "/")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Run()
 		os.Exit(1)
 	}
 }
