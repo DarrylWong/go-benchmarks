@@ -149,6 +149,11 @@ func main() {
 	// Run benchmarks against the toolchains.
 	if err := run(toolchains); err != nil {
 		log.Print("FAIL")
+		log.Print("Contents of /tmp")
+		cmd := exec.Command("du", "-h", "/tmp")
+		cmd.Stdout = os.Stdout
+		cmd.Stderr = os.Stderr
+		cmd.Run()
 		os.Exit(1)
 	}
 }
