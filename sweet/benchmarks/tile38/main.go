@@ -107,6 +107,19 @@ func doNearby(c redis.Conn, lat, lon float64) error {
 	return err
 }
 
+func doManyMethods(c redis.Conn, lat, lon float64) error {
+	if err := doWithinCircle(c, lat, lon); err != nil {
+		return err
+	}
+	if err := doIntersectsCircle(c, lat, lon); err != nil {
+		return err
+	}
+	if err := doNearby(c, lat, lon); err != nil {
+		return err
+	}
+	return nil
+}
+
 func randPoint() (float64, float64) {
 	return rand.Float64()*180 - 90, rand.Float64()*360 - 180
 }
@@ -209,6 +222,7 @@ func (b *benchmark) run(d *driver.B, host string, port, clients int, iters int) 
 }
 
 var benchmarks = []benchmark{
+	{"ManyMethods", doManyMethods},
 	{"WithinCircle100km", doWithinCircle},
 	{"IntersectsCircle100km", doIntersectsCircle},
 	{"KNearestLimit100", doNearby},
@@ -347,7 +361,7 @@ func main() {
 	for _, typ := range driver.ProfileTypes {
 		cliCfg.isProfiling = cliCfg.isProfiling || driver.ProfilingEnabled(typ)
 	}
-	benchmarks := benchmarks
+	benchmarks := benchmarks[:1]
 	if cliCfg.short {
 		benchmarks = benchmarks[:1]
 	}
