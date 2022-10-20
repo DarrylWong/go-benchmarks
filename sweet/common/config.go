@@ -58,6 +58,14 @@ func (c *Config) GoTool() *Go {
 	}
 }
 
+// Copy returns a deep copy of Config.
+func (c *Config) Copy() *Config {
+	// Currently, all fields in Config are immutable, so a simply copy is
+	// sufficient.
+	cc := *c
+	return &cc
+}
+
 func ConfigFileMarshalTOML(c *ConfigFile) ([]byte, error) {
 	// Unfortunately because the github.com/BurntSushi/toml
 	// package at v1.0.0 doesn't correctly support Marshaler

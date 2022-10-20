@@ -10,6 +10,8 @@ import (
 	"strings"
 )
 
+// Env stores environment variables. An Env is immutable; mutating operations
+// return a new, mutated, Env.
 type Env struct {
 	parent *Env
 	data   map[string]string
@@ -41,6 +43,15 @@ func NewEnv(vars ...string) (*Env, error) {
 		return nil, err
 	}
 	return &Env{data: m}, nil
+}
+
+func NewEnvFromMap(vars map[string]string) *Env {
+	// Defensive copy.
+	m := make(map[string]string, len(vars))
+	for k, v := range vars {
+		m[k] = v
+	}
+	return &Env{data: m}
 }
 
 func (e *Env) Set(vars ...string) (*Env, error) {
@@ -91,7 +102,7 @@ func (e *Env) Prefix(name, prefix string) *Env {
 	return n
 }
 
-func (e *Env) Collapse() []string {
+func (e *Env) Map() map[string]string {
 	t := e
 	c := make(map[string]string)
 	for t != nil {
@@ -102,6 +113,11 @@ func (e *Env) Collapse() []string {
 		}
 		t = t.parent
 	}
+	return c
+}
+
+func (e *Env) Collapse() []string {
+	c := e.Map()
 	env := make([]string, 0, len(c))
 	for k, v := range c {
 		env = append(env, fmt.Sprintf("%s=%s", k, v))

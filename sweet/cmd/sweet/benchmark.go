@@ -12,6 +12,8 @@ import (
 	"path/filepath"
 	"runtime"
 	"runtime/debug"
+	"strings"
+	"text/template"
 
 	"golang.org/x/benchmarks/sweet/common"
 	"golang.org/x/benchmarks/sweet/common/fileutil"
@@ -202,20 +204,41 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		return err
 	}
 
-	// Retrieve the benchmark's source.
-	if err := b.harness.Get(srcDir); err != nil {
-		return fmt.Errorf("retrieving source for %s: %v", b.name, err)
+	// Retrieve the benchmark's source, if needed. If execute is called
+	// multiple times, this will already be done.
+	_, err := os.Stat(srcDir)
+	if os.IsNotExist(err) {
+		if err := b.harness.Get(srcDir); err != nil {
+			return fmt.Errorf("retrieving source for %s: %v", b.name, err)
+		}
 	}
 
 	// Create the results directory for the benchmark.
-	resultsDir := filepath.Join(r.resultsDir, b.name)
+	resultsDir := r.benchmarkResultsDir(b)
 	if err := mkdirAll(resultsDir); err != nil {
 		return fmt.Errorf("creating results directory for %s: %v", b.name, err)
 	}
 
 	// Perform a setup step for each config for the benchmark.
 	setups := make([]common.RunConfig, 0, len(cfgs))
-	for _, cfg := range cfgs {
+	for _, pcfg := range cfgs {
+		// Local copy for expanding env templates.
+		cfg := pcfg.Copy()
+
+		buildEnv := cfg.BuildEnv.Map()
+		for k, v := range buildEnv {
+			tmpl, err := template.New(k).Parse(v)
+			if err != nil {
+				return fmt.Errorf("error parsing %q as template: %q: %w", k, v, err)
+			}
+			var s strings.Builder
+			if err := tmpl.Execute(&s, struct{BenchmarkName string}{b.name}); err != nil {
+				return fmt.Errorf("error executing %q template: %w", k, err)
+			}
+			buildEnv[k] = s.String()
+		}
+		cfg.BuildEnv.Env = common.NewEnvFromMap(buildEnv)
+
 		// Create directory hierarchy for benchmarks.
 		workDir := filepath.Join(topDir, cfg.Name)
 		binDir := filepath.Join(workDir, "bin")
@@ -264,7 +287,7 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		}
 		if r.cpuProfile || r.memProfile || r.perf {
 			// Create a directory for any profile files to live in.
-			resultsProfilesDir := filepath.Join(resultsDir, fmt.Sprintf("%s.debug", cfg.Name))
+			resultsProfilesDir := r.runProfilesDir(b, cfg)
 			mkdirAll(resultsProfilesDir)
 
 			// We need to pass arguments to the benchmark binary to generate
