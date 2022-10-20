@@ -27,15 +27,16 @@ import (
 )
 
 type config struct {
-	host        string
-	port        int
-	seed        int64
-	serverBin   string
-	dataPath    string
-	tmpDir      string
-	serverProcs int
-	isProfiling bool
-	short       bool
+	host         string
+	port         int
+	seed         int64
+	serverBin    string
+	dataPath     string
+	tmpDir       string
+	serverProcs  int
+	isProfiling  bool
+	short        bool
+	pageTraceDir string
 }
 
 func (c *config) profilePath(typ driver.ProfileType) string {
@@ -64,6 +65,7 @@ func init() {
 	flag.StringVar(&cliCfg.dataPath, "data", "", "path to tile38 server data")
 	flag.StringVar(&cliCfg.tmpDir, "tmp", "", "path to temporary directory")
 	flag.BoolVar(&cliCfg.short, "short", false, "whether to run a short version of this benchmark")
+	flag.StringVar(&cliCfg.pageTraceDir, "pagetrace", "", "directory to generate a page trace to")
 
 	// Grab the number of procs we have and give ourselves only 1/4 of those.
 	procs := runtime.GOMAXPROCS(-1)
@@ -214,7 +216,7 @@ var benchmarks = []benchmark{
 	{"KNearestLimit100", doNearby},
 }
 
-func launchServer(cfg *config, out io.Writer) (*exec.Cmd, error) {
+func launchServer(bench benchmark, cfg *config, out io.Writer) (*exec.Cmd, error) {
 	// Set up arguments.
 	srvArgs := []string{
 		"-d", cfg.dataPath,
@@ -233,6 +235,14 @@ func launchServer(cfg *config, out io.Writer) (*exec.Cmd, error) {
 	srvCmd.Env = append(os.Environ(),
 		fmt.Sprintf("GOMAXPROCS=%d", cfg.serverProcs),
 	)
+	if cfg.pageTraceDir != "" {
+		f, err := os.CreateTemp(cfg.pageTraceDir, bench.name()+".pagetrace")
+		if err != nil {
+			return nil, err
+		}
+		f.Close()
+		srvCmd.Env = append(srvCmd.Env, "GOPAGETRACE="+f.Name())
+	}
 	srvCmd.Stdout = out
 	srvCmd.Stderr = out
 	if err := srvCmd.Start(); err != nil {
@@ -258,7 +268,7 @@ func runOne(bench benchmark, cfg *config) (err error) {
 	var buf bytes.Buffer
 
 	// Launch the server.
-	srvCmd, err := launchServer(cfg, &buf)
+	srvCmd, err := launchServer(bench, cfg, &buf)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "starting server: %v\n%s\n", err, &buf)
 		os.Exit(1)

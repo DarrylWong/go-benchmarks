@@ -251,7 +251,8 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			mkdirAll(resultsBinDir)
 			copyDirContents(resultsBinDir, binDir)
 		}
-		if r.cpuProfile || r.memProfile || r.perf {
+		var pageTraceDir string
+		if r.cpuProfile || r.memProfile || r.perf || r.pageTrace {
 			// Create a directory for any profile files to live in.
 			resultsProfilesDir := filepath.Join(resultsDir, fmt.Sprintf("%s.debug", cfg.Name))
 			mkdirAll(resultsProfilesDir)
@@ -270,6 +271,9 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 					args = append(args, "-perf-flags", r.perfFlags)
 				}
 			}
+			if r.pageTrace {
+				pageTraceDir = resultsProfilesDir
+			}
 		}
 
 		results, err := os.Create(filepath.Join(resultsDir, fmt.Sprintf("%s.results", cfg.Name)))
@@ -278,12 +282,13 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		}
 		defer results.Close()
 		setups = append(setups, common.RunConfig{
-			BinDir:    binDir,
-			TmpDir:    tmpDir,
-			AssetsDir: assetsDir,
-			Args:      args,
-			Results:   results,
-			Short:     r.short,
+			BinDir:       binDir,
+			TmpDir:       tmpDir,
+			AssetsDir:    assetsDir,
+			Args:         args,
+			Results:      results,
+			Short:        r.short,
+			PageTraceDir: pageTraceDir,
 		})
 	}
 

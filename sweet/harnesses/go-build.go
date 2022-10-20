@@ -104,13 +104,17 @@ func (h GoBuild) Run(cfg *common.Config, rcfg *common.RunConfig) error {
 		benchmarks = []*buildBenchmark{buildBenchmarks[2]}
 	}
 	for _, bench := range benchmarks {
+		args := append(rcfg.Args, []string{
+			"-go", cfg.GoTool().Tool,
+			"-tmp", rcfg.TmpDir,
+		}...)
+		if rcfg.PageTraceDir != "" {
+			args = append(args, "-pagetrace", rcfg.PageTraceDir)
+		}
+		args = append(args, filepath.Join(rcfg.BinDir, bench.name, bench.pkg))
 		cmd := exec.Command(
 			filepath.Join(rcfg.BinDir, "go-build-bench"),
-			append(rcfg.Args, []string{
-				"-go", cfg.GoTool().Tool,
-				"-tmp", rcfg.TmpDir,
-				filepath.Join(rcfg.BinDir, bench.name, bench.pkg),
-			}...)...,
+			args...,
 		)
 		cmd.Env = cfg.ExecEnv.Collapse()
 		cmd.Stdout = rcfg.Results

@@ -70,6 +70,9 @@ func (h Tile38) Run(cfg *common.Config, rcfg *common.RunConfig) error {
 		"-data", dataPath,
 		"-tmp", rcfg.TmpDir,
 	}...)
+	if rcfg.PageTraceDir != "" {
+		args = append(args, "-pagetrace", rcfg.PageTraceDir)
+	}
 	if rcfg.Short {
 		args = append(args, "-short")
 	}

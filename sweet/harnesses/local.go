@@ -5,6 +5,7 @@
 package harnesses
 
 import (
+	"os"
 	"os/exec"
 	"path/filepath"
 
@@ -37,11 +38,20 @@ func (h *localBenchHarness) Run(cfg *common.Config, rcfg *common.RunConfig) erro
 			return err
 		}
 	}
+	env := cfg.ExecEnv.Env
+	if rcfg.PageTraceDir != "" {
+		f, err := os.CreateTemp(rcfg.PageTraceDir, h.binName+".pagetrace")
+		if err != nil {
+			return err
+		}
+		f.Close()
+		env = env.MustSet("GOPAGETRACE=" + f.Name())
+	}
 	cmd := exec.Command(
 		filepath.Join(rcfg.BinDir, h.binName),
 		append(rcfg.Args, h.genArgs(cfg, rcfg)...)...,
 	)
-	cmd.Env = cfg.ExecEnv.Collapse()
+	cmd.Env = env.Collapse()
 	if !h.noStdout {
 		cmd.Stdout = rcfg.Results
 	}

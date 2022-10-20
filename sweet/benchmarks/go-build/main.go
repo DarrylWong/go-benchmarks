@@ -20,10 +20,11 @@ import (
 )
 
 var (
-	goTool    string
-	tmpDir    string
-	toolexec  bool
-	benchName string
+	goTool       string
+	tmpDir       string
+	toolexec     bool
+	benchName    string
+	pageTraceDir string
 )
 
 func init() {
@@ -32,6 +33,7 @@ func init() {
 	flag.StringVar(&tmpDir, "tmp", "", "work directory (cleared before use)")
 	flag.BoolVar(&toolexec, "toolexec", false, "run as a toolexec binary")
 	flag.StringVar(&benchName, "bench-name", "", "for -toolexec")
+	flag.StringVar(&pageTraceDir, "pagetrace", "", "directory to write page trace to")
 }
 
 func tmpResultsDir() string {
@@ -86,10 +88,16 @@ func run(pkgPath string) error {
 	if err != nil {
 		return err
 	}
+	var output []byte
 	err = driver.RunBenchmark(name, func(d *driver.B) error {
-		return cmd.Run()
+		var err error
+		output, err = cmd.CombinedOutput()
+		return err
 	}, append(benchOpts, driver.DoAvgRSS(cmd.RSSFunc()))...)
 	if err != nil {
+		if len(output) != 0 {
+			fmt.Fprintln(os.Stderr, "==== Command output ====\n", string(output), "\n")
+		}
 		return err
 	}
 
@@ -206,10 +214,17 @@ func printOtherResults(dir string) error {
 
 func runToolexec() error {
 	var benchSuffix string
+	var pkg string
 	benchmark := false
 	bin := filepath.Base(flag.Arg(0))
 	switch bin {
 	case "compile":
+		for i, arg := range os.Args {
+			if arg == "-p" {
+				pkg = os.Args[i+1]
+				break
+			}
+		}
 	case "link":
 		benchSuffix = "Link"
 		benchmark = true
@@ -234,6 +249,20 @@ func runToolexec() error {
 	cmd := exec.Command(flag.Args()[0], append(extraFlags, flag.Args()[1:]...)...)
 	cmd.Stdout = os.Stdout
 	cmd.Stderr = os.Stderr
+	cmd.Env = os.Environ()
+	if pageTraceDir != "" {
+		name := benchName + "." + bin
+		if pkg != "" {
+			name += "." + strings.ReplaceAll(pkg, "/", "_")
+		}
+		name += ".pagetrace"
+		f, err := os.CreateTemp(pageTraceDir, name)
+		if err != nil {
+			return err
+		}
+		f.Close()
+		cmd.Env = append(cmd.Env, "GOPAGETRACE="+f.Name())
+	}
 	if benchmark {
 		name := benchName + benchSuffix
 		f, err := os.Create(filepath.Join(tmpResultsDir(), name+".results"))

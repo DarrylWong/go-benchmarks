@@ -54,6 +54,7 @@ type runCfg struct {
 	memProfile  bool
 	perf        bool
 	perfFlags   string
+	pageTrace   bool
 	short       bool
 
 	assetsFS fs.FS
@@ -136,6 +137,7 @@ func (c *runCmd) SetFlags(f *flag.FlagSet) {
 	f.BoolVar(&c.runCfg.memProfile, "memprofile", false, "whether to dump a memory profile for each benchmark (ensures all executions do the same amount of work")
 	f.BoolVar(&c.runCfg.perf, "perf", false, "whether to run each benchmark under Linux perf and dump the results")
 	f.StringVar(&c.runCfg.perfFlags, "perf-flags", "", "the flags to pass to Linux perf if -perf is set")
+	f.BoolVar(&c.runCfg.pageTrace, "pagetrace", false, "whether to dump a page trace for each benchmark (ensures all executions do the same amount of work")
 	f.IntVar(&c.runCfg.count, "count", 25, "the number of times to run each benchmark")
 
 	f.BoolVar(&c.quiet, "quiet", false, "whether to suppress activity output on stderr (no effect on -shell)")

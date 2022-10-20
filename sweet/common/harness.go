@@ -56,6 +56,8 @@ type RunConfig struct {
 	// in the Go benchmark format.
 	Results *os.File
 
+	PageTraceDir string
+
 	// Short indicates whether or not to run a short version of the benchmarks
 	// for testing. Guaranteed to be the same as BuildConfig.Short for any
 	// BuildConfig.
