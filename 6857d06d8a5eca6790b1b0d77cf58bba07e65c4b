@@ -53,6 +53,46 @@
       "message": "PTAL / For Your Consideration.\nThis is the one that found about a half-dozen latency bugs in the runtime, I think most of them are fixed now.",
       "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "69d1acb9_9e9f84b4",
+        "filename": "gc_latency/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-21T19:24:11Z",
+      "side": 1,
+      "message": "Can this be made into a testing package Benchmark?\n\nIf so, it will trivially show up on perf.golang.org via https://cs.opensource.google/go/x/benchmarks/+/master:cmd/bench/gotest.go.",
+      "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c76384dd_04ab886e",
+        "filename": "gc_latency/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-21T19:24:11Z",
+      "side": 1,
+      "message": "why?",
+      "range": {
+        "startLine": 149,
+        "startChar": 24,
+        "endLine": 149,
+        "endChar": 41
+      },
+      "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
