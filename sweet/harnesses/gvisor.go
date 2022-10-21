@@ -29,7 +29,7 @@ func (h GVisor) Get(srcDir string) error {
 		srcDir,
 		"https://github.com/google/gvisor",
 		"go",
-		"adc7bb5e1baf4a7489e428e1fad756e5e2aa3410", // release-20220228.0-4233-gadc7bb5e1
+		"8e6a0b996cdf2ef97d9caa01f6d0c1c27751c33a", // release-20221010.0-23-gc40f8e365
 	)
 }
 

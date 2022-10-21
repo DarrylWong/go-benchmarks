@@ -181,9 +181,7 @@ func testSweetEndToEnd(t *testing.T, pgo bool) {
 	var wg sync.WaitGroup
 	for i, shard := range []string{
 		"tile38", "go-build", "biogo-igor", "biogo-krishna", "bleve-query",
-		// TODO(go.dev/issue/51445): Enable once gVisor builds with Go 1.19.
-		// "gvisor",
-		"fogleman-pt", "bleve-index,fogleman-fauxgl,gopher-lua,markdown",
+		"gvisor", "fogleman-pt", "bleve-index,fogleman-fauxgl,gopher-lua,markdown",
 	} {
 		sema.Acquire(context.Background(), 1)
 		wg.Add(1)
