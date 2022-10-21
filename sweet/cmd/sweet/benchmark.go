@@ -108,8 +108,7 @@ var benchmarkGroups = func() map[string][]*benchmark {
 		allBenchmarksMap["fogleman-pt"],
 		allBenchmarksMap["go-build"],
 		allBenchmarksMap["gopher-lua"],
-		// TODO(go.dev/issue/51445): Enable once gVisor builds with Go 1.19.
-		// allBenchmarksMap["gvisor"],
+		allBenchmarksMap["gvisor"],
 		allBenchmarksMap["markdown"],
 		allBenchmarksMap["tile38"],
 	}
@@ -126,10 +125,6 @@ var benchmarkGroups = func() map[string][]*benchmark {
 				// hangs on arm64.
 				continue
 			}
-		case "gvisor":
-			// TODO(go.dev/issue/51445): Include in "all"
-			// once gVisor builds with Go 1.19.
-			continue
 		}
 		m["all"] = append(m["all"], &allBenchmarks[i])
 	}
