@@ -100,6 +100,30 @@
       },
       "revId": "247f8eb5893b5bf88920c64a1e8a15287448228a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ae5f6aff_7a049b82",
+        "filename": "sweet/cmd/sweet/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-24T18:00:32Z",
+      "side": 1,
+      "message": "PTAL at this refactor. Things are arguably a bit awkward with package driver. It contains some additional profiling bits, but those are specific to the naming conventions in driver.",
+      "parentUuid": "b8359599_e6c45b0e",
+      "range": {
+        "startLine": 417,
+        "startChar": 5,
+        "endLine": 417,
+        "endChar": 21
+      },
+      "revId": "247f8eb5893b5bf88920c64a1e8a15287448228a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
