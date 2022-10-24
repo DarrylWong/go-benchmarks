@@ -76,6 +76,30 @@
       },
       "revId": "247f8eb5893b5bf88920c64a1e8a15287448228a",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8359599_e6c45b0e",
+        "filename": "sweet/cmd/sweet/run.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-10-24T17:52:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "25af1af1_d558fcee",
+      "range": {
+        "startLine": 417,
+        "startChar": 5,
+        "endLine": 417,
+        "endChar": 21
+      },
+      "revId": "247f8eb5893b5bf88920c64a1e8a15287448228a",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
