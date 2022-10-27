@@ -56,6 +56,7 @@ func (c *Config) GoTool() *Go {
 		// Update the GOROOT so the wrong one doesn't propagate from
 		// the environment.
 		Env: c.BuildEnv.Env.MustSet("GOROOT=" + c.GoRoot),
+		PassOutput: true, // XXX: remove
 	}
 }
 
