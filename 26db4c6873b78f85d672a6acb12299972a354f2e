@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8bcac2c1_8ec7333c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7530
+      },
+      "writtenOn": "2022-10-31T01:50:40Z",
+      "side": 1,
+      "message": "TRY\u003dlinux-riscv64,freebsd-riscv64",
+      "revId": "26db4c6873b78f85d672a6acb12299972a354f2e",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
