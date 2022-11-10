@@ -20,12 +20,13 @@ import (
 )
 
 func TestSweetEndToEnd(t *testing.T) {
-	t.Run("standard", func(t *testing.T) {
-		testSweetEndToEnd(t, false)
-	})
-	t.Run("pgo", func(t *testing.T) {
-		testSweetEndToEnd(t, true)
-	})
+	testSweetEndToEnd(t, false)
+}
+
+func TestSweetEndToEndPGO(t *testing.T) {
+	// N.B. This is separated out into a top-level test because running both
+	// tests together times out.
+	testSweetEndToEnd(t, true)
 }
 
 func testSweetEndToEnd(t *testing.T, pgo bool) {
@@ -208,7 +209,7 @@ func makeConfigFile(t *testing.T, goRoot string) string {
 	defer f.Close()
 	cfg := common.ConfigFile{
 		Configs: []*common.Config{
-			&common.Config{
+			{
 				Name:   "go",
 				GoRoot: goRoot,
 			},
