@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ab3787_e8818d0e",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-10T15:58:03Z",
+      "side": 1,
+      "message": "Sweet",
+      "range": {
+        "startLine": 80,
+        "startChar": 50,
+        "endLine": 80,
+        "endChar": 54
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bc5cfcf0_5a36934d",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-10T15:58:03Z",
+      "side": 1,
+      "message": "aka? These both sound the same to me.",
+      "range": {
+        "startLine": 80,
+        "startChar": 31,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4e5bfe35_2c01399e",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 5200
+      },
+      "writtenOn": "2022-11-10T15:58:03Z",
+      "side": 1,
+      "message": "Should -short imply -count\u003d1? Not sure if it does already or not.",
+      "range": {
+        "startLine": 88,
+        "startChar": 26,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
