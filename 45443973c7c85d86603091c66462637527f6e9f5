@@ -47,6 +47,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f36506e_33ed0fdf",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-10T17:48:34Z",
+      "side": 1,
+      "message": "yeah sorry, that is what I meant.",
+      "parentUuid": "bc5cfcf0_5a36934d",
+      "range": {
+        "startLine": 80,
+        "startChar": 31,
+        "endLine": 80,
+        "endChar": 33
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bf688de9_ceeb3419",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-10T17:48:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3ab3787_e8818d0e",
+      "range": {
+        "startLine": 80,
+        "startChar": 50,
+        "endLine": 80,
+        "endChar": 54
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e5bfe35_2c01399e",
@@ -60,6 +108,30 @@
       "writtenOn": "2022-11-10T15:58:03Z",
       "side": 1,
       "message": "Should -short imply -count\u003d1? Not sure if it does already or not.",
+      "range": {
+        "startLine": 88,
+        "startChar": 26,
+        "endLine": 88,
+        "endChar": 34
+      },
+      "revId": "45443973c7c85d86603091c66462637527f6e9f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47ff6e6a_42a2b002",
+        "filename": "sweet/README.md",
+        "patchSetId": 2
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-10T17:48:34Z",
+      "side": 1,
+      "message": "it doesn\u0027t. it probably should, unless the user specifies -count explicitly. I made it do this.",
+      "parentUuid": "4e5bfe35_2c01399e",
       "range": {
         "startLine": 88,
         "startChar": 26,
