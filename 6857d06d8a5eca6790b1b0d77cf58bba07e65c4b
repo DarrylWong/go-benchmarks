@@ -92,6 +92,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "d289b7fc_7ef1751a",
+        "filename": "gc_latency/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-14T19:03:12Z",
+      "side": 1,
+      "message": "I\u0027m not sure how to turn this into a benchmark -- it does not use b.N.  I\u0027ll read more about go benchmarks and see if there is a way to do this.",
+      "parentUuid": "cd997c75_f93ce1a5",
+      "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c76384dd_04ab886e",
         "filename": "gc_latency/main.go",
         "patchSetId": 11
@@ -103,6 +121,30 @@
       "writtenOn": "2022-10-21T19:24:11Z",
       "side": 1,
       "message": "why?",
+      "range": {
+        "startLine": 149,
+        "startChar": 24,
+        "endLine": 149,
+        "endChar": 41
+      },
+      "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "434440fb_8e19fa8c",
+        "filename": "gc_latency/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2022-11-14T19:03:12Z",
+      "side": 1,
+      "message": "That was an issue for bent, but I can remove it.",
+      "parentUuid": "c76384dd_04ab886e",
       "range": {
         "startLine": 149,
         "startChar": 24,
