@@ -110,6 +110,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "30e7a721_eca10de9",
+        "filename": "gc_latency/main.go",
+        "patchSetId": 11
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2022-11-14T19:46:05Z",
+      "side": 1,
+      "message": "\"work\" takes a count. isn\u0027t that b.N? you can still report latencies (it\u0027ll just report latencies from the last b.N it got passed).\n\nby default, though, it\u0027s probably not going to run as long as you like. we can always add it to Sweet if there\u0027s really something fundamental here about keeping that count fixed.",
+      "parentUuid": "d289b7fc_7ef1751a",
+      "revId": "6857d06d8a5eca6790b1b0d77cf58bba07e65c4b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "c76384dd_04ab886e",
         "filename": "gc_latency/main.go",
         "patchSetId": 11
