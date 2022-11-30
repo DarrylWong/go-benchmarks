@@ -30,8 +30,11 @@ func SystemGoTool() (*Go, error) {
 	}, nil
 }
 
-func (g *Go) Do(args ...string) error {
+func (g *Go) Do(dir string, args ...string) error {
 	cmd := exec.Command(g.Tool, args...)
+	if dir != "" {
+		cmd.Dir = dir
+	}
 	cmd.Env = g.Env.Collapse()
 	if g.PassOutput {
 		cmd.Stdout = os.Stdout
@@ -51,6 +54,28 @@ func (g *Go) Do(args ...string) error {
 	return err
 }
 
+// func (g *Go) RunBenchmark(dir string, args ...string) error {
+// 	cmd := exec.Command(g.Tool, args...)
+// 	cmd.Dir = dir
+// 	cmd.Env = g.Env.Collapse()
+// 	if g.PassOutput {
+// 		cmd.Stdout = os.Stdout
+// 		cmd.Stderr = os.Stderr
+// 	}
+// 	log.TraceCommand(cmd, false)
+// 	if g.PassOutput {
+// 		return cmd.Run()
+// 	}
+// 	// Use cmd.Output to get an ExitError with Stderr populated.
+// 	_, err := cmd.Output()
+// 	if ee, ok := err.(*exec.ExitError); ok {
+// 		// ExitError includes stderr, but doesn't inclue it in Error.
+// 		// Create a new error that does display stderr.
+// 		return fmt.Errorf("%w. stderr:\n%s", err, ee.Stderr)
+// 	}
+// 	return err
+// }
+
 func (g *Go) List(args ...string) ([]byte, error) {
 	cmd := exec.Command(g.Tool, append([]string{"list"}, args...)...)
 	cmd.Env = g.Env.Collapse()
@@ -66,7 +91,7 @@ func (g *Go) BuildPackage(pkg, out string) error {
 	if pkg[0] == '/' || pkg[0] == '.' {
 		return fmt.Errorf("path used as package in go build")
 	}
-	return g.Do("build", "-o", out, pkg)
+	return g.Do("", "build", "-o", out, pkg)
 }
 
 func (g *Go) BuildPath(path, out string) error {
@@ -81,7 +106,7 @@ func (g *Go) BuildPath(path, out string) error {
 	if err := chdir(path); err != nil {
 		return fmt.Errorf("failed to enter build directory: %w", err)
 	}
-	return g.Do("build", "-o", out)
+	return g.Do("", "build", "-o", out)
 }
 
 func chdir(path string) error {
