@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46e46a6c_155360e9",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-06T18:27:17Z",
+      "side": 1,
+      "message": "Add -bench?",
+      "revId": "d1c349001cae3233a1adaadd3d109bcad7cb963d",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
