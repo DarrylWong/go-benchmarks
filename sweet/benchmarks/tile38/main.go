@@ -10,7 +10,9 @@ import (
 	"flag"
 	"fmt"
 	"io"
+	"log"
 	"math/rand"
+	"net/http"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -159,6 +161,7 @@ func (d durSlice) Swap(i, j int)      { d[i], d[j] = d[j], d[i] }
 type benchmark struct {
 	sname  string
 	runner requestFunc
+	trace  bool
 }
 
 func (b *benchmark) name() string {
@@ -177,11 +180,42 @@ func (b *benchmark) run(d *driver.B, host string, port, clients int, iters int) 
 	}
 	p := pool.New(context.Background(), workers)
 
+	done := make(chan struct{})
+	var bytes atomic.Uint64
+	if b.trace {
+		go func() {
+			i := 0
+			for {
+				select {
+				case <-done:
+					return
+				default:
+				}
+
+				resp, err := http.Get("http://localhost:12345/debug/pprof/trace")
+				if err != nil {
+					log.Printf("Error starting trace: %v", err)
+					continue
+				}
+				//f, err := os.Create(fmt.Sprintf("/tmp/%d.trace", i))
+				//if err != nil {
+				//	panic(err)
+				//}
+				n, _ := io.Copy(io.Discard, resp.Body)
+				resp.Body.Close()
+				bytes.Add(uint64(n))
+				//f.Close()
+				i++
+			}
+		}()
+	}
+
 	d.ResetTimer()
 	if err := p.Run(); err != nil {
 		return err
 	}
 	d.StopTimer()
+	close(done)
 
 	// Test is done, bring all latency measurements together.
 	latencies := make([]time.Duration, 0, len(workers)*100000)
@@ -197,6 +231,9 @@ func (b *benchmark) run(d *driver.B, host string, port, clients int, iters int) 
 	d.Report("p50-latency-ns", uint64(p50))
 	d.Report("p90-latency-ns", uint64(p90))
 	d.Report("p99-latency-ns", uint64(p99))
+	if b.trace {
+		d.Report("trace-bytes", bytes.Load())
+	}
 
 	// Report throughput.
 	lengthS := float64(d.Elapsed()) / float64(time.Second)
@@ -210,9 +247,10 @@ func (b *benchmark) run(d *driver.B, host string, port, clients int, iters int) 
 }
 
 var benchmarks = []benchmark{
-	{"WithinCircle100km", doWithinCircle},
-	{"IntersectsCircle100km", doIntersectsCircle},
-	{"KNearestLimit100", doNearby},
+	{"WithinCircle100km", doWithinCircle, false},
+	//{"IntersectsCircle100km", doIntersectsCircle, false},
+	//{"KNearestLimit100", doNearby, false},
+	{"WithinCircle100kmTrace", doWithinCircle, true},
 }
 
 func launchServer(cfg *config, out io.Writer) (*exec.Cmd, error) {
@@ -222,6 +260,7 @@ func launchServer(cfg *config, out io.Writer) (*exec.Cmd, error) {
 		"-h", "127.0.0.1",
 		"-p", "9851",
 		"-threads", strconv.Itoa(cfg.serverProcs),
+		"-pprofport", "12345",
 	}
 	for _, typ := range []driver.ProfileType{driver.ProfileCPU, driver.ProfileMem} {
 		if driver.ProfilingEnabled(typ) {
