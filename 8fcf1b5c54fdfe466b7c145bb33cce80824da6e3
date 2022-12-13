@@ -146,6 +146,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "337bfd8e_090c2beb",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 56638
+      },
+      "writtenOn": "2022-12-13T16:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3830a1e8_399ef0af",
+      "range": {
+        "startLine": 24,
+        "startChar": 34,
+        "endLine": 24,
+        "endChar": 41
+      },
+      "revId": "8fcf1b5c54fdfe466b7c145bb33cce80824da6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9b88bed3_a9d00c90",
@@ -159,6 +183,24 @@
       "writtenOn": "2022-12-13T15:31:47Z",
       "side": 1,
       "message": "Drop this",
+      "revId": "8fcf1b5c54fdfe466b7c145bb33cce80824da6e3",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "61a69ac1_d7774d57",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 56638
+      },
+      "writtenOn": "2022-12-13T16:33:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b88bed3_a9d00c90",
       "revId": "8fcf1b5c54fdfe466b7c145bb33cce80824da6e3",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
