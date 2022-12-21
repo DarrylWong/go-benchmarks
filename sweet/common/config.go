@@ -10,17 +10,23 @@ import (
 	"path/filepath"
 
 	"github.com/BurntSushi/toml"
+	"golang.org/x/benchmarks/sweet/common/diagnostics"
 )
 
 const ConfigHelp = `
 The input configuration format is TOML consisting of a single array field
 called 'config'. Each element of the array consists of the following fields:
-      name: a unique name for the configuration (required)
-    goroot: path to a GOROOT representing the toolchain to run (required)
-  envbuild: additional environment variables that should be used for compilation
-            each variable should take the form "X=Y" (optional)
-   envexec: additional environment variables that should be used for execution
-            each variable should take the form "X=Y" (optional)
+         name: a unique name for the configuration (required)
+       goroot: path to a GOROOT representing the toolchain to run (required)
+     envbuild: additional environment variables that should be used for
+               compilation each variable should take the form "X=Y" (optional)
+      envexec: additional environment variables that should be used for execution
+               each variable should take the form "X=Y" (optional)
+     pgofiles: a map of benchmark names (see 'sweet help run') to profile files
+               to be passed to the Go compiler for optimization (optional)
+  diagnostics: profile types to collect for each benchmark run of this
+               configuration, which may be one of: cpuprofile, memprofile,
+               perf[=flags], trace (optional)
 
 A simple example configuration might look like:
 
@@ -43,11 +49,12 @@ type ConfigFile struct {
 }
 
 type Config struct {
-	Name     string            `toml:"name"`
-	GoRoot   string            `toml:"goroot"`
-	BuildEnv ConfigEnv         `toml:"envbuild"`
-	ExecEnv  ConfigEnv         `toml:"envexec"`
-	PGOFiles map[string]string `toml:"pgofiles"`
+	Name        string                `toml:"name"`
+	GoRoot      string                `toml:"goroot"`
+	BuildEnv    ConfigEnv             `toml:"envbuild"`
+	ExecEnv     ConfigEnv             `toml:"envexec"`
+	PGOFiles    map[string]string     `toml:"pgofiles"`
+	Diagnostics diagnostics.ConfigSet `toml:"diagnostics"`
 }
 
 func (c *Config) GoTool() *Go {
@@ -61,9 +68,12 @@ func (c *Config) GoTool() *Go {
 
 // Copy returns a deep copy of Config.
 func (c *Config) Copy() *Config {
-	// Currently, all fields in Config are immutable, so a simply copy is
-	// sufficient.
 	cc := *c
+	cc.PGOFiles = make(map[string]string)
+	for k, v := range c.PGOFiles {
+		cc.PGOFiles[k] = v
+	}
+	cc.Diagnostics = c.Diagnostics.Copy()
 	return &cc
 }
 
@@ -76,11 +86,12 @@ func ConfigFileMarshalTOML(c *ConfigFile) ([]byte, error) {
 	// on Config and use dummy types that have a straightforward
 	// mapping that *does* work.
 	type config struct {
-		Name     string            `toml:"name"`
-		GoRoot   string            `toml:"goroot"`
-		BuildEnv []string          `toml:"envbuild"`
-		ExecEnv  []string          `toml:"envexec"`
-		PGOFiles map[string]string `toml:"pgofiles"`
+		Name        string            `toml:"name"`
+		GoRoot      string            `toml:"goroot"`
+		BuildEnv    []string          `toml:"envbuild"`
+		ExecEnv     []string          `toml:"envexec"`
+		PGOFiles    map[string]string `toml:"pgofiles"`
+		Diagnostics []string          `toml:"diagnostics"`
 	}
 	type configFile struct {
 		Configs []*config `toml:"config"`
@@ -93,6 +104,7 @@ func ConfigFileMarshalTOML(c *ConfigFile) ([]byte, error) {
 		cfg.BuildEnv = c.BuildEnv.Collapse()
 		cfg.ExecEnv = c.ExecEnv.Collapse()
 		cfg.PGOFiles = c.PGOFiles
+		cfg.Diagnostics = c.Diagnostics.Strings()
 
 		cfgs.Configs = append(cfgs.Configs, &cfg)
 	}
