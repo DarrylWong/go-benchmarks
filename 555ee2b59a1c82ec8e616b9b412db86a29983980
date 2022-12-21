@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "98c4f236_a2de1a7a",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2022-12-21T18:26:10Z",
+      "side": 0,
+      "message": "Why is this part reverted? Isn\u0027t it still needed?",
+      "range": {
+        "startLine": 32,
+        "startChar": 16,
+        "endLine": 32,
+        "endChar": 43
+      },
+      "revId": "555ee2b59a1c82ec8e616b9b412db86a29983980",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
