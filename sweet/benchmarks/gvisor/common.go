@@ -30,7 +30,7 @@ func (c *config) profilePath(typ driver.ProfileType) string {
 func (cfg *config) runscCmd(arg ...string) *exec.Cmd {
 	var cmd *exec.Cmd
 	goProfiling := false
-	for _, typ := range []driver.ProfileType{driver.ProfileCPU, driver.ProfileMem} {
+	for _, typ := range []driver.ProfileType{driver.ProfileCPU, driver.ProfileMem, driver.ProfileTrace} {
 		if driver.ProfilingEnabled(typ) {
 			goProfiling = true
 			break
@@ -44,6 +44,9 @@ func (cfg *config) runscCmd(arg ...string) *exec.Cmd {
 	}
 	if driver.ProfilingEnabled(driver.ProfileMem) {
 		arg = append([]string{"-profile-heap", cfg.profilePath(driver.ProfileMem)}, arg...)
+	}
+	if driver.ProfilingEnabled(driver.ProfileTrace) {
+		arg = append([]string{"-trace", cfg.profilePath(driver.ProfileTrace)}, arg...)
 	}
 	if driver.ProfilingEnabled(driver.ProfilePerf) {
 		cmd = exec.Command("perf", append([]string{"record", "-o", cfg.profilePath(driver.ProfilePerf), cfg.runscPath}, arg...)...)

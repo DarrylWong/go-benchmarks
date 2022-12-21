@@ -99,27 +99,27 @@ func run(pkgPath string) error {
 	// Handle any CPU profiles produced, and merge them.
 	// Then, write them out to the canonical profiles above.
 	if driver.ProfilingEnabled(driver.ProfileCPU) {
-		compileProfile, err := mergeProfiles(tmpDir, profilePrefix("compile", driver.ProfileCPU))
+		compileProfile, err := mergePprofProfiles(tmpDir, profilePrefix("compile", driver.ProfileCPU))
 		if err != nil {
 			return err
 		}
-		if err := driver.WriteProfile(compileProfile, driver.ProfileCPU, name+"Compile"); err != nil {
+		if err := driver.WritePprofProfile(compileProfile, driver.ProfileCPU, name+"Compile"); err != nil {
 			return err
 		}
 
-		linkProfile, err := mergeProfiles(tmpDir, profilePrefix("link", driver.ProfileCPU))
+		linkProfile, err := mergePprofProfiles(tmpDir, profilePrefix("link", driver.ProfileCPU))
 		if err != nil {
 			return err
 		}
-		if err := driver.WriteProfile(linkProfile, driver.ProfileCPU, name+"Link"); err != nil {
+		if err := driver.WritePprofProfile(linkProfile, driver.ProfileCPU, name+"Link"); err != nil {
 			return err
 		}
 	}
 	if driver.ProfilingEnabled(driver.ProfileMem) {
-		if err := copyProfiles(tmpDir, "compile", driver.ProfileMem, name+"Compile"); err != nil {
+		if err := copyPprofProfiles(tmpDir, "compile", driver.ProfileMem, name+"Compile"); err != nil {
 			return err
 		}
-		if err := copyProfiles(tmpDir, "link", driver.ProfileMem, name+"Link"); err != nil {
+		if err := copyPprofProfiles(tmpDir, "link", driver.ProfileMem, name+"Link"); err != nil {
 			return err
 		}
 	}
@@ -128,11 +128,25 @@ func run(pkgPath string) error {
 			return err
 		}
 	}
+	if driver.ProfilingEnabled(driver.ProfileTrace) {
+		entries, err := os.ReadDir(tmpDir)
+		if err != nil {
+			return err
+		}
+		for _, entry := range entries {
+			if !strings.HasPrefix(entry.Name(), profilePrefix("compile", driver.ProfileTrace)) {
+				continue
+			}
+			if err := driver.CopyProfile(filepath.Join(tmpDir, entry.Name()), driver.ProfileTrace, name+"Compile"); err != nil {
+				return err
+			}
+		}
+	}
 	return printOtherResults(tmpResultsDir())
 }
 
-func mergeProfiles(dir, prefix string) (*profile.Profile, error) {
-	profiles, err := sprofile.ReadDir(dir, func(name string) bool {
+func mergePprofProfiles(dir, prefix string) (*profile.Profile, error) {
+	profiles, err := sprofile.ReadDirPprof(dir, func(name string) bool {
 		return strings.HasPrefix(name, prefix)
 	})
 	if err != nil {
@@ -141,16 +155,16 @@ func mergeProfiles(dir, prefix string) (*profile.Profile, error) {
 	return profile.Merge(profiles)
 }
 
-func copyProfiles(dir, bin string, typ driver.ProfileType, finalPrefix string) error {
+func copyPprofProfiles(dir, bin string, typ driver.ProfileType, finalPrefix string) error {
 	prefix := profilePrefix(bin, typ)
-	profiles, err := sprofile.ReadDir(dir, func(name string) bool {
+	profiles, err := sprofile.ReadDirPprof(dir, func(name string) bool {
 		return strings.HasPrefix(name, prefix)
 	})
 	if err != nil {
 		return err
 	}
 	for _, profile := range profiles {
-		if err := driver.WriteProfile(profile, typ, finalPrefix); err != nil {
+		if err := driver.WritePprofProfile(profile, typ, finalPrefix); err != nil {
 			return err
 		}
 	}
@@ -200,8 +214,12 @@ func runToolexec() error {
 		return cmd.Run()
 	}
 	var extraFlags []string
-	for _, typ := range []driver.ProfileType{driver.ProfileCPU, driver.ProfileMem} {
+	for _, typ := range []driver.ProfileType{driver.ProfileCPU, driver.ProfileMem, driver.ProfileTrace} {
 		if driver.ProfilingEnabled(typ) {
+			if bin == "link" && typ == driver.ProfileTrace {
+				// TODO(mknyszek): Traces are not supported for the linker.
+				continue
+			}
 			// Stake a claim for a filename.
 			f, err := os.CreateTemp(tmpDir, profilePrefix(bin, typ))
 			if err != nil {

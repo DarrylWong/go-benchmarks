@@ -218,7 +218,12 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 	}
 
 	// Perform a setup step for each config for the benchmark.
-	setups := make([]common.RunConfig, 0, len(cfgs))
+	type setup struct {
+		typ  string
+		cfg  *common.Config
+		rcfg common.RunConfig
+	}
+	setups := make([]setup, 0, len(cfgs))
 	for _, pcfg := range cfgs {
 		// Local copy for per-benchmark environment adjustments.
 		cfg := pcfg.Copy()
@@ -279,9 +284,10 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			mkdirAll(resultsBinDir)
 			copyDirContents(resultsBinDir, binDir)
 		}
-		if r.cpuProfile || r.memProfile || r.perf {
+		var resultsProfilesDir string
+		if r.cpuProfile || r.memProfile || r.perf || r.trace != traceOff {
 			// Create a directory for any profile files to live in.
-			resultsProfilesDir := r.runProfilesDir(b, cfg)
+			resultsProfilesDir = r.runProfilesDir(b, cfg)
 			mkdirAll(resultsProfilesDir)
 
 			// We need to pass arguments to the benchmark binary to generate
@@ -298,6 +304,9 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 					args = append(args, "-perf-flags", r.perfFlags)
 				}
 			}
+			if r.trace == traceOn {
+				args = append(args, "-trace", resultsProfilesDir)
+			}
 		}
 
 		results, err := os.Create(filepath.Join(resultsDir, fmt.Sprintf("%s.results", cfg.Name)))
@@ -305,48 +314,71 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			return fmt.Errorf("create %s results file for %s: %v", b.name, cfg.Name, err)
 		}
 		defer results.Close()
-		setups = append(setups, common.RunConfig{
-			BinDir:    binDir,
-			TmpDir:    tmpDir,
-			AssetsDir: assetsDir,
-			Args:      args,
-			Results:   results,
-			Short:     r.short,
+		setups = append(setups, setup{
+			cfg: cfg,
+			rcfg: common.RunConfig{
+				BinDir:    binDir,
+				TmpDir:    tmpDir,
+				AssetsDir: assetsDir,
+				Args:      args,
+				Results:   results,
+				Short:     r.short,
+			},
 		})
+		if r.trace == traceCompare {
+			// Create a second results file and run configuration with tracing enabled.
+			traceResults, err := os.Create(filepath.Join(resultsDir, fmt.Sprintf("%s-trace.results", cfg.Name)))
+			if err != nil {
+				return fmt.Errorf("create %s trace results file for %s: %v", b.name, cfg.Name, err)
+			}
+			defer traceResults.Close()
+
+			// Copy the last config and update it to enable tracing.
+			traceCfg := setups[len(setups)-1]
+			traceCfg.typ = "trace"
+			traceCfg.rcfg.Args = append(args, "-trace", resultsProfilesDir)
+			traceCfg.rcfg.Results = traceResults
+			setups = append(setups, traceCfg)
+		}
 	}
 
 	for j := 0; j < r.count; j++ {
 		// Execute the benchmark for each configuration.
-		for i, setup := range setups {
+		for _, setup := range setups {
 			if hasAssets {
 				// Set up assets directory for test run.
-				r.logCopyDirCommand(b.name, setup.AssetsDir)
-				if err := fileutil.CopyDir(setup.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
+				r.logCopyDirCommand(b.name, setup.rcfg.AssetsDir)
+				if err := fileutil.CopyDir(setup.rcfg.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
 					return err
 				}
 			}
 
-			log.Printf("Running benchmark %s for %s: run %d", b.name, cfgs[i].Name, j+1)
+			// If the setup has a special type, print it.
+			specialType := ""
+			if setup.typ != "" {
+				specialType = "(" + setup.typ + ")"
+			}
+			log.Printf("Running benchmark %s for %s: run %d %s", b.name, setup.cfg.Name, j+1, specialType)
 			// Force a GC now because we're about to turn it off.
 			runtime.GC()
 			// Hold your breath: we're turning off GC for the duration of the
 			// run so that the suite's GC doesn't start blasting on all Ps,
 			// introducing undue noise into the experiments.
 			gogc := debug.SetGCPercent(-1)
-			if err := b.harness.Run(cfgs[i], &setup); err != nil {
+			if err := b.harness.Run(setup.cfg, &setup.rcfg); err != nil {
 				debug.SetGCPercent(gogc)
-				setup.Results.Close()
-				return fmt.Errorf("run benchmark %s for config %s: %v", b.name, cfgs[i].Name, err)
+				setup.rcfg.Results.Close()
+				return fmt.Errorf("run benchmark %s for config %s: %v", b.name, setup.cfg.Name, err)
 			}
 			debug.SetGCPercent(gogc)
 
 			// Clean up tmp directory so benchmarks may assume it's empty.
-			if err := rmDirContents(setup.TmpDir); err != nil {
+			if err := rmDirContents(setup.rcfg.TmpDir); err != nil {
 				return err
 			}
 			if hasAssets {
 				// Clean up assets directory just in case any of the files were written to.
-				if err := rmDirContents(setup.AssetsDir); err != nil {
+				if err := rmDirContents(setup.rcfg.AssetsDir); err != nil {
 					return err
 				}
 			}

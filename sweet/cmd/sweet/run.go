@@ -38,6 +38,33 @@ func (c *csvFlag) Set(input string) error {
 	return nil
 }
 
+type traceArg string
+
+const (
+	traceOff     traceArg = "false"
+	traceOn      traceArg = "true"
+	traceCompare traceArg = "compare"
+)
+
+var traceArgNames = []string{string(traceOff), string(traceOn), string(traceCompare)}
+
+func (a *traceArg) String() string {
+	return string(*a)
+}
+
+func (a *traceArg) Set(input string) error {
+	switch t := traceArg(input); t {
+	case traceOff, traceOn, traceCompare:
+		*a = t
+		return nil
+	}
+	return fmt.Errorf("invalid -trace argument %q, want one of: %s", input, strings.Join(traceArgNames, ", "))
+}
+
+func (a *traceArg) IsBoolFlag() bool {
+	return true
+}
+
 const (
 	runLongDesc = `Execute benchmarks in the suite against GOROOTs provided in TOML configuration
 files. Note: by default, this command expects to run from /path/to/x/benchmarks/sweet.`
@@ -62,6 +89,7 @@ type runCfg struct {
 	memProfile  bool
 	perf        bool
 	perfFlags   string
+	trace       traceArg
 	pgo         bool
 	pgoCount    int
 	short       bool
@@ -144,6 +172,8 @@ func (*runCmd) PrintUsage(w io.Writer, base string) {
 }
 
 func (c *runCmd) SetFlags(f *flag.FlagSet) {
+	c.runCfg.trace = traceOff
+
 	f.StringVar(&c.runCfg.resultsDir, "results", "./results", "location to write benchmark results to")
 	f.StringVar(&c.runCfg.benchDir, "bench-dir", "./benchmarks", "the benchmarks directory in the sweet source")
 	f.StringVar(&c.runCfg.assetsDir, "assets-dir", "", "a directory containing uncompressed assets for sweet benchmarks, usually for debugging Sweet (overrides -cache)")
@@ -156,6 +186,7 @@ func (c *runCmd) SetFlags(f *flag.FlagSet) {
 	f.StringVar(&c.runCfg.perfFlags, "perf-flags", "", "the flags to pass to Linux perf if -perf is set")
 	f.BoolVar(&c.pgo, "pgo", false, "perform PGO testing; for each config, collect profiles from a baseline run which are used to feed into a generated PGO config")
 	f.IntVar(&c.runCfg.pgoCount, "pgo-count", 0, "the number of times to run profiling runs for -pgo; defaults to the value of -count if <=5, or 5 if higher")
+	f.Var(&c.runCfg.trace, "trace", "whether to generate an execution trace (accepts 'true', 'false', and 'compare', the last of which is for measuring overheads)")
 	f.IntVar(&c.runCfg.count, "count", 0, fmt.Sprintf("the number of times to run each benchmark (default %d)", countDefault))
 
 	f.BoolVar(&c.quiet, "quiet", false, "whether to suppress activity output on stderr (no effect on -shell)")
@@ -362,9 +393,13 @@ func (c *runCmd) Run(args []string) error {
 	if len(unknown) != 0 {
 		return fmt.Errorf("unknown benchmarks: %s", strings.Join(unknown, ", "))
 	}
-	countString := fmt.Sprintf("%d runs", c.runCfg.count)
+	multiplier := 1
+	if c.trace == traceCompare {
+		multiplier = 2
+	}
+	countString := fmt.Sprintf("%d runs", c.runCfg.count*multiplier)
 	if c.pgo {
-		countString += fmt.Sprintf(", %d pgo runs", c.runCfg.pgoCount)
+		countString += fmt.Sprintf(", %d pgo runs", c.runCfg.pgoCount*multiplier)
 	}
 	countString += fmt.Sprintf(" per config (%d)", len(configs))
 	log.Printf("Benchmarks: %s (%s)", strings.Join(benchmarkNames(benchmarks), " "), countString)
@@ -456,7 +491,7 @@ func (c *runCmd) preparePGO(configs []*common.Config, benchmarks []*benchmark) (
 var cpuProfileRe = regexp.MustCompile(`^.*\.cpu[0-9]+$`)
 
 func mergeCPUProfiles(dir string) (string, error) {
-	profiles, err := sprofile.ReadDir(dir, func(name string) bool {
+	profiles, err := sprofile.ReadDirPprof(dir, func(name string) bool {
 		return cpuProfileRe.FindString(name) != ""
 	})
 	if err != nil {

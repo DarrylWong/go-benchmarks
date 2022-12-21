@@ -13,6 +13,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"runtime/pprof"
+	"runtime/trace"
 	"sort"
 	"strconv"
 	"strings"
@@ -28,6 +29,7 @@ var (
 	memProfileDir string
 	perfDir       string
 	perfFlags     string
+	traceDir      string
 	short         bool
 )
 
@@ -37,6 +39,7 @@ func SetFlags(f *flag.FlagSet) {
 	f.StringVar(&memProfileDir, "memprofile", "", "write a memory profile to the given directory after every benchmark run")
 	f.StringVar(&perfDir, "perf", "", "write a Linux perf data file to the given directory after every benchmark run")
 	f.StringVar(&perfFlags, "perf-flags", "", "pass the following additional flags to Linux perf")
+	f.StringVar(&traceDir, "trace", "", "write an execution trace to the given directory after every benchmark run")
 }
 
 const (
@@ -104,6 +107,12 @@ func DoPerf(v bool) RunOption {
 	}
 }
 
+func DoTrace(v bool) RunOption {
+	return func(b *B) {
+		b.doProfile[ProfileTrace] = v
+	}
+}
+
 func BenchmarkPID(pid int) RunOption {
 	return func(b *B) {
 		b.pid = pid
@@ -111,6 +120,7 @@ func BenchmarkPID(pid int) RunOption {
 			b.doProfile[ProfileCPU] = false
 			b.doProfile[ProfileMem] = false
 			b.doProfile[ProfilePerf] = false
+			b.doProfile[ProfileTrace] = false
 		}
 	}
 }
@@ -136,6 +146,7 @@ var InProcessMeasurementOptions = []RunOption{
 	DoCPUProfile(true),
 	DoMemProfile(true),
 	DoPerf(true),
+	DoTrace(true),
 }
 
 type B struct {
@@ -182,6 +193,10 @@ func (b *B) setStat(name string, value uint64) {
 
 func (b *B) shouldProfile(typ ProfileType) bool {
 	return b.doProfile[typ] && ProfilingEnabled(typ)
+}
+
+func (b *B) Name() string {
+	return b.name
 }
 
 func (b *B) StartTimer() {
@@ -449,6 +464,12 @@ func RunBenchmark(name string, f func(*B) error, opts ...RunOption) error {
 		}
 	}
 
+	if b.shouldProfile(ProfileTrace) {
+		if err := trace.Start(b.profiles[ProfileTrace]); err != nil {
+			return err
+		}
+	}
+
 	b.StartTimer()
 
 	// Run the benchmark itself.
@@ -513,6 +534,9 @@ func RunBenchmark(name string, f func(*B) error, opts ...RunOption) error {
 				return err
 			}
 		}
+		if typ == ProfileTrace {
+			trace.Stop()
+		}
 		f.Close()
 	}
 
@@ -524,15 +548,17 @@ func RunBenchmark(name string, f func(*B) error, opts ...RunOption) error {
 type ProfileType string
 
 const (
-	ProfileCPU  ProfileType = "cpu"
-	ProfileMem  ProfileType = "mem"
-	ProfilePerf ProfileType = "perf"
+	ProfileCPU   ProfileType = "cpu"
+	ProfileMem   ProfileType = "mem"
+	ProfilePerf  ProfileType = "perf"
+	ProfileTrace ProfileType = "trace"
 )
 
 var ProfileTypes = []ProfileType{
 	ProfileCPU,
 	ProfileMem,
 	ProfilePerf,
+	ProfileTrace, // TODO(mknyszek): Consider renaming ProfileType.
 }
 
 func ProfilingEnabled(typ ProfileType) bool {
@@ -543,11 +569,13 @@ func ProfilingEnabled(typ ProfileType) bool {
 		return memProfileDir != ""
 	case ProfilePerf:
 		return perfDir != ""
+	case ProfileTrace:
+		return traceDir != ""
 	}
 	panic("bad profile type")
 }
 
-func WriteProfile(prof *profile.Profile, typ ProfileType, pattern string) error {
+func WritePprofProfile(prof *profile.Profile, typ ProfileType, pattern string) error {
 	if !ProfilingEnabled(typ) {
 		return fmt.Errorf("this type of profile is not currently enabled")
 	}
@@ -589,6 +617,9 @@ func newProfileFile(typ ProfileType, pattern string) (*os.File, error) {
 	case ProfilePerf:
 		outDir = perfDir
 		patternSuffix = ".perf"
+	case ProfileTrace:
+		outDir = traceDir
+		patternSuffix = ".trace"
 	}
 	return os.CreateTemp(outDir, pattern+patternSuffix)
 }
