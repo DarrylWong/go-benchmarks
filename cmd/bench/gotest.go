@@ -28,14 +28,30 @@ func goTestSubrepo(tc *toolchain, subRepo, baselineDir, experimentDir string) er
 		log.Printf("Running sub-repo benchmarks for %s", subRepo)
 
 		fmt.Println("toolchain: baseline")
-		err := tc.Do(filepath.Join(baselineDir, "gopls"), "test", "-v", "-bench=BenchmarkGoToDefinition", "./internal/regtest/bench/", "-count=5")
+
+		goplsBaseline := filepath.Join(baselineDir, "gopls")
+		err := tc.Do(goplsBaseline, "build", "-o=.")
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return fmt.Errorf("error buidling sub-repo %s with toolchain %s in dir %s: %w", subRepo, tc.Name, baselineDir, err)
+		}
+
+		err = tc.Do(goplsBaseline, "test", "-v", "-bench=BenchmarkGoToDefinition", "./internal/regtest/bench/", fmt.Sprintf(`-gopls_path=%s`, filepath.Join(goplsBaseline, "gopls")), "-count=5")
 		if err != nil {
 			log.Printf("Error: %v", err)
 			return fmt.Errorf("error running sub-repo %s benchmark with toolchain %s in dir %s: %w", subRepo, tc.Name, baselineDir, err)
 		}
 
 		fmt.Println("toolchain: experiment")
-		err = tc.Do(filepath.Join(experimentDir, "gopls"), "test", "-v", "-bench=BenchmarkGoToDefinition", "./internal/regtest/bench/", "-count=5")
+
+		goplsExperiment := filepath.Join(experimentDir, "gopls")
+		err = tc.Do(goplsExperiment, "build", "-o=.")
+		if err != nil {
+			log.Printf("Error: %v", err)
+			return fmt.Errorf("error buidling sub-repo %s with toolchain %s in dir %s: %w", subRepo, tc.Name, experimentDir, err)
+		}
+
+		err = tc.Do(goplsExperiment, "test", "-v", "-bench=BenchmarkGoToDefinition", "./internal/regtest/bench/", fmt.Sprintf(`-gopls_path=%s`, filepath.Join(goplsExperiment, "gopls")), "-count=5")
 		if err != nil {
 			log.Printf("Error: %v", err)
 			return fmt.Errorf("error running sub-repo %s benchmark with toolchain %s in dir %s: %w", subRepo, tc.Name, experimentDir, err)
