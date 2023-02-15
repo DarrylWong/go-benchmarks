@@ -112,11 +112,6 @@
   ExtraFiles = ["proteins_10k.inp", "proteins_10k.ref", "proteins_30k.inp", "proteins_30k.ref", "proteins_large.inp", "proteins_large.ref"]
 
 [[Suites]]
-  Name = "klauspost"
-  Repo = "github.com/dr2chase/benchmarks/klauspost"
-  Version = "@v0.0.0-20211005202936-58b13036cdde"
-
-[[Suites]]
   Name = "minio"
   Repo = "github.com/minio/minio/cmd"
   Tests = "none" # Don't run these tests; they hang, etc.
