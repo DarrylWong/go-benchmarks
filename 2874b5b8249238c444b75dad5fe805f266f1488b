@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72cd5571_065c9ce5",
+        "filename": "sweet/generators/copy.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-02-15T20:56:49Z",
+      "side": 0,
+      "message": "Should we regenerate the assets? I suppose a few extra files won\u0027t make much difference.",
+      "revId": "2874b5b8249238c444b75dad5fe805f266f1488b",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
