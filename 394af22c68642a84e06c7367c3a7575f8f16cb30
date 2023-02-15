@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46829b6b_964abbeb",
+        "filename": "cmd/bent/configs/suites.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-02-15T21:12:15Z",
+      "side": 0,
+      "message": "is this one buggy?  I tend to keep them unless there\u0027s a problem.",
+      "range": {
+        "startLine": 115,
+        "startChar": 10,
+        "endLine": 115,
+        "endChar": 19
+      },
+      "revId": "394af22c68642a84e06c7367c3a7575f8f16cb30",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
