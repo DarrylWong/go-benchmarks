@@ -239,7 +239,7 @@ func (config *Configuration) compileOne(bench *Benchmark, cwd string, count int)
 		}
 		buf.WriteString(s)
 		s = fmt.Sprintf("Benchmark%s 1 %d build-real-ns/op %d build-user-ns/op %d build-sys-ns/op\n",
-		strings.Title(bench.Name), bs.RealTime.Nanoseconds(), bs.UserTime.Nanoseconds(), bs.SysTime.Nanoseconds())
+			strings.Title(bench.Name), bs.RealTime.Nanoseconds(), bs.UserTime.Nanoseconds(), bs.SysTime.Nanoseconds())
 		if verbose > 0 {
 			fmt.Print(s)
 		}
