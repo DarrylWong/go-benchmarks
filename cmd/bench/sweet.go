@@ -128,6 +128,20 @@ func sweet(tcs []*toolchain) (err error) {
 			err = fmt.Errorf("error running sweet run: %w", sweetErr)
 		}
 	}()
+	defer func() {
+		out, err := exec.Command("df", "-h").CombinedOutput()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to run df: %v", err)
+		} else {
+			fmt.Fprintln(os.Stderr, string(out))
+		}
+		out, err = exec.Command("du", "--max-depth=6", "-h", "/workdir", "/tmp").CombinedOutput()
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "failed to run du: %v", err)
+		} else {
+			fmt.Fprintln(os.Stderr, string(out))
+		}
+	}()
 
 	// Dump results to stdout.
 	for _, tc := range tcs {
