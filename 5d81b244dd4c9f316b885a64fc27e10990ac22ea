@@ -72,6 +72,59 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea2ea368_900de56b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:08:00Z",
+      "side": 1,
+      "message": "note: I have resolved all these comments in my latest patchset, but haven\u0027t uploaded it yet.",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff1088dd_773ed4e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:08:00Z",
+      "side": 1,
+      "message": "Done\n\n(it affects the entire cache AFAICT)",
+      "parentUuid": "ed75c1a5_8466358b",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1b0ec4db_39f4f062",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:08:00Z",
+      "side": 1,
+      "message": "yeah, but not nearly as much. 3.1 GiB?",
+      "parentUuid": "44d7d76e_f27c1bba",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ea0e5535_c611b604",
         "filename": "cmd/bench/main.go",
         "patchSetId": 1
@@ -100,6 +153,42 @@
       "writtenOn": "2023-02-28T21:04:20Z",
       "side": 1,
       "message": "If someone wants to contribute to `x/benchmarks`, implicitly running `go clean -cache` on their machine seems a little heavy-handed. 😅\n\nPerhaps only do this if `GO_BUILDER_NAME` is set?\n\nOr, maybe have whatever is filling up the cache explicitly create its own `GOCACHE` in a temp directory, and clean up that directory at the end of `main` or `TestMain`?",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5a7e424c_08b6e683",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:08:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0e5535_c611b604",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb7db1c_796e3faf",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:08:00Z",
+      "side": 1,
+      "message": "I already have an update that skips this. I just didn\u0027t want to stop the builder from running, because it takes quite a long time.",
+      "parentUuid": "ad9bc2bd_0cad3250",
       "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
