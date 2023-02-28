@@ -191,6 +191,24 @@
       "parentUuid": "ad9bc2bd_0cad3250",
       "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6b60be1_6dd3e698",
+        "filename": "cmd/bench/main.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 25391
+      },
+      "writtenOn": "2023-02-28T21:09:16Z",
+      "side": 1,
+      "message": "ah sorry, I meant specifically only if GO_BUILDER_NAME is set.\n\nI don\u0027t think we want bent and sweet to create temp caches. it\u0027s useful to share them for dev machines. I suppose we can pass down a flag and manage them from here. I think GO_BUILDER_NAME is simpler.",
+      "parentUuid": "cdb7db1c_796e3faf",
+      "revId": "5d81b244dd4c9f316b885a64fc27e10990ac22ea",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
