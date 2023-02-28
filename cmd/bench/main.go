@@ -77,12 +77,28 @@ func run(tcs []*toolchain) error {
 		pass = false
 		log.Printf("Error running bent: %v", err)
 	}
+	if err := cleanGoCache(tcs); err != nil {
+		return fmt.Errorf("failed to clean Go cache: %w", err)
+	}
 	if err := sweet(tcs); err != nil {
 		pass = false
 		log.Printf("Error running sweet: %v", err)
 	}
 	if !pass {
 		return fmt.Errorf("benchmarks failed")
+	}
+	return nil
+}
+
+func cleanGoCache(tcs []*toolchain) error {
+	wd, err := os.Getwd()
+	if err != nil {
+		return err
+	}
+	for _, tc := range tcs {
+		if err := tc.Go.Do(wd, "clean", "-cache"); err != nil {
+			return fmt.Errorf("toolchain %s: %w", tc.Name, err)
+		}
 	}
 	return nil
 }
