@@ -59,6 +59,30 @@
       },
       "revId": "b8820ff439b435159d8aa8679fd431b23bb5970f",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c05b9c25_c708afea",
+        "filename": "cmd/bench/gotest.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 31647
+      },
+      "writtenOn": "2023-03-07T14:25:52Z",
+      "side": 1,
+      "message": "Whoops, an artifact of an earlier incantation, which used `go run`.\n\nRemoved.",
+      "parentUuid": "9e7e4d2c_e9f53415",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "b8820ff439b435159d8aa8679fd431b23bb5970f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     }
   ]
 }
