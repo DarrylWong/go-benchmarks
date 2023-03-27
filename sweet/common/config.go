@@ -60,6 +60,7 @@ type Config struct {
 	BuildEnv    ConfigEnv             `toml:"envbuild"`
 	ExecEnv     ConfigEnv             `toml:"envexec"`
 	PGOFiles    map[string]string     `toml:"pgofiles"`
+	PGOBuildEnv map[string]ConfigEnv  `toml:"pgoenvbuild"`
 	Diagnostics diagnostics.ConfigSet `toml:"diagnostics"`
 }
 
@@ -79,6 +80,10 @@ func (c *Config) Copy() *Config {
 	for k, v := range c.PGOFiles {
 		cc.PGOFiles[k] = v
 	}
+	cc.PGOBuildEnv = make(map[string]ConfigEnv)
+	for k, v := range c.PGOBuildEnv {
+		cc.PGOBuildEnv[k] = v
+	}
 	cc.Diagnostics = c.Diagnostics.Copy()
 	return &cc
 }
@@ -92,12 +97,13 @@ func ConfigFileMarshalTOML(c *ConfigFile) ([]byte, error) {
 	// on Config and use dummy types that have a straightforward
 	// mapping that *does* work.
 	type config struct {
-		Name        string            `toml:"name"`
-		GoRoot      string            `toml:"goroot"`
-		BuildEnv    []string          `toml:"envbuild"`
-		ExecEnv     []string          `toml:"envexec"`
-		PGOFiles    map[string]string `toml:"pgofiles"`
-		Diagnostics []string          `toml:"diagnostics"`
+		Name        string              `toml:"name"`
+		GoRoot      string              `toml:"goroot"`
+		BuildEnv    []string            `toml:"envbuild"`
+		ExecEnv     []string            `toml:"envexec"`
+		PGOFiles    map[string]string   `toml:"pgofiles"`
+		PGOBuildEnv map[string][]string `toml:"pgoenvbuild"`
+		Diagnostics []string            `toml:"diagnostics"`
 	}
 	type configFile struct {
 		Configs []*config `toml:"config"`
@@ -111,6 +117,11 @@ func ConfigFileMarshalTOML(c *ConfigFile) ([]byte, error) {
 		cfg.ExecEnv = c.ExecEnv.Collapse()
 		cfg.PGOFiles = c.PGOFiles
 		cfg.Diagnostics = c.Diagnostics.Strings()
+
+		cfg.PGOBuildEnv = make(map[string][]string, len(c.PGOBuildEnv))
+		for k, v := range c.PGOBuildEnv {
+			cfg.PGOBuildEnv[k] = v.Collapse()
+		}
 
 		cfgs.Configs = append(cfgs.Configs, &cfg)
 	}
