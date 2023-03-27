@@ -441,7 +441,25 @@ func (c *runCmd) preparePGO(configs []*common.Config, benchmarks []*benchmark) (
 			pgoConfig.PGOFiles[b.name] = p
 		}
 
-		newConfigs = append(newConfigs, pgoConfig)
+		if len(pgoConfig.PGOBuildEnv) == 0 {
+			newConfigs = append(newConfigs, pgoConfig)
+		} else {
+			for name, env := range pgoConfig.PGOBuildEnv {
+				pgoConfigPrime := pgoConfig.Copy()
+				pgoConfigPrime.Name += "." + name
+
+				vals := env.Collapse()
+				for _, v := range vals {
+					var err error
+					pgoConfigPrime.BuildEnv.Env, err = pgoConfigPrime.BuildEnv.Set(v)
+					if err != nil {
+						return nil, fmt.Errorf("error setting buildenv %s in %+v: %w", v, pgoConfigPrime, err)
+					}
+				}
+
+				newConfigs = append(newConfigs, pgoConfigPrime)
+			}
+		}
 	}
 
 	return newConfigs, nil
