@@ -78,6 +78,23 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "e9be5d76_6e73219c",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-05T18:28:20Z",
+      "side": 1,
+      "message": "This is dead, right? It doesn\u0027t look like perf is hooked up.",
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a422bdc9_40a10255",
         "filename": "sweet/benchmarks/etcd/main.go",
         "patchSetId": 3
@@ -119,6 +136,93 @@
         "endLine": 73,
         "endChar": 52
       },
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41378255_1cb3e452",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-05T18:28:20Z",
+      "side": 1,
+      "message": "I see, that makes sense. Add a comment?",
+      "parentUuid": "990592d7_5c66c68f",
+      "range": {
+        "startLine": 73,
+        "startChar": 1,
+        "endLine": 73,
+        "endChar": 52
+      },
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f119b07_03285799",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-05T18:28:20Z",
+      "side": 1,
+      "message": "Check length so this doesn\u0027t crash on malformed tool output.",
+      "range": {
+        "startLine": 293,
+        "startChar": 27,
+        "endLine": 293,
+        "endChar": 56
+      },
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1c29b78_a67ecadf",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-05T18:28:20Z",
+      "side": 1,
+      "message": "TIL this exists.",
+      "range": {
+        "startLine": 293,
+        "startChar": 57,
+        "endLine": 293,
+        "endChar": 71
+      },
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f92c455_e0c27f56",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-05T18:28:20Z",
+      "side": 1,
+      "message": "Am I understanding correctly that this ends up with a 1s profile only for the last second (ish) of the benchmark?",
       "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
