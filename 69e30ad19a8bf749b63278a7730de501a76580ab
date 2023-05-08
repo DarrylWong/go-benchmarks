@@ -111,6 +111,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdba7400_5bceab6e",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-08T15:30:35Z",
+      "side": 1,
+      "message": "Acknowledged",
+      "parentUuid": "abd0155e_124037a0",
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a422bdc9_40a10255",
@@ -307,6 +325,24 @@
       "side": 1,
       "message": "the \"Poll\" here is load-bearing. it creates a background goroutine that polls every 1 second, starting from this call. the call returns a \"stop\" function that signals that background goroutine to stop and waits on it. I do indeed get multiple profiles out of a single run.\n\nI totally recognize this is all pretty confusing, but there\u0027s a lot of concurrency going on here so there\u0027s some baseline level of complexity.",
       "parentUuid": "4f92c455_e0c27f56",
+      "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "be3396e0_6d42561d",
+        "filename": "sweet/benchmarks/etcd/main.go",
+        "patchSetId": 3
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 12120
+      },
+      "writtenOn": "2023-05-08T15:30:35Z",
+      "side": 1,
+      "message": "The part that confuses me is the outputPath argument to PollDiagnostic. That sounds like the final output path (i.e., in `results/`), but it is actually just a temporary file that is OK to overwrite on every run. The `driver.CopyDiagnosticData` call in `CollectDiagnostic` picks the final output path automatically.\n\nPerhaps Poll/CollectDiagnostic should rename the argument to `tmpPath`, or going further why even specify the temp path name? Why can\u0027t it just be random?",
+      "parentUuid": "d64485c9_44ae125c",
       "revId": "69e30ad19a8bf749b63278a7730de501a76580ab",
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
