@@ -107,6 +107,7 @@ func sweet(tcs []*toolchain) (err error) {
 		sweetBin, "run",
 		"-run", "all",
 		"-count", "10",
+		"-pgo",
 		"-bench-dir", filepath.Join(sweetRoot, "benchmarks"),
 		"-cache", assetsCacheDir,
 		"-work-dir", workDir,
