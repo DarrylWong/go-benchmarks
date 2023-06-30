@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c4d28a1_6327cb08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 63728
+      },
+      "writtenOn": "2023-06-30T03:06:49Z",
+      "side": 1,
+      "message": "https://go-review.googlesource.com/c/benchmarks/+/498278",
+      "revId": "be7df7222965250cf15d39f7034ec1c0c277f698",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
