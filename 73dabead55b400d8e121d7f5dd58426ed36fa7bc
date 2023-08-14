@@ -127,6 +127,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ab2d78b4_e14c2824",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 15
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-08-14T21:16:35Z",
+      "side": 1,
+      "message": "I\u0027m not sure how this should use b.N, but *not* using b.N isn\u0027t really an option. The testing package is going to trying cranking b.N up until the test time goes over some threshold and things are going to get very messed up if the benchmark is completely insensitive to said cranking. I think this is also just going to report a bogus ns/op metric? You can override that with ReportMetric, and it may make sense to override it with your current avg-ns metric.",
+      "parentUuid": "b51e63eb_22131827",
+      "range": {
+        "startLine": 109,
+        "startChar": 11,
+        "endLine": 109,
+        "endChar": 12
+      },
+      "revId": "73dabead55b400d8e121d7f5dd58426ed36fa7bc",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "42f61d8a_e6b14a24",
         "filename": "gc_latency/latency.go",
         "patchSetId": 15
