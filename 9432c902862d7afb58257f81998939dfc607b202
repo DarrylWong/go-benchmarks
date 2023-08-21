@@ -57,6 +57,23 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a98872f7_9d89e8f2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 18
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Have a cleaned up version coming, want to do a round of removing a little more global state, need to be sure it doesn\u0027t perturb the benchmark.",
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2515d755_3312e2bc",
@@ -70,6 +87,30 @@
       "writtenOn": "2023-08-18T19:00:34Z",
       "side": 1,
       "message": "\"warmupMsgs\" or \"warmupCount\" (then you don\u0027t need the comment and the use becomes self-describing)",
+      "range": {
+        "startLine": 20,
+        "startChar": 1,
+        "endLine": 20,
+        "endChar": 10
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6a58aec6_066a5aa0",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2515d755_3312e2bc",
       "range": {
         "startLine": 20,
         "startChar": 1,
@@ -126,6 +167,54 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9443a6a_e64f3ebc",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e090e656_f33e26af",
+      "range": {
+        "startLine": 21,
+        "startChar": 28,
+        "endLine": 21,
+        "endChar": 39
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8832166a_b7f8a676",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e250b2fc_1e400e27",
+      "range": {
+        "startLine": 21,
+        "startChar": 1,
+        "endLine": 21,
+        "endChar": 10
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "bdde0040_67cd85e2",
@@ -139,6 +228,30 @@
       "writtenOn": "2023-08-18T19:00:34Z",
       "side": 1,
       "message": "This is remarkably non-descriptive.",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 38,
+        "endChar": 8
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "54ce7e58_b96c1c20",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bdde0040_67cd85e2",
       "range": {
         "startLine": 38,
         "startChar": 1,
@@ -172,6 +285,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "85162ebf_6a1aa56a",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f271e66b_5a01d75b",
+      "range": {
+        "startLine": 57,
+        "startChar": 3,
+        "endLine": 57,
+        "endChar": 56
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61c35e98_f715d7d1",
@@ -189,6 +326,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "672aae5c_692f3c2c",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "I tried that and it seemed to make it hang after running the first benchmark, with count\u003d3. (I killed it after 213 seconds, putting it back lets `go test -run\u003dnope -bench\u003dBench -count\u003d3 .` run all 18 benchmarks in 85 seconds.)",
+      "parentUuid": "61c35e98_f715d7d1",
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3aeefe1_0e76a371",
@@ -202,6 +357,30 @@
       "writtenOn": "2023-08-18T19:00:34Z",
       "side": 1,
       "message": "No \".\". Just \"p50-ns\" Percentile is on a scale of 0 to 100. (You may be thinking of quantiles? But nobody will know what q.50 means 😊)",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 39
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "adac9c4b_f07b4964",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T18:23:46Z",
+      "side": 1,
+      "message": "What\u0027s your opinion on p999 versus p99.9?\n\nUsing p1.00 instead of \"worst\" makes it sort into an earlier column, which makes me sad, but it is consistent.",
+      "parentUuid": "d3aeefe1_0e76a371",
       "range": {
         "startLine": 176,
         "startChar": 35,
