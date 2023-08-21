@@ -362,6 +362,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c88899f_95ec3c49",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T19:33:58Z",
+      "side": 1,
+      "message": "I think it is trying to get the benchmark to take enough time.",
+      "parentUuid": "943e10c3_948c282c",
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3aeefe1_0e76a371",
@@ -433,6 +451,30 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "861410e5_cc0503c7",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T19:33:58Z",
+      "side": 1,
+      "message": "\"max\" \u003c \"p...\" \u003c \"worst\" so I will use \"worst\".\n\"p.100\" in my reply is a typo, was using \"p100\".",
+      "parentUuid": "50113f78_3e7f21a4",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 39
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2566c252_2a486c7c",
@@ -446,6 +488,30 @@
       "writtenOn": "2023-08-18T19:00:34Z",
       "side": 1,
       "message": "Follow convention: how\u003d%s/fluff\u003d%v\n\nThough maybe swap around how and fluff in the name, or change the order of tcs. Typically, if there are multiple /-separated elements in the name it\u0027s because of nested b.Runs, which means the last element changes faster than the earlier element. Right now you\u0027ll get the opposite order.",
+      "range": {
+        "startLine": 29,
+        "startChar": 27,
+        "endLine": 29,
+        "endChar": 28
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a4e1b2de_bfcba55c",
+        "filename": "gc_latency/latency_test.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2023-08-21T19:33:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2566c252_2a486c7c",
       "range": {
         "startLine": 29,
         "startChar": 27,
