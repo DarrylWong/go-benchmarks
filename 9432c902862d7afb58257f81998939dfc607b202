@@ -344,6 +344,24 @@
       "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "943e10c3_948c282c",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-08-21T18:30:40Z",
+      "side": 1,
+      "message": "That\u0027s.. troubling, and suggests that there may be some bug in your benchmark. I would put back the StopTimer and figure out why it\u0027s hanging.",
+      "parentUuid": "672aae5c_692f3c2c",
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d3aeefe1_0e76a371",
@@ -381,6 +399,30 @@
       "side": 1,
       "message": "What\u0027s your opinion on p999 versus p99.9?\n\nUsing p1.00 instead of \"worst\" makes it sort into an earlier column, which makes me sad, but it is consistent.",
       "parentUuid": "d3aeefe1_0e76a371",
+      "range": {
+        "startLine": 176,
+        "startChar": 35,
+        "endLine": 176,
+        "endChar": 39
+      },
+      "revId": "9432c902862d7afb58257f81998939dfc607b202",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "50113f78_3e7f21a4",
+        "filename": "gc_latency/latency.go",
+        "patchSetId": 18
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 5167
+      },
+      "writtenOn": "2023-08-21T18:30:40Z",
+      "side": 1,
+      "message": "\"pN\" means \"the Nth percentile\", so \"p999\" would mean the 999th percentile. Use \"p99.9\". Likewise, \"p1.00\" means the \"1th percentile\" aka 0.01 quantile. Use \"p100\" (\"worst\" or \"max\" is also fine).\n\nI wouldn\u0027t worry too much about sorting. If it bugs you, I\u0027d probably use \"max\" for p100.",
+      "parentUuid": "adac9c4b_f07b4964",
       "range": {
         "startLine": 176,
         "startChar": 35,
