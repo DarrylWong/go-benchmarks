@@ -5,9 +5,9 @@
 package main
 
 import (
-	"errors"
+	//"errors"
 	"fmt"
-	"io/fs"
+	//"io/fs"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -161,23 +161,23 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 	srcDir := filepath.Join(topDir, "src")
 
 	// Check if assets for this benchmark exist. Not all benchmarks have assets!
-	var hasAssets bool
-	assetsFSDir := b.name
-	if f, err := r.assetsFS.Open(assetsFSDir); err == nil {
-		fi, err := f.Stat()
-		if err != nil {
-			f.Close()
-			return err
-		}
-		if !fi.IsDir() {
-			f.Close()
-			return fmt.Errorf("found assets file for %s instead of directory", b.name)
-		}
-		f.Close()
-		hasAssets = true
-	} else if !errors.Is(err, fs.ErrNotExist) {
-		return err
-	}
+	//var hasAssets bool
+	//assetsFSDir := b.name
+	//if f, err := r.assetsFS.Open(assetsFSDir); err == nil {
+	//	fi, err := f.Stat()
+	//	if err != nil {
+	//		f.Close()
+	//		return err
+	//	}
+	//	if !fi.IsDir() {
+	//		f.Close()
+	//		return fmt.Errorf("found assets file for %s instead of directory", b.name)
+	//	}
+	//	f.Close()
+	//	hasAssets = true
+	//} else if !errors.Is(err, fs.ErrNotExist) {
+	//	return err
+	//}
 
 	// Retrieve the benchmark's source, if needed. If execute is called
 	// multiple times, this will already be done.
@@ -218,11 +218,11 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 		if err := mkdirAll(tmpDir); err != nil {
 			return fmt.Errorf("create %s tmp for %s: %v", b.name, cfg.Name, err)
 		}
-		if hasAssets {
-			if err := mkdirAll(assetsDir); err != nil {
-				return fmt.Errorf("create %s assets dir for %s: %v", b.name, cfg.Name, err)
-			}
-		}
+		//if hasAssets {
+		//	if err := mkdirAll(assetsDir); err != nil {
+		//		return fmt.Errorf("create %s assets dir for %s: %v", b.name, cfg.Name, err)
+		//	}
+		//}
 
 		// Add PGO if profile specified for this benchmark, otherwise
 		// explicitly disable it to avoid default.pgo files.
@@ -293,13 +293,13 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 	for j := 0; j < r.count; j++ {
 		// Execute the benchmark for each configuration.
 		for i, setup := range setups {
-			if hasAssets {
-				// Set up assets directory for test run.
-				r.logCopyDirCommand(b.name, setup.AssetsDir)
-				if err := fileutil.CopyDir(setup.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
-					return err
-				}
-			}
+			//if hasAssets {
+			//	// Set up assets directory for test run.
+			//	r.logCopyDirCommand(b.name, setup.AssetsDir)
+			//	if err := fileutil.CopyDir(setup.AssetsDir, assetsFSDir, r.assetsFS); err != nil {
+			//		return err
+			//	}
+			//}
 
 			log.Printf("Running benchmark %s for %s: run %d", b.name, cfgs[i].Name, j+1)
 			// Force a GC now because we're about to turn it off.
@@ -319,12 +319,12 @@ func (b *benchmark) execute(cfgs []*common.Config, r *runCfg) error {
 			if err := rmDirContents(setup.TmpDir); err != nil {
 				return err
 			}
-			if hasAssets {
-				// Clean up assets directory just in case any of the files were written to.
-				if err := rmDirContents(setup.AssetsDir); err != nil {
-					return err
-				}
-			}
+			//if hasAssets {
+			//	// Clean up assets directory just in case any of the files were written to.
+			//	if err := rmDirContents(setup.AssetsDir); err != nil {
+			//		return err
+			//	}
+			//}
 		}
 	}
 	return nil
