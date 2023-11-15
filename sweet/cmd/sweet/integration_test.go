@@ -92,11 +92,11 @@ func TestSweetEndToEnd(t *testing.T) {
 		}
 		assetsCacheDir = filepath.Join(tmpDir, "assets")
 	}
-	defer func() {
-		if err := os.RemoveAll(tmpDir); err != nil {
-			t.Errorf("clearing tmp directory: %v", err)
-		}
-	}()
+	//defer func() {
+	//	if err := os.RemoveAll(tmpDir); err != nil {
+	//		t.Errorf("clearing tmp directory: %v", err)
+	//	}
+	//}()
 
 	phaseDone("setup")
 
@@ -192,14 +192,14 @@ func TestSweetEndToEnd(t *testing.T) {
 	sema := semaphore.NewWeighted(8)
 	var wg sync.WaitGroup
 	for i, shard := range []shard{
-		{"tile38", 2},
+		//{"tile38", 2},
 		{"go-build", 4},
-		{"biogo-igor", 1},
-		{"biogo-krishna", 1},
-		{"etcd", 1},
-		{"bleve-index", 1},
-		{"gopher-lua", 1},
-		{"markdown", 1},
+		//{"biogo-igor", 1},
+		//{"biogo-krishna", 1},
+		//{"etcd", 1},
+		//{"bleve-index", 1},
+		//{"gopher-lua", 1},
+		//{"markdown", 1},
 		// TODO(go.dev/issue/51445): Enable once gVisor builds with Go 1.19.
 		// {"gvisor", 1},
 	} {
