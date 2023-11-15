@@ -5,7 +5,7 @@
 package main
 
 import (
-	"archive/zip"
+	//"archive/zip"
 	"errors"
 	"flag"
 	"fmt"
@@ -203,54 +203,54 @@ func (c *runCmd) Run(args []string) error {
 	if err != nil {
 		return fmt.Errorf("creating absolute path from results path (-results): %w", err)
 	}
-	if c.assetsDir != "" {
-		c.assetsDir, err = filepath.Abs(c.assetsDir)
-		if err != nil {
-			return fmt.Errorf("creating absolute path from assets path (-assets-dir): %w", err)
-		}
-		if info, err := os.Stat(c.assetsDir); os.IsNotExist(err) {
-			return fmt.Errorf("assets not found at %q: did you forget to run `sweet get`?", c.assetsDir)
-		} else if err != nil {
-			return fmt.Errorf("stat assets %q: %v", c.assetsDir, err)
-		} else if info.Mode()&os.ModeDir == 0 {
-			return fmt.Errorf("%q is not a directory", c.assetsDir)
-		}
-		c.assetsFS = os.DirFS(c.assetsDir)
-	} else {
-		if c.assetsCache == "" {
-			return fmt.Errorf("missing assets cache (-cache) and assets directory (-assets-dir): cannot proceed without assets")
-		}
-		c.assetsCache, err = filepath.Abs(c.assetsCache)
-		if err != nil {
-			return fmt.Errorf("creating absolute path from assets cache path (-cache): %w", err)
-		}
-		if info, err := os.Stat(c.assetsCache); os.IsNotExist(err) {
-			return fmt.Errorf("assets not found at %q (-assets-dir): did you forget to run `sweet get`?", c.assetsDir)
-		} else if err != nil {
-			return fmt.Errorf("stat assets %q: %v", c.assetsDir, err)
-		} else if info.Mode()&os.ModeDir == 0 {
-			return fmt.Errorf("%q (-assets-dir) is not a directory", c.assetsDir)
-		}
-		assetsFile, err := bootstrap.CachedAssets(c.assetsCache, common.Version)
-		if err == bootstrap.ErrNotInCache {
-			return fmt.Errorf("assets for version %q not found in %q", common.Version, c.assetsCache)
-		} else if err != nil {
-			return err
-		}
-		f, err := os.Open(assetsFile)
-		if err != nil {
-			return err
-		}
-		defer f.Close()
-		fi, err := f.Stat()
-		if err != nil {
-			return err
-		}
-		c.assetsFS, err = zip.NewReader(f, fi.Size())
-		if err != nil {
-			return err
-		}
-	}
+	//if c.assetsDir != "" {
+	//	c.assetsDir, err = filepath.Abs(c.assetsDir)
+	//	if err != nil {
+	//		return fmt.Errorf("creating absolute path from assets path (-assets-dir): %w", err)
+	//	}
+	//	if info, err := os.Stat(c.assetsDir); os.IsNotExist(err) {
+	//		return fmt.Errorf("assets not found at %q: did you forget to run `sweet get`?", c.assetsDir)
+	//	} else if err != nil {
+	//		return fmt.Errorf("stat assets %q: %v", c.assetsDir, err)
+	//	} else if info.Mode()&os.ModeDir == 0 {
+	//		return fmt.Errorf("%q is not a directory", c.assetsDir)
+	//	}
+	//	c.assetsFS = os.DirFS(c.assetsDir)
+	//} else {
+	//	if c.assetsCache == "" {
+	//		return fmt.Errorf("missing assets cache (-cache) and assets directory (-assets-dir): cannot proceed without assets")
+	//	}
+	//	c.assetsCache, err = filepath.Abs(c.assetsCache)
+	//	if err != nil {
+	//		return fmt.Errorf("creating absolute path from assets cache path (-cache): %w", err)
+	//	}
+	//	if info, err := os.Stat(c.assetsCache); os.IsNotExist(err) {
+	//		return fmt.Errorf("assets not found at %q (-assets-dir): did you forget to run `sweet get`?", c.assetsDir)
+	//	} else if err != nil {
+	//		return fmt.Errorf("stat assets %q: %v", c.assetsDir, err)
+	//	} else if info.Mode()&os.ModeDir == 0 {
+	//		return fmt.Errorf("%q (-assets-dir) is not a directory", c.assetsDir)
+	//	}
+	//	assetsFile, err := bootstrap.CachedAssets(c.assetsCache, common.Version)
+	//	if err == bootstrap.ErrNotInCache {
+	//		return fmt.Errorf("assets for version %q not found in %q", common.Version, c.assetsCache)
+	//	} else if err != nil {
+	//		return err
+	//	}
+	//	f, err := os.Open(assetsFile)
+	//	if err != nil {
+	//		return err
+	//	}
+	//	defer f.Close()
+	//	fi, err := f.Stat()
+	//	if err != nil {
+	//		return err
+	//	}
+	//	c.assetsFS, err = zip.NewReader(f, fi.Size())
+	//	if err != nil {
+	//		return err
+	//	}
+	//}
 	// Validate c.benchDir and provide helpful error messages..
 	if fi, err := os.Stat(c.benchDir); errors.Is(err, fs.ErrNotExist) {
 		return fmt.Errorf("benchmarks directory (-bench-dir) does not exist; did you mean to run this command from x/benchmarks/sweet?")
