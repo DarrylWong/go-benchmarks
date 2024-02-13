@@ -1,6 +1,6 @@
 module golang.org/x/benchmarks
 
-go 1.18
+go 1.21
 
 require (
 	cloud.google.com/go/storage v1.18.2
@@ -13,6 +13,7 @@ require (
 	github.com/gomodule/redigo v1.8.5
 	github.com/google/pprof v0.0.0-20211122183932-1daafda22083
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
+	github.com/montanaflynn/stats v0.7.1
 	github.com/opencontainers/runtime-spec v1.0.2
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9
 	gitlab.com/golang-commonmark/markdown v0.0.0-20211110145824-bf3e522c626a
