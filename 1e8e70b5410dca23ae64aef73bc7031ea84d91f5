@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f1a2d324_60383025",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-02-26T16:05:54Z",
+      "side": 1,
+      "message": "I realize bent is a bit low on how-to documentation, and I need to fix some of that myself (README.md is stale), but can you provide a brief how-to/what-happens?  If you put it in the commit message here, that\u0027s fine, I\u0027ll include it in the README update I need to do myself (I have two changes pending, I am experimenting with link-order randomization and benchmark noise and your PGO option is timely).\n\nIf you\u0027re busy and see my own README updates land, feel free to do it there, later.",
+      "revId": "1e8e70b5410dca23ae64aef73bc7031ea84d91f5",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
