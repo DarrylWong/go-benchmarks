@@ -1,18 +1,17 @@
 ### bent
 
 Bent automates downloading, compiling, and running Go tests and benchmarks from various Github repositories.
-By default the test/benchmark is run in a Docker container to provide some safety against accidentally making
-a mess on the benchmark-running machine.
+The benchmarks and tests retrieved are pinned at a particular version, which avoids that source of variation
+and also avoids the problem of running unknown code.
+
+Older versions of bent defaulted to running benchmarks in a container, however that is not the default now and it is no longer well tested.
 
 Installation:
 ```
 go install golang.org/x/benchmarks/cmd/bent@latest
 ```
 
-Depends on burntsushi/toml, and expects that Docker is installed and available on the command line.
-You can avoid the need for Docker with the `-U` command line flag, if you're okay with running benchmarks outside containers.
-Alternately, if you wish to only run those benchmarks that can be compiled into a container (this is platform-dependent)
-use the -S flag.
+Depends on burntsushi/toml.
 
 Install `rsync` for slightly improved copy performance.
 
@@ -74,38 +73,62 @@ Flags for your use:
 | Flag | meaning | example |
 | --- | --- | --- |
 | -v | print commands as they are run | |
+| -I | initialize a directory for running tests | |
 | -N x | benchmark/test repeat count | -N 25 |
+| -a N | repeat builds for build benchmarking | -a 10 |
+| -R N | for randomized builds, build a new binary<br>for each run (incompatible with -a, -N) | -R 3 |
 | -B file | benchmarks file | -B benchmarks-trial.toml |
 | -C file | configurations file | -C conf_1.9_and_tip.toml |
-| -S | exclude unsandboxable benchmarks | |
-| -U | don't sandbox benchmarks | |
+| -T | run tests instead of benchmarks | |
 | -b list | run benchmarks in comma-separated list <br> (even if normally "disabled" )| -b uuid,gonum_topo |
 | -c list | use configurations from comma-separated list <br> (even if normally "disabled") | -c Tip,Go1.9 |
-| -r string | skip get and build, just run. string names Docker image if needed, if not using Docker any non-empty will do. | -r f10cecc3eaac |
-| -a N | repeat builds for build benchmarking | -a 10 |
-| -s k | (build) shuffle flag, k = 0,1,2,3.<br>Randomizes build orders to reduce sensitivity to other machine load  | -s 2 |
+| -l | list available benchmarks and configurations,<br>then exit | |
+| | Less useful flags | |
+| -r string | skip get and build, just run.<br>string names Docker image if needed,<br>if not using Docker any non-empty will do. | -r f10cecc3eaac |
+| -s k | (build) shuffle flag, k = 0,1,2,3.<br>Randomize build order to reduce<br>sensitivity to other machine load  | -s 2 |
+| -G t/f | group runs by benchmark to reduce<br>time-of-day background noise (default true) | |
+| -X | do not reset go.mod<br>for experiments involving modifications<br>to build/\*/go.mod | |
 | -g | get benchmarks, but do not build or run | |
-| -l | list available benchmarks and configurations, then exit | |
-| -T | run tests instead of benchmarks | |
 | -W | print benchmark information as a markdown table | |
+| -sandbox | require Docker sandbox to run tests/benchmarks<br>(and exclude those that do not sandbox) | |
 
-### Benchmark and Configuration files
+### Suite, Benchmark and Configuration files
 
-Benchmarks and configurations appear in toml format, since that is
+Suites, benchmarks and configurations appear in toml format, since that is
 somewhat more human-friendly than JSON and in particular allows comments.
+Values in these files can refer to environment variables; PATH, USER, HOME, SHELL,
+BENT*, and GO*.  Unless it is explicitly supplied, ROOT is defined to be $PWD.
+For iterated builds and benchmarks BENT_I is set to the iteration count, and
+for runs BENT_BINARY is the file name (excluding path).
+
+The Suite file defines the shortnames for benchmarks, where they are obtained,
+and what version, plus any always-necessary flags:
+```
+[[Suites]]
+  Name = "gonum_mat"
+  Repo = "gonum.org/v1/gonum/mat"
+  BuildFlags = ["-tags", "safe"]
+  Version = "@v0.9.3"
+
+ [[Suites]]
+  Name = "toml"
+  Repo = "github.com/BurntSushi/toml"
+  Version = "@v1.3.2"
+  ExtraFiles = ["_example"]
+```
+Here, `gonum_mat` is checked out at version `0.9.3` and is always build with `-tags safe`.
+And to run the toml benchmarks, the contents of the `_example` directory are also required.
+
 A sample benchmark entry:
 ```
 [[Benchmarks]]
   Name = "gonum_topo"
-  Repo = "gonum.org/v1/gonum/graph/topo/"
   Tests = "Test"
   Benchmarks = "Benchmark(TarjanSCCGnp_1000_half|TarjanSCCGnp_10_tenth)"
-  BuildFlags = ["-tags", "purego"]
-  RunWrapper = ["tmpclr"] # this benchmark leaves messes
   # NotSandboxed = true # uncomment if cannot be run in a Docker container
   # Disabled = true # uncomment to disable benchmark
 ```
-Here, `Name` is a short name, `Repo` is where the `go get` will find the benchmark, and `Tests` and `Benchmarks` and the
+Here, `Name` is a short name, and `Tests` and `Benchmarks` are the
 regular expressions for `go test` specifying which tests or benchmarks to run.
 
 A sample configuration entry with all the options supplied:
@@ -117,6 +140,7 @@ A sample configuration entry with all the options supplied:
   BuildFlags = ["-gccgoflags=all=-O3 -static-libgo","-tags=noasm"] # for Gollvm
   AfterBuild = ["benchsize", "benchdwarf"]
   GcFlags = "-d=ssa/insert_resched_checks/on"
+  LdFlags = "-randlayout=$BENT_I"
   GcEnv = ["GOMAXPROCS=1","GOGC=200"]
   RunFlags = ["-test.short"]
   RunEnv = ["GOGC=1000"]
