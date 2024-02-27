@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3eb42f87_905bda76",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-02-27T17:05:50Z",
+      "side": 1,
+      "message": "Good call, by default it is randomized, for build benchmarking.",
+      "range": {
+        "startLine": 31,
+        "startChar": 4,
+        "endLine": 31,
+        "endChar": 75
+      },
+      "revId": "3c568408473be61f3936190b2487603beb6b6fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "dc0b8b4c_1f8c63e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-02-27T17:05:50Z",
+      "side": 1,
+      "message": "LGTM, if allowed, I\u0027m going to submit this, so I can try it out, and I\u0027ll update the documentation.",
+      "revId": "3c568408473be61f3936190b2487603beb6b6fc0",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
