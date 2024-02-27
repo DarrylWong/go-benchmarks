@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "213c4120_f43b74f8",
+        "filename": "cmd/bent/configs/configurations-pgo.toml",
+        "patchSetId": 3
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 7061
+      },
+      "writtenOn": "2024-02-27T18:32:46Z",
+      "side": 1,
+      "message": "I\u0027m going to swap the sense of these in another CL, so that generate is requested, use is default.",
+      "range": {
+        "startLine": 5,
+        "startChar": 0,
+        "endLine": 5,
+        "endChar": 18
+      },
+      "revId": "6bceba257eedfa42885548ae788622b71b182b7c",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
