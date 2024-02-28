@@ -971,6 +971,11 @@ benchmarks_loop:
 				continue
 			}
 
+			if config.PgoGen != "" {
+				// We want to generate pprof file for using pgo
+				config.RunWrapper = append(config.RunWrapper, "cpuprofile")
+			}
+
 			for _, b := range todo.Benchmarks {
 				if b.Disabled {
 					continue
@@ -1001,11 +1006,6 @@ benchmarks_loop:
 				runEnv = append(runEnv, "BENT_BENCH="+b.Name)
 				runEnv = append(runEnv, "BENT_I="+strconv.FormatInt(int64(i), 10))
 				runEnv = append(runEnv, "BENT_BINARY="+testBinaryName)
-
-				if config.PgoGen != "" {
-					// We want to generate pprof file for using pgo
-					config.RunWrapper = append(config.RunWrapper, "cpuprofile")
-				}
 
 				configWrapper := wrapperFor(config.RunWrapper)
 				benchWrapper := wrapperFor(b.RunWrapper)
