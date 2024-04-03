@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "10554685_b6a451d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 57198
+      },
+      "writtenOn": "2024-04-03T09:44:26Z",
+      "side": 1,
+      "message": "Hello. I see that you refactor the PGO running in bent and also I see another PR for adding PGO launching in sweet. Now I have some lack of PGO testing in cmd/bench, and I\u0027d like to know - are there any plans to add PGO mode for cmd/bench launcher?",
+      "revId": "88f2d9b0061f1ff82e3be9cd3b2e1d02a78b157f",
+      "serverId": "62eb7196-b449-3ce5-99f1-c037f21e1705"
+    }
+  ]
+}
