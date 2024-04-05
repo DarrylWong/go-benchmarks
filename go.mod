@@ -14,6 +14,7 @@ require (
 	github.com/google/pprof v0.0.0-20211122183932-1daafda22083
 	github.com/kballard/go-shellquote v0.0.0-20180428030007-95032a82bc51
 	github.com/opencontainers/runtime-spec v1.0.2
+	github.com/pkg/errors v0.9.1
 	github.com/yuin/gopher-lua v0.0.0-20210529063254-f4c35e4016d9
 	gitlab.com/golang-commonmark/markdown v0.0.0-20211110145824-bf3e522c626a
 	go.etcd.io/etcd/client/v3 v3.5.8

@@ -22,6 +22,12 @@ import (
 
 var allBenchmarks = []benchmark{
 	{
+		name:        "cockroachdb",
+		description: "Distributed database",
+		harness:     harnesses.CockroachDB{},
+		generator:   generators.None{},
+	},
+	{
 		name:        "biogo-igor",
 		description: "Reports feature family groupings in pairwise alignment data",
 		harness:     harnesses.BiogoIgor(),
@@ -89,16 +95,17 @@ var benchmarkGroups = func() map[string][]*benchmark {
 	m := make(map[string][]*benchmark)
 
 	m["default"] = []*benchmark{
-		allBenchmarksMap["biogo-igor"],
-		allBenchmarksMap["biogo-krishna"],
-		allBenchmarksMap["bleve-index"],
-		allBenchmarksMap["etcd"],
-		allBenchmarksMap["go-build"],
-		allBenchmarksMap["gopher-lua"],
-		// TODO(go.dev/issue/51445): Enable once gVisor builds with Go 1.19.
-		// allBenchmarksMap["gvisor"],
-		allBenchmarksMap["markdown"],
-		allBenchmarksMap["tile38"],
+		//allBenchmarksMap["biogo-igor"],
+		//allBenchmarksMap["biogo-krishna"],
+		//allBenchmarksMap["bleve-index"],
+		allBenchmarksMap["cockroachdb"],
+		//allBenchmarksMap["etcd"],
+		//allBenchmarksMap["go-build"],
+		//allBenchmarksMap["gopher-lua"],
+		//// TODO(go.dev/issue/51445): Enable once gVisor builds with Go 1.19.
+		//// allBenchmarksMap["gvisor"],
+		//allBenchmarksMap["markdown"],
+		//allBenchmarksMap["tile38"],
 	}
 
 	for i := range allBenchmarks {
