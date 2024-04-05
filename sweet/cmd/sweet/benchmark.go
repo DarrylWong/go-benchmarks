@@ -22,6 +22,12 @@ import (
 
 var allBenchmarks = []benchmark{
 	{
+		name:        "cockroachdb",
+		description: "Distributed database",
+		harness:     harnesses.CockroachDB{},
+		generator:   generators.None{},
+	},
+	{
 		name:        "biogo-igor",
 		description: "Reports feature family groupings in pairwise alignment data",
 		harness:     harnesses.BiogoIgor(),
@@ -92,6 +98,7 @@ var benchmarkGroups = func() map[string][]*benchmark {
 		allBenchmarksMap["biogo-igor"],
 		allBenchmarksMap["biogo-krishna"],
 		allBenchmarksMap["bleve-index"],
+		allBenchmarksMap["cockroachdb"],
 		allBenchmarksMap["etcd"],
 		allBenchmarksMap["go-build"],
 		allBenchmarksMap["gopher-lua"],
