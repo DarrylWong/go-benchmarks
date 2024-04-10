@@ -103,10 +103,15 @@ func sweet(tcs []*toolchain) (err error) {
 	// Finally we can actually run the benchmarks.
 	resultsDir := filepath.Join(tmpDir, "results")
 	workDir := filepath.Join(tmpDir, "work")
+	ss := 0
+	if *sweetShort {
+		ss = 1
+	}
 	cmd = exec.Command(
 		sweetBin, "run",
 		"-run", "all",
-		"-count", "10",
+		"-count", fmt.Sprintf("%d", *sweetCount),
+		fmt.Sprintf("-short=%d", ss),
 		"-bench-dir", filepath.Join(sweetRoot, "benchmarks"),
 		"-cache", assetsCacheDir,
 		"-work-dir", workDir,

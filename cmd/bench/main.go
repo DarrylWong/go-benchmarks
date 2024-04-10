@@ -30,6 +30,10 @@ var (
 	repository        = flag.String("repository", "", "repository name of the commits we're testing against (default $BENCH_REPOSITORY or 'go')")
 	subRepoExperiment = flag.String("subrepo", "", "Sub-repo dir to test (default $BENCH_SUBREPO_PATH)")
 	subRepoBaseline   = flag.String("subrepo-baseline", "", "Sub-repo baseline to test against (default $BENCH_SUBREPO_BASELINE_PATH)")
+	sweetCount        = flag.Int("sweet-count", 10, "Count for sweet run (def: 10)")
+	sweetShort        = flag.Bool("sweet-short", false, "run sweet benchmarks in short mode (def: false)")
+	doBent            = flag.Bool("dobent", true, "whether to run bent")
+	doGoTest          = flag.Bool("dogotest", true, "whether to run go test benchmarks")
 )
 
 func determineGOROOT() (string, error) {
@@ -69,28 +73,32 @@ func run(tcs []*toolchain) error {
 	// benchmarks under each toolchain itself, it is also responsible
 	// for ensuring that the benchmark tag "toolchain" is printed.
 	pass := true
-	if err := goTest(tcs); err != nil {
-		pass = false
-		log.Printf("Error running Go tests: %v", err)
+	if *doGoTest {
+		if err := goTest(tcs); err != nil {
+			pass = false
+			log.Printf("Error running Go tests: %v", err)
+		}
 	}
-	if err := bent(tcs); err != nil {
-		pass = false
-		log.Printf("Error running bent: %v", err)
-	}
-	if os.Getenv("GO_BUILDER_NAME") != "" {
-		// On a builder, clean the Go cache in between bent and Sweet.
-		// The build cache can end up using a large portion of the builder's
-		// disk space (~60%), making Sweet run out and fail. Generally speaking
-		// we don't need the build cache because we're going to be doing every
-		// build exactly once from scratch (excluding build benchmarks, which
-		// arrange for a cacheless build their own way). However, we don't want
-		// to do this on a regular development machine because we might want to
-		// run benchmarks with the same toolchain again.
-		//
-		// Note that we only need to clean the cache with one toolchain because
-		// the build cache is shared.
-		if err := cleanGoCache(tcs[0]); err != nil {
-			return fmt.Errorf("failed to clean Go cache: %w", err)
+	if *doBent {
+		if err := bent(tcs); err != nil {
+			pass = false
+			log.Printf("Error running bent: %v", err)
+		}
+		if os.Getenv("GO_BUILDER_NAME") != "" {
+			// On a builder, clean the Go cache in between bent and Sweet.
+			// The build cache can end up using a large portion of the builder's
+			// disk space (~60%), making Sweet run out and fail. Generally speaking
+			// we don't need the build cache because we're going to be doing every
+			// build exactly once from scratch (excluding build benchmarks, which
+			// arrange for a cacheless build their own way). However, we don't want
+			// to do this on a regular development machine because we might want to
+			// run benchmarks with the same toolchain again.
+			//
+			// Note that we only need to clean the cache with one toolchain because
+			// the build cache is shared.
+			if err := cleanGoCache(tcs[0]); err != nil {
+				return fmt.Errorf("failed to clean Go cache: %w", err)
+			}
 		}
 	}
 	if err := sweet(tcs); err != nil {
